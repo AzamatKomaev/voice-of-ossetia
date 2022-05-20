@@ -26,7 +26,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Login a user.
+     * Login a user (create a token).
      * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
@@ -36,9 +36,19 @@ class AuthController extends Controller
         {
             return Response::json(['error' => 'Invalid name or password.'], 400);
         }
+        $token = Auth::user()->createToken('API Token');
+        return Response::json(['token' => $token->plainTextToken], 201);
+    }
 
-        $token = Auth::user()->createToken('API Token')->plainTextToken;
-        return Response::json(['token' => $token], 201);
+    /**
+     * Log out user (delete all tokens).
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function logout()
+    {
+        $user = Auth::user();
+        $user->tokens()->delete();
+        return Response::json(['token' => 'All tokens were deleted successfully. '], 204);
     }
 
     /**
@@ -48,11 +58,5 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         return Response::json($user);
-    }
-
-    public function getAllUsers(RegistrationRequest $request)
-    {
-        $users = User::get();
-        return Response::json($users);
     }
 }
