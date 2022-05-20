@@ -98,7 +98,6 @@
       <path value="$PROJECT_DIR$/server/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/server/vendor/phpunit/php-file-iterator" />
       <path value="$PROJECT_DIR$/server/vendor/phpunit/php-timer" />
-      <path value="$PROJECT_DIR$/server/vendor/asm89/stack-cors" />
       <path value="$PROJECT_DIR$/server/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/server/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/server/vendor/laravel/framework" />
@@ -121,6 +120,7 @@
       <path value="$PROJECT_DIR$/server/vendor/tymon/jwt-auth" />
       <path value="$PROJECT_DIR$/server/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/server/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/server/vendor/fruitcake/php-cors" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4">

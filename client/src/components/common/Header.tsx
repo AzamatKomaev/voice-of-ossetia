@@ -44,14 +44,14 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
-            {navItems.map(nav => (
-              <li className="nav-item">
+            {navItems.map((nav, index) => (
+              <li key={index} className="nav-item">
                 <a className={nav.className} href={nav.href}>{nav.value}</a>
               </li>
             ))}
             {!isAuth ?
-            authNavItems.map(nav => (
-              <li className="nav-item">
+            authNavItems.map((nav, index) => (
+              <li key={index} className="nav-item">
                 <a className={nav.className} href={nav.href}>{nav.value}</a>
               </li>
             ))
