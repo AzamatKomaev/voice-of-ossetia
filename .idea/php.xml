@@ -30,7 +30,6 @@
       <path value="$PROJECT_DIR$/server/vendor/dflydev/dot-access-data" />
       <path value="$PROJECT_DIR$/server/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/server/vendor/phpoption/phpoption" />
-      <path value="$PROJECT_DIR$/server/vendor/fruitcake/laravel-cors" />
       <path value="$PROJECT_DIR$/server/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/server/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/server/vendor/monolog/monolog" />
@@ -121,6 +120,7 @@
       <path value="$PROJECT_DIR$/server/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/server/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/server/vendor/fruitcake/php-cors" />
+      <path value="$PROJECT_DIR$/server/vendor/fruitcake/laravel-cors" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4">

@@ -24,7 +24,7 @@ const RegistrationForm = () => {
     password2: null,
   })
 
-  const handleRegisterUserButton = () => {
+  const handleRegisterUserButton = async() => {
     if (password !== password2) {
       setErrors({
         ...errors,
@@ -33,7 +33,7 @@ const RegistrationForm = () => {
       return
     }
 
-    AuthAPI.register({
+    const response = await AuthAPI.register({
       name: name,
       email: email,
       locality: locality,
@@ -43,6 +43,9 @@ const RegistrationForm = () => {
       password: password,
       password2: password2
     })
+
+    if (response.status === 201) window.location.href = '/auth/login/'
+    else setErrors(response.data.errors)
   }
 
   return (
@@ -94,30 +97,31 @@ const RegistrationForm = () => {
           {errors.age ? <p className="text-danger">{errors.age[0]}</p> : null}
         </div>
         <br/>
-        <div className="form-group">
-          <label htmlFor="first-name">Имя*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="email"
-            placeholder="Введите имя"
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-          />
-          {errors.first_name ? <p className="text-danger">{errors.first_name[0]}</p> : null}
-        </div>
-        <br/>
-        <div className="form-group">
-          <label htmlFor="last-name">Фамилия*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="last-name"
-            placeholder="Введите фамилию"
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-          />
-          {errors.last_name ? <p className="text-danger">{errors.last_name[0]}</p> : null}
+        <div style={{display: 'flex'}}>
+          <div className="form-group" style={{width: '100%'}}>
+            <label htmlFor="first-name">Имя*</label>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              placeholder="Введите имя"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+            />
+            {errors.first_name ? <p className="text-danger">{errors.first_name[0]}</p> : null}
+          </div>
+          <div className="form-group" style={{width: '100%'}}>
+            <label htmlFor="last-name">Фамилия*</label>
+            <input
+              type="text"
+              className="form-control"
+              id="last-name"
+              placeholder="Введите фамилию"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+            />
+            {errors.last_name ? <p className="text-danger">{errors.last_name[0]}</p> : null}
+          </div>
         </div>
         <br/>
         <div className="form-group">
@@ -147,6 +151,8 @@ const RegistrationForm = () => {
         </div>
         <br/>
         <button className="btn btn-primary" onClick={handleRegisterUserButton}>Зарегистрироваться!</button>
+        <br/>
+        <small>* - необязательные поля для заполнения</small>
       </div>
     </div>
   );

@@ -2,30 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3da59e80-149b-4ab3-8ab4-c815530944ee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/api/api-client.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/api/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/auth/Form/LoginForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/auth/Form/RegistrationForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/common/Select.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/interfaces.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/RegistrationPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/store/authReducer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/store/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/utils/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/common/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/common/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/auth/Form/RegistrationForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/auth/Form/RegistrationForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/server/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/config/cors.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +55,6 @@
       <path value="$PROJECT_DIR$/server/vendor/dflydev/dot-access-data" />
       <path value="$PROJECT_DIR$/server/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/server/vendor/phpoption/phpoption" />
-      <path value="$PROJECT_DIR$/server/vendor/fruitcake/laravel-cors" />
       <path value="$PROJECT_DIR$/server/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/server/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/server/vendor/monolog/monolog" />
@@ -163,6 +145,7 @@
       <path value="$PROJECT_DIR$/server/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/server/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/server/vendor/fruitcake/php-cors" />
+      <path value="$PROJECT_DIR$/server/vendor/fruitcake/laravel-cors" />
     </include_path>
   </component>
   <component name="ProjectId" id="29Aha2fXIPN5eKbZVHtFdjkyAim" />
@@ -171,25 +154,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
-    "last_opened_file_path": "/home/azamat/php/voice_of_ossetia",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
-    "ts.external.directory.path": "/home/azamat/php/voice_of_ossetia/client/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/azamat/php/voice_of_ossetia&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/azamat/php/voice_of_ossetia/client/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -210,6 +193,7 @@
       <workItem from="1652958391103" duration="1219000" />
       <workItem from="1652965652298" duration="306000" />
       <workItem from="1653059344995" duration="11358000" />
+      <workItem from="1653115913915" duration="5073000" />
     </task>
     <servers />
   </component>
