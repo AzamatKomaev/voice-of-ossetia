@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3da59e80-149b-4ab3-8ab4-c815530944ee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/resources/lang/ru/validation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/auth/Form/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/auth/Form/LoginForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/auth/Form/RegistrationForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/auth/Form/RegistrationForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/config/cors.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/config/app.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,6 +196,8 @@
       <workItem from="1652965652298" duration="306000" />
       <workItem from="1653059344995" duration="11358000" />
       <workItem from="1653115913915" duration="5073000" />
+      <workItem from="1653161652286" duration="3471000" />
+      <workItem from="1653202143802" duration="3554000" />
     </task>
     <servers />
   </component>

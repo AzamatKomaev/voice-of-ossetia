@@ -34,7 +34,12 @@ class AuthController extends Controller
     {
         if (!Auth::attempt($request->validated()))
         {
-            return Response::json(['error' => 'Invalid name or password.'], 400);
+            return Response::json([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'non_field_errors' => ['Логин или пароль не валиден. ']
+                ]
+            ], 422);
         }
         $token = Auth::user()->createToken('API Token');
         return Response::json(['token' => $token->plainTextToken], 201);

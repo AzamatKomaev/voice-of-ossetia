@@ -62,22 +62,20 @@ const RegistrationForm = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          {errors.email ? <p className="text-danger">{errors.email[0]}</p> : null}
+          {errors.email ? <p className="text-danger">{errors.email[0]}</p> : <p></p>}
         </div>
-        <br/>
         <div className="form-group">
-          <label htmlFor="name">Никнейм</label>
+          <label htmlFor="name">Логин</label>
           <input
             type="text"
             className="form-control"
             id="name"
-            placeholder="Введите никнейм"
+            placeholder="Введите логин"
             value={name}
             onChange={e => setName(e.target.value)}
           />
-          {errors.name ? <p className="text-danger">{errors.name[0]}</p> : null}
+          {errors.name ? <p className="text-danger">{errors.name[0]}</p> : <p></p>}
         </div>
-        <br/>
         <div className="form-group">
           <label htmlFor="locality">Населенный пункт</label>
           <input
@@ -88,15 +86,12 @@ const RegistrationForm = () => {
             value={locality}
             onChange={e => setLocality(e.target.value)}
           />
-          {errors.locality ? <p className="text-danger">{errors.locality[0]}</p> : null}
-        </div>
-        <br/>
+          {errors.locality ? <p className="text-danger">{errors.locality[0]}</p> : <p></p>}
         <div className="form-group">
           <label htmlFor="age">Дата рождения*</label>
           <Select name={'Выберите год'} options={numberRange(1930, 2020)} value={age} setFn={setAge}/>
-          {errors.age ? <p className="text-danger">{errors.age[0]}</p> : null}
+          {errors.age ? <p className="text-danger">{errors.age[0]}</p> : <p></p>}
         </div>
-        <br/>
         <div style={{display: 'flex'}}>
           <div className="form-group" style={{width: '100%'}}>
             <label htmlFor="first-name">Имя*</label>
@@ -108,7 +103,7 @@ const RegistrationForm = () => {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
             />
-            {errors.first_name ? <p className="text-danger">{errors.first_name[0]}</p> : null}
+            {errors.first_name ? <p className="text-danger">{errors.first_name[0]}</p> : <p></p>}
           </div>
           <div className="form-group" style={{width: '100%'}}>
             <label htmlFor="last-name">Фамилия*</label>
@@ -120,10 +115,9 @@ const RegistrationForm = () => {
               value={lastName}
               onChange={e => setLastName(e.target.value)}
             />
-            {errors.last_name ? <p className="text-danger">{errors.last_name[0]}</p> : null}
+            {errors.last_name ? <p className="text-danger">{errors.last_name[0]}</p> : <p></p>}
           </div>
         </div>
-        <br/>
         <div className="form-group">
           <label htmlFor="password">Пароль</label>
           <input
@@ -134,9 +128,8 @@ const RegistrationForm = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          {errors.password ? <p className="text-danger">{errors.password[0]}</p> : null}
+          {errors.password ? <p className="text-danger">{errors.password[0]}</p> : <p></p>}
         </div>
-        <br/>
         <div className="form-group">
           <label htmlFor="password2">Пароль еще раз</label>
           <input
@@ -147,12 +140,13 @@ const RegistrationForm = () => {
             value={password2}
             onChange={e => setPassword2(e.target.value)}
           />
-          {errors.password2 ? <p className="text-danger">{errors.password2[0]}</p> : null}
+          {errors.password2 ? <p className="text-danger">{errors.password2[0]}</p> : <p></p>}
         </div>
         <br/>
         <button className="btn btn-primary" onClick={handleRegisterUserButton}>Зарегистрироваться!</button>
         <br/>
         <small>* - необязательные поля для заполнения</small>
+      </div>
       </div>
     </div>
   );
