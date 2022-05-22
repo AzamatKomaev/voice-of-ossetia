@@ -12,7 +12,7 @@ axios.interceptors.request.use(function (config) {
   if (apiToken) {
     headers = {
       ...headers,
-      Authorization: `Token ${localStorage.getItem("api-token")}`
+      Authorization: `Bearer ${localStorage.getItem("api-token")}`
     }
   }
   config.headers = headers

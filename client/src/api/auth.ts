@@ -19,4 +19,13 @@ export class AuthAPI {
       return e.response;
     }
   }
+
+  // Get data about current user
+  public static async getMe(): Promise<AxiosResponse> {
+    try {
+      return await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/auth/me/`);
+    } catch (e: any) {
+      return e.response;
+    }
+  }
 }
