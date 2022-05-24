@@ -2,15 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3da59e80-149b-4ab3-8ab4-c815530944ee" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/common/Spinner.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/content/Accordion/WelcomeAccordion.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/content/Card/CategoryCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/content/List/CategoryList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/utils/hooks.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/api-client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/store/authReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/authReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +202,10 @@
       <workItem from="1653161652286" duration="3471000" />
       <workItem from="1653202143802" duration="3554000" />
       <workItem from="1653244365009" duration="2061000" />
-      <workItem from="1653246578074" duration="1108000" />
+      <workItem from="1653246578074" duration="7047000" />
+      <workItem from="1653285644576" duration="648000" />
+      <workItem from="1653396217895" duration="624000" />
+      <workItem from="1653408097235" duration="8672000" />
     </task>
     <servers />
   </component>

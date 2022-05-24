@@ -4,12 +4,16 @@ export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 
 interface IAuthReducer {
   data: IUser | null,
-  statusCode: number | null
+  statusCode: number | null,
+  isAuth: boolean,
+  loading: boolean
 }
 
 const defaultState: IAuthReducer = {
   data: null,
-  statusCode: null
+  statusCode: null,
+  isAuth: false,
+  loading: true
 }
 
 const authReducer = (state = defaultState, action: any) => {
@@ -18,7 +22,9 @@ const authReducer = (state = defaultState, action: any) => {
       return {
         ...state,
         data: action.payload.response.data,
-        statusCode: action.payload.response.status
+        statusCode: action.payload.response.status,
+        isAuth: action.payload.response.status === 200 && action.payload.response.data?.id !== null,
+        loading: false
       };
     default:
       return state;

@@ -19,7 +19,6 @@ const App = () => {
 
   useEffect(() => {
     (async() => {
-      console.log('yeah')
       const response: AxiosResponse = await AuthAPI.getMe()
       dispatch({
         type: GET_CURRENT_USER,
@@ -28,10 +27,6 @@ const App = () => {
         }
       })
     })()
-  }, [])
-
-  useEffect(() => {
-    console.log('eleee')
   }, [])
 
   return (

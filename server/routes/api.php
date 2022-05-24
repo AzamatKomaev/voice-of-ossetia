@@ -21,4 +21,5 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
+Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);
 Route::apiResource('posts', \App\Http\Controllers\PostController::class);

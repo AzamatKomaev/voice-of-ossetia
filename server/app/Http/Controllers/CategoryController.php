@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
-use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
+use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Set up middlewares.
@@ -17,30 +16,30 @@ class PostController extends Controller
     {
         $middlewareActions = ['store', 'update', 'destroy'];
         $this->middleware('auth:sanctum')->only($middlewareActions);
-        $this->middleware('is_active')->only($middlewareActions);
+        $this->middleware('is_superuser')->only($middlewareActions);
     }
 
     /**
-     * Get all posts.
-     * @return \Illuminate\Http\JsonResponse
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $posts = Post::all();
-        return Response::json($posts);
+        $categories = Category::all();
+        return Response::make($categories);
     }
 
     /**
-     * Create a post.
-     * @param PostRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = Auth::user()->id;
-        $post = Post::create($data);
-        return Response::json($post, 201);
+        $category = Category::create($request->validated());
+        return Response::make($category, 201);
     }
 
     /**
