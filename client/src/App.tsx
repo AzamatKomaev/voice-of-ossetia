@@ -12,6 +12,8 @@ import {AxiosResponse} from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {AuthAPI} from "./api/auth";
 import {GET_CURRENT_USER} from "./store/authReducer";
+import CategoryList from "./components/content/List/CategoryList";
+import CategoryCreatePage from "./pages/CategoryCreatePage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,6 +39,7 @@ const App = () => {
         <Route path="/posts" element={<PostListPage/>} />
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
+        <Route path="/categories/create" element={<CategoryCreatePage/>} />
       </Routes>
     </div>
   );

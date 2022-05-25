@@ -2,18 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3da59e80-149b-4ab3-8ab4-c815530944ee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/common/Spinner.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/content/Accordion/WelcomeAccordion.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/content/Card/CategoryCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/content/List/CategoryList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/utils/hooks.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/api/content.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/api/media.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/content/Form/CategoryForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/CategoryCreatePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/content/Card/CategoryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/content/Card/CategoryCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/content/List/CategoryList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/content/List/CategoryList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/interfaces.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/store/authReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/authReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/utils/hooks.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/utils/hooks.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Requests/CategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Requests/CategoryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Models/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/server/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/config/cors.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/config/cors.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/resources/lang/ru/validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/resources/lang/ru/validation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +163,7 @@
       <path value="$PROJECT_DIR$/server/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/server/vendor/fruitcake/php-cors" />
       <path value="$PROJECT_DIR$/server/vendor/fruitcake/laravel-cors" />
+      <path value="$PROJECT_DIR$/server/vendor/intervention/image" />
     </include_path>
   </component>
   <component name="ProjectId" id="29Aha2fXIPN5eKbZVHtFdjkyAim" />
@@ -159,25 +172,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/azamat/php/voice_of_ossetia&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/azamat/php/voice_of_ossetia/client/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
+    "last_opened_file_path": "/home/azamat/php/voice_of_ossetia",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
+    "ts.external.directory.path": "/home/azamat/php/voice_of_ossetia/client/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -205,7 +218,10 @@
       <workItem from="1653246578074" duration="7047000" />
       <workItem from="1653285644576" duration="648000" />
       <workItem from="1653396217895" duration="624000" />
-      <workItem from="1653408097235" duration="8672000" />
+      <workItem from="1653408097235" duration="9292000" />
+      <workItem from="1653418705545" duration="3267000" />
+      <workItem from="1653453869574" duration="2908000" />
+      <workItem from="1653476187269" duration="10505000" />
     </task>
     <servers />
   </component>

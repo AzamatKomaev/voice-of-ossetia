@@ -5,7 +5,6 @@ import {AxiosResponse} from "axios";
 export const useFetch = (url: string, method: string, options: any) => {
   const [data, setData] = useState()
   const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState()
 
   const sendRequest = async() => {
     let response: AxiosResponse
@@ -18,11 +17,12 @@ export const useFetch = (url: string, method: string, options: any) => {
         response = await axios.get(url, options);
     }
 
-    if (!response) setLoading(true);
-    else setLoading(false);
+    if (!response) setLoading(true)
+    else {
+      setLoading(false)
+      setData(response.data)
+    }
 
-
-    console.log(response);
   }
 
   useEffect(() => {

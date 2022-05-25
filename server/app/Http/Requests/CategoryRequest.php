@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryRequest extends FormRequest
 {
@@ -16,7 +15,8 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name'        => ['required', 'unique:categories'],
-            'description' => ['required']
+            'description' => ['required'],
+            'avatar'        => ['required', 'image: png, jpg']
         ];
     }
 }
