@@ -24,9 +24,8 @@ const HomePage = () => {
     <div className="container">
       <br/>
       <WelcomeAccordion/>
-      <br/>
-
-      <div className="card" style={{padding: "30px"}}>
+      <br/><br/>
+      <div className="card" style={{padding: "30px", border: "5px solid rgba(0,0,0,.125)"}}>
         <h1 style={{textAlign: "center"}}>Категорий</h1>
         <CategoryList list={categoriesData}/>
       </div>

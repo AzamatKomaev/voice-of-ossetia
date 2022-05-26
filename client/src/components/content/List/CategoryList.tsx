@@ -12,8 +12,8 @@ const CategoryList = ({list}: ICategoryList) => {
       {typeof list === 'object'
       ?
         list.map((category, index) => (
-          <div className="col-md-6 col-lg-4 col-xl-3">
-            <CategoryCard key={index} category={category}/>
+          <div key={index} className="col-md-6 col-lg-4 col-xl-3">
+            <CategoryCard category={category}/><br/>
           </div>
         ))
       :
