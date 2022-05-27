@@ -18,7 +18,11 @@ const CategoryCard = ({category}: ICategoryCard) => {
         <div className="card-body" style={{height: "250px"}}>
           <h5 className="card-title">{category.name}</h5>
           <p className="card-text">{category.description}</p>
-          <a href="#" className="btn btn-primary" style={{position: "absolute", bottom: "20px"}}>Перейти</a>
+
+          <div style={{position: "absolute", bottom: "20px"}}>
+            <a href={`/categories/${category.id}`} className="btn btn-primary">Перейти</a>
+            <a href="/posts/create" className="btn btn-warning" style={{marginLeft: "1px"}}>Создать пост</a>
+          </div>
         </div>
     </div>
   );

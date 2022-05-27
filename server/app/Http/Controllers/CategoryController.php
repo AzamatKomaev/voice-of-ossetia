@@ -22,19 +22,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $categories = Category::all();
-        return Response::make($categories);
+        return Response::json($categories);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  CategoryRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategoryRequest $request)
     {
@@ -42,19 +42,19 @@ class CategoryController extends Controller
         $avatar = $request->file('avatar')->store('categories');
         $data['avatar'] = $avatar;
         $category = Category::create($data);
-        return Response::make($category, 201);
+        return Response::json($category, 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
         $category = Category::findOrFail($id);
-        return Response::make($category);
+        return Response::json($category);
     }
 
     /**
@@ -73,12 +73,12 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return Response::make([], 204);
+        return Response::json([], 204);
     }
 }

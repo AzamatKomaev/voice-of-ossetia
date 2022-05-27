@@ -40,6 +40,7 @@ class PostController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::user()->id;
         $post = Post::create($data);
+        $post->delete();
         return Response::json($post, 201);
     }
 

@@ -14,6 +14,7 @@ import {AuthAPI} from "./api/auth";
 import {GET_CURRENT_USER} from "./store/authReducer";
 import CategoryList from "./components/content/List/CategoryList";
 import CategoryCreatePage from "./pages/CategoryCreatePage";
+import PostCreatePage from "./pages/PostCreatePage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
         <Route path="/categories/create" element={<CategoryCreatePage/>} />
+        <Route path="/posts/create" element={<PostCreatePage/>} />
       </Routes>
     </div>
   );

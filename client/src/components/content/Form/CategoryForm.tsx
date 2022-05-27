@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ContentAPI} from "../../../api/content";
+import {CategoryAPI} from "../../../api/categories";
 
 interface ICategoryFormErrors {
   name: Array<string> | null,
@@ -31,7 +32,7 @@ const CategoryForm = () => {
     formData.append('description', description)
     formData.append('avatar', avatar)
 
-    const response = await ContentAPI.createCategory(formData)
+    const response = await CategoryAPI.create(formData)
 
     if (response.status === 201) {
       alert('Категория была создана успешна')
