@@ -1,12 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useSelector} from "react-redux";
 import WelcomeAccordion from "../components/content/Accordion/WelcomeAccordion";
 import Spinner from "../components/common/Spinner";
 import {useFetch} from "../utils/hooks";
 import CategoryList from "../components/content/List/CategoryList";
+import {IRootState} from "../store";
 
 const HomePage = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useSelector((state: IRootState) => state.auth);
   const [categoriesData, categoriesLoading] = useFetch('api/categories/',  {})
 
   if (auth.loading || categoriesLoading) {

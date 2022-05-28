@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\PostFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
@@ -40,7 +41,14 @@ class PostController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::user()->id;
         $post = Post::create($data);
-        $post->delete();
+
+        foreach ($request->file('files') as $file) {
+            $postFile = new PostFile();
+            $postFile->path = $file->store('posts');
+            $postFile->post_id = $post->id;
+            $postFile->save();
+        }
+
         return Response::json($post, 201);
     }
 

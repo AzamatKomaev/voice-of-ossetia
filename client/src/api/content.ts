@@ -7,7 +7,7 @@ export class ContentAPI {
 
 
   // Create new post.
-  public static async createPost(data: any): Promise<AxiosResponse> {
+  public static async createPost(data: FormData): Promise<AxiosResponse> {
     try {
       return await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/posts/`, data);
     } catch (e: any) {

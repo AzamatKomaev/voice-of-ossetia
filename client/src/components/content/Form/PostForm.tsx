@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import {ContentAPI} from "../../../api/content";
 import {ICategory} from "../../../interfaces";
+import FileCard from "../Card/FileCard";
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_FILES} from "../../../store/fileReducer";
+import {IRootState} from "../../../store";
 
 interface IPostForm {
   categories: Array<ICategory> | undefined | boolean
 }
 
 const PostForm = ({categories}: IPostForm) => {
-  const [categoryId, setCategoryId] = useState<string>()
+  const dispatch = useDispatch()
+
+  const files = useSelector((state: IRootState) => state.file.values)
+  const [categoryId, setCategoryId] = useState<string>("")
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
   const [location, setLocation] = useState<string>("")
-  const [files, setFiles] = useState<Array<any>>([])
 
   const [errors, setErrors] = useState({
     title: null,
@@ -20,16 +26,32 @@ const PostForm = ({categories}: IPostForm) => {
     category_id: null
   })
 
-  const handleCreatePostButton = async() => {
-    const response = await ContentAPI.createPost({
-      title: title,
-      description: description,
-      location: location,
-      category_id: categoryId
+  const handleFilesInput = (e: any) => {
+    dispatch({
+      type: ADD_FILES,
+      payload: {
+        addedFiles: e.target.files
+      }
     })
+  }
 
-    if (response.status === 201) alert('cool')
-    else setErrors(response.data.errors)
+  const handleCreatePostButton = async() => {
+    const formData = new FormData();
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('location', location)
+    formData.append('category_id', categoryId)
+
+    files.forEach((file: any) => {
+      formData.append('files[]', file)
+    })
+    console.log(formData)
+
+    const response = await ContentAPI.createPost(formData)
+
+    if (response.status === 201) alert('cool');
+    else if (response.status === 422) setErrors(response.data.errors);
+    else alert(`${response.status} status code`);
   }
 
   return (
@@ -94,6 +116,28 @@ const PostForm = ({categories}: IPostForm) => {
           />
           <small className="text-muted">Необходимо указать город и улицу</small>
           {errors.location ? <p className="text-danger">{errors.location[0]}</p> : <p></p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="files">Файлы* (необязательно, но желательно)</label>
+          <input
+            multiple={true}
+            type="file"
+            className="form-control"
+            id="files"
+            onChange={handleFilesInput}
+          /><br/>
+          {files && files.length > 0 ?
+            <div style={{marginTop: "-15pt"}}>
+              <p style={{fontSize: "20pt"}}>Всего: {files.length}</p>
+              {files.map((file, index) => (
+                <div key={index} className="card">
+                  {file ? <FileCard file={file}/> : null}
+                </div>
+              ))}
+            </div>
+          :
+            null
+          }
         </div>
         <br/>
         <button className="btn btn-primary" onClick={handleCreatePostButton}>Зарегистрироваться!</button>

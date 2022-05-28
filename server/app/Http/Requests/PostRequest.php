@@ -27,7 +27,9 @@ class PostRequest extends FormRequest
             'title'       => ['required', 'max:255'],
             'description' => ['required'],
             'location'    => ['required', 'max:255'],
-            'category_id' => ['required', 'integer']
+            'category_id' => ['required', 'integer'],
+            'files'       => ['array', 'max:10'],
+            'files.*'     => ['image:jpeg,jpg']
         ];
     }
 }

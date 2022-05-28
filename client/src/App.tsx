@@ -12,13 +12,13 @@ import {AxiosResponse} from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {AuthAPI} from "./api/auth";
 import {GET_CURRENT_USER} from "./store/authReducer";
-import CategoryList from "./components/content/List/CategoryList";
 import CategoryCreatePage from "./pages/CategoryCreatePage";
 import PostCreatePage from "./pages/PostCreatePage";
+import {IRootState} from "./store";
 
 const App = () => {
   const dispatch = useDispatch()
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useSelector((state: IRootState) => state.auth);
 
   useEffect(() => {
     (async() => {

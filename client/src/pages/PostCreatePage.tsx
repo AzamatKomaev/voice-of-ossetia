@@ -3,9 +3,10 @@ import PostForm from "../components/content/Form/PostForm";
 import {useFetch} from "../utils/hooks";
 import {useSelector} from "react-redux";
 import Spinner from "../components/common/Spinner";
+import {IRootState} from "../store";
 
 const PostCreatePage = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useSelector((state: IRootState) => state.auth);
   const [categories, categoriesLoading] = useFetch('api/categories/', {})
 
   if (auth.loading || categoriesLoading) {

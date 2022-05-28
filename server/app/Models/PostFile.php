@@ -10,6 +10,7 @@ class PostFile extends Model
     use HasFactory;
 
     protected $fillable = ['path', 'post_id'];
+    protected $table = 'postfiles';
 
     /**
      * Get a post related to the file.
