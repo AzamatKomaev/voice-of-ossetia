@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostFile;
 use Illuminate\Support\Facades\Auth;
@@ -23,12 +24,13 @@ class PostController extends Controller
 
     /**
      * Get all posts.
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all();
-        return Response::json($posts);
+        $category_id = $request->query('category_id');
+        $posts = Post::where('category_id', $category_id)->get();
+        return PostResource::collection($posts);
     }
 
     /**
@@ -41,14 +43,12 @@ class PostController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::user()->id;
         $post = Post::create($data);
-
         foreach ($request->file('files') as $file) {
             $postFile = new PostFile();
             $postFile->path = $file->store('posts');
             $postFile->post_id = $post->id;
             $postFile->save();
         }
-
         return Response::json($post, 201);
     }
 

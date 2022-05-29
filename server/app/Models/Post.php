@@ -27,6 +27,15 @@ class Post extends Model
     }
 
     /**
+     * Get related category.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
      * Get all files of the post.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
