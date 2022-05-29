@@ -7,7 +7,6 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -29,7 +28,13 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $category_id = $request->query('category_id');
-        $posts = Post::where('category_id', $category_id)->get();
+
+        if (!$category_id)
+            $posts = Post::all();
+        else
+            $posts = Post::where('category_id', $category_id)->get();
+
+
         return PostResource::collection($posts);
     }
 
@@ -49,7 +54,8 @@ class PostController extends Controller
             $postFile->post_id = $post->id;
             $postFile->save();
         }
-        return Response::json($post, 201);
+        $resource = new PostResource($post);
+        return $resource->response()->setStatusCode(201);
     }
 
     /**

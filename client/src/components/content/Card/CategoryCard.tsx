@@ -20,7 +20,7 @@ const CategoryCard = ({category}: ICategoryCard) => {
           <p className="card-text">{category.description}</p>
 
           <div style={{position: "absolute", bottom: "20px"}}>
-            <a href={`/categories/${category.id}`} className="btn btn-primary">Перейти</a>
+            <a href={`/posts?category_id=${category.id}`} className="btn btn-primary">Перейти</a>
             <a href="/posts/create" className="btn btn-warning" style={{marginLeft: "1px"}}>Создать пост</a>
           </div>
         </div>

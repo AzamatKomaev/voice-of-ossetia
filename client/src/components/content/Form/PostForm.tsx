@@ -125,6 +125,7 @@ const PostForm = ({categories}: IPostForm) => {
             className="form-control"
             id="files"
             onChange={handleFilesInput}
+            accept=".png,.jpg,.jpeg"
           /><br/>
           {files && files.length > 0 ?
             <div style={{marginTop: "-15pt"}}>
@@ -140,7 +141,7 @@ const PostForm = ({categories}: IPostForm) => {
           }
         </div>
         <br/>
-        <button className="btn btn-primary" onClick={handleCreatePostButton}>Зарегистрироваться!</button>
+        <button className="btn btn-primary" onClick={handleCreatePostButton}>Создать</button>
         <br/>
         <small>* - необязательные поля для заполнения</small>
       </div>
