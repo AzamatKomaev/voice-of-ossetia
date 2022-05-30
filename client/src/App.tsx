@@ -15,6 +15,7 @@ import {GET_CURRENT_USER} from "./store/authReducer";
 import CategoryCreatePage from "./pages/CategoryCreatePage";
 import PostCreatePage from "./pages/PostCreatePage";
 import {IRootState} from "./store";
+import PostDetailPage from "./pages/PostDetailPage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -38,10 +39,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/posts" element={<PostListPage/>} />
+        <Route path="/posts/:postId" element={<PostDetailPage/>} />
+        <Route path="/posts/create" element={<PostCreatePage/>} />
+        <Route path="/categories/create" element={<CategoryCreatePage/>} />
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
-        <Route path="/categories/create" element={<CategoryCreatePage/>} />
-        <Route path="/posts/create" element={<PostCreatePage/>} />
       </Routes>
     </div>
   );

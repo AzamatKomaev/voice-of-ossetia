@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {useSelector} from "react-redux";
+import {IRootState} from "../../store";
 
 const navItems = [
   {
@@ -32,7 +34,7 @@ const authNavItems = [
 ]
 
 const Header = () => {
-  const [isAuth, setIsAuth] = useState<boolean>(false)
+  const auth = useSelector((state: IRootState) => state.auth)
 
   return (
     <nav className="navbar navbar-dark bg-dark">
@@ -49,14 +51,16 @@ const Header = () => {
                 <a className={nav.className} href={nav.href}>{nav.value}</a>
               </li>
             ))}
-            {!isAuth ?
+            {!auth.isAuth ?
             authNavItems.map((nav, index) => (
               <li key={index} className="nav-item">
                 <a className={nav.className} href={nav.href}>{nav.value}</a>
               </li>
             ))
             :
-            null
+            <li className="nav-item">
+              <a className="nav-link text-danger" href="/auth/logout">Выйти</a>
+            </li>
             }
           </ul>
         </div>

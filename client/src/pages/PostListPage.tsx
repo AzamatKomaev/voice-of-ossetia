@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useFetch, useQuery} from "../utils/hooks";
 import Spinner from "../components/common/Spinner";
+import PostList from "../components/content/List/PostList";
 
 const PostListPage = () => {
   const query = useQuery();
@@ -24,9 +25,9 @@ const PostListPage = () => {
   }
 
   return (
-    <div>
-      <h1>Here will be a post list page</h1>
-      <p>{JSON.stringify(posts)}</p>
+    <div className="container">
+      <br/>
+      <PostList list={posts}/>
     </div>
   );
 };

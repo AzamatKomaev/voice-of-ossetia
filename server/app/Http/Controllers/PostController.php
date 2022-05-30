@@ -59,14 +59,13 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return PostResource
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return new PostResource($post);
     }
 
     /**
