@@ -12,10 +12,6 @@ const PostListPage = () => {
     }
   })
 
-  useEffect(() => {
-    console.log(posts);
-  }, [posts])
-
   if (postsLoading) {
     return (
       <div>

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ContentAPI} from "../../../api/content";
-import {CategoryAPI} from "../../../api/categories";
+import React, {useState} from 'react';
+import {HttpSender} from "../../../api/api-client";
 
 interface ICategoryFormErrors {
   name: Array<string> | null,
@@ -32,7 +31,8 @@ const CategoryForm = () => {
     formData.append('description', description)
     formData.append('avatar', avatar)
 
-    const response = await CategoryAPI.create(formData)
+    const sender = new HttpSender('categories')
+    const response = await sender.create(formData)
 
     if (response.status === 201) {
       alert('Категория была создана успешна')

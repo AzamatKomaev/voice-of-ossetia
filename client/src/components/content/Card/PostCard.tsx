@@ -19,6 +19,7 @@ const PostCard = ({post, isDetail}: IPostCard) => {
           <img className="card-img-top" src={getMediaFullPath(post.files[0].path)} alt="Card image cap"/>
         }
         <div className="card-body">
+          <p>Добавлено пользователем <a href={`/users/${post.user.id}`}>{post.user.name}</a></p>
           <p>
             Категория: <i>{post.category.name}</i><br/>
             Место действия: <br/><u>{post.location}</u><br/>

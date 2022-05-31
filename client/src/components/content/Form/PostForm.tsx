@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {ContentAPI} from "../../../api/content";
 import {ICategory} from "../../../interfaces";
 import FileCard from "../Card/FileCard";
 import {useDispatch, useSelector} from "react-redux";
 import {ADD_FILES} from "../../../store/fileReducer";
 import {IRootState} from "../../../store";
+import {HttpSender} from "../../../api/api-client";
 
 interface IPostForm {
   categories: Array<ICategory> | undefined | boolean
@@ -45,9 +45,9 @@ const PostForm = ({categories}: IPostForm) => {
     files.forEach((file: any) => {
       formData.append('files[]', file)
     })
-    console.log(formData)
 
-    const response = await ContentAPI.createPost(formData)
+    const sender = new HttpSender('posts')
+    const response = await sender.create(formData)
 
     if (response.status === 201) alert('cool');
     else if (response.status === 422) setErrors(response.data.errors);
