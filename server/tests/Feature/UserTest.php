@@ -2,25 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
-    /**
-     * AuthController routes.
-     * @var array|string[]
-     */
-    protected array $authRoutes = [
-        'create' => '/api/auth/create',
-        'login'  => '/api/auth/login',
-        'logout' => '/api/auth/logout',
-        'me'     => '/api/auth/me'
-    ];
 
     /**
      * Default headers for each sent request.
@@ -36,16 +23,16 @@ class UserTest extends TestCase
      */
     public function test_creating_user_with_empty_data()
     {
-        $response = $this->postJson($this->authRoutes['create'], []);
+        $response = $this->postJson(route('auth.create'), []);
+        $response->assertStatus(422);
         $responseJson = $response->json();
         $errors = $responseJson['errors'];
-        $response->assertStatus(422);
         $this->assertEquals('The given data was invalid.', $responseJson['message']);
         $this->assertCount(4, $errors);
-        $this->assertEquals('The name field is required.', $errors['name'][0]);
-        $this->assertEquals('The email field is required.', $errors['email'][0]);
-        $this->assertEquals('The password field is required.', $errors['password'][0]);
-        $this->assertEquals('The locality field is required.', $errors['locality'][0]);
+        $this->assertEquals('Поле name не может быть пустым.', $errors['name'][0]);
+        $this->assertEquals('Поле email не может быть пустым.', $errors['email'][0]);
+        $this->assertEquals('Поле password не может быть пустым.', $errors['password'][0]);
+        $this->assertEquals('Поле locality не может быть пустым.', $errors['locality'][0]);
     }
 
     /**
@@ -54,7 +41,7 @@ class UserTest extends TestCase
      */
     public function test_creating_user_with_invalid_data()
     {
-        $response = $this->postJson($this->authRoutes['create'], [
+        $response = $this->postJson(route('auth.create'), [
             'name'        => 'admin',
             'email'       => 'invalid_email',
             'password'    => 'less',
@@ -64,14 +51,14 @@ class UserTest extends TestCase
             'last_name'   => 'Komaev',
             'description' => 'Lol iam cool.'
         ]);
+        $response->assertStatus(422);
         $responseJson = $response->json();
         $errors = $responseJson['errors'];
-        $response->assertStatus(422);
         $this->assertEquals('The given data was invalid.', $responseJson['message']);
         $this->assertCount(3, $errors);
-        $this->assertEquals('The email must be a valid email address.', $errors['email'][0]);
-        $this->assertEquals('The password must be at least 8 characters.', $errors['password'][0]);
-        $this->assertEquals('The age must be an integer.', $errors['age'][0]);
+        $this->assertEquals('В данное поле следует вписать валидный почтовый адрес.', $errors['email'][0]);
+        $this->assertEquals('Поле password должно содержать больше 8 символов.', $errors['password'][0]);
+        $this->assertEquals('Поле age должно быть числом.', $errors['age'][0]);
     }
 
     /**
@@ -86,16 +73,77 @@ class UserTest extends TestCase
             'password' => 'normal_pwd',
             'locality' => 'Beslan'
         ];
-
-        $response1 = $this->postJson($this->authRoutes['create'], $data);
+        $response1 = $this->postJson(route('auth.create'), $data);
         $response1->assertStatus(201);
-        $response2 = $this->postJson($this->authRoutes['create'], $data);
+        $response2 = $this->postJson(route('auth.create'), $data);
+        $response2->assertStatus(422);
         $responseJson = $response2->json();
         $errors = $responseJson['errors'];
-        $response2->assertStatus(422);
         $this->assertEquals('The given data was invalid.', $responseJson['message']);
         $this->assertCount(2, $errors);
         $this->assertEquals('The name has already been taken.', $errors['name'][0]);
         $this->assertEquals('The email has already been taken.', $errors['email'][0]);
+    }
+
+
+    /**
+     * Test log in user without data.
+     * @return void
+     */
+    public function test_login_user_without_data()
+    {
+        $response = $this->postJson(route('auth.login'));
+        $response->assertStatus(422);
+        $responseData = $response->json();
+        $errors = $responseData['errors'];
+        $this->assertEquals('The given data was invalid.', $responseData['message']);
+        $this->assertCount(2, $errors);
+        $this->assertEquals('Поле name не может быть пустым.', $errors['name'][0]);
+        $this->assertEquals('Поле password не может быть пустым.', $errors['password'][0]);
+    }
+
+    /**
+     * Test getting current user without auth token.
+     * @return void
+     */
+    public function test_getting_user_without_token()
+    {
+        $response = $this->get(route('auth.me'));
+        $response->assertStatus(401);
+        $responseJson = $response->json();
+        $this->assertEquals('Unauthenticated.', $responseJson['message']);
+    }
+
+    /**
+     * Test log in user and getting data about him.
+     * @return void
+     */
+    public function test_login_and_getting_data_about_user()
+    {
+        $data = [
+            'name'     => 'admin',
+            'email'    => 'adminmail@mail.ru',
+            'password' => 'normal_pwd',
+            'locality' => 'Beslan'
+        ];
+        $creatingUserResponse = $this->postJson(route('auth.create'), $data);
+        $creatingUserResponse->assertStatus(201);
+
+        $authUserResponse = $this->postJson(route('auth.login'), $data);
+        $authUserResponse->assertStatus(201);
+        $authToken = $authUserResponse->json()['token'];
+        $this->assertIsString($authToken);
+
+        $userResponse = $this->get(route('auth.me'), [
+            'Authorization' => 'Bearer ' . $authToken
+        ]);
+        $userResponse->assertStatus(200);
+        $userDataResponse = $userResponse->json();
+
+        foreach (array_keys($data) as $key)
+        {
+            if ($key === 'password') continue;
+            $this->assertEquals($data[$key], $userDataResponse[$key]);
+        }
     }
 }

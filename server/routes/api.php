@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('auth')->group(function () {
-    Route::middleware('auth:sanctum')->get('/me', [AuthController::class, 'getMe']);
-    Route::middleware('auth:sanctum')->delete('/logout', [AuthController::class, 'logout']);
-    Route::post('/create', [AuthController::class, 'create']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')
+        ->get('/me', [AuthController::class, 'getMe'])->name('auth.me');
+    Route::middleware('auth:sanctum')
+        ->delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('/create', [AuthController::class, 'create'])->name('auth.create');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
 
 Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);

@@ -27,14 +27,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $category_id = $request->query('category_id');
-
-        if (!$category_id)
-            $posts = Post::all();
-        else
-            $posts = Post::where('category_id', $category_id)->get();
-
-
+        $posts = Post::filter()->get();
         return PostResource::collection($posts);
     }
 

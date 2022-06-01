@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Post extends Model
 {
+    use FilterQueryString;
     use HasFactory;
+
+    protected $filters = ['category_id'];
 
     protected $fillable = [
         'title',
