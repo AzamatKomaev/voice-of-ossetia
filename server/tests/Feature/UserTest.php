@@ -139,7 +139,6 @@ class UserTest extends TestCase
         ]);
         $userResponse->assertStatus(200);
         $userDataResponse = $userResponse->json();
-
         foreach (array_keys($data) as $key)
         {
             if ($key === 'password') continue;

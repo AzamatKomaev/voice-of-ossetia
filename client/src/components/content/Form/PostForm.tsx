@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {LegacyRef, useRef, useState} from 'react';
 import {ICategory} from "../../../interfaces";
 import FileCard from "../Card/FileCard";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,20 +10,28 @@ interface IPostForm {
   categories: Array<ICategory> | undefined | boolean
 }
 
+interface IPostFormErrors {
+  title: Array<string> | null,
+  description: Array<string> | null,
+  location: Array<string> | null,
+  category_id: Array<string> | null,
+  files: Array<string> | null
+}
+
 const PostForm = ({categories}: IPostForm) => {
   const dispatch = useDispatch()
-
   const files = useSelector((state: IRootState) => state.file.values)
   const [categoryId, setCategoryId] = useState<string>("")
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
   const [location, setLocation] = useState<string>("")
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<IPostFormErrors>({
     title: null,
     description: null,
     location: null,
-    category_id: null
+    category_id: null,
+    files: null
   })
 
   const handleFilesInput = (e: any) => {
@@ -42,15 +50,13 @@ const PostForm = ({categories}: IPostForm) => {
     formData.append('location', location)
     formData.append('category_id', categoryId)
 
-    files.forEach((file: any) => {
-      formData.append('files[]', file)
-    })
+    files.forEach((file: any) => formData.append('files[]', file))
 
     const sender = new HttpSender('posts')
     const response = await sender.create(formData)
 
     if (response.status === 201) alert('cool');
-    else if (response.status === 422) setErrors(response.data.errors);
+    else if (response.status === 422) setErrors(response.data.errors)
     else alert(`${response.status} status code`);
   }
 
@@ -67,7 +73,6 @@ const PostForm = ({categories}: IPostForm) => {
             onChange={e => setCategoryId(e.target.value)}
           >
             <option value="">Выберите категорию</option>
-
             {typeof categories === 'object'
               ?
               categories.map((category, index) => (
@@ -126,13 +131,19 @@ const PostForm = ({categories}: IPostForm) => {
             id="files"
             onChange={handleFilesInput}
             accept=".png,.jpg,.jpeg"
-          /><br/>
+          />
+          {errors.files ?
+            errors.files.map((error, index) => <p key={index} className="text-danger">{error}</p>)
+          :
+            null
+          }
+          <br/>
           {files && files.length > 0 ?
             <div style={{marginTop: "-15pt"}}>
               <p style={{fontSize: "20pt"}}>Всего: {files.length}</p>
               {files.map((file, index) => (
                 <div key={index} className="card">
-                  {file ? <FileCard file={file}/> : null}
+                  {file && <FileCard file={file}/>}
                 </div>
               ))}
             </div>

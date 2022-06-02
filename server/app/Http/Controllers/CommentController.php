@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    /**
+     * Set up middlewares.
+     */
+    public function __construct()
+    {
+        $middlewareActions = ['store', 'update', 'destroy'];
+        $this->middleware('auth:sanctum')->only($middlewareActions);
+        $this->middleware('is_active')->only($middlewareActions);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +35,15 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CommentRequest  $request
+     * @return CommentResource
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->id;
+        $comment = Comment::create($data);
+        return new CommentResource($comment);
     }
 
     /**

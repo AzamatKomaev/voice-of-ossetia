@@ -13,13 +13,14 @@ export const useFetch = (path: string, options: any) => {
   const [loading, setLoading] = useState<boolean>(true)
 
   const sendRequest = async() => {
-    let response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, options)
-
-    if (!response) setLoading(true)
-    else {
-      setLoading(false)
-      setData(response.data)
-    }
+    axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, options)
+      .then(response => {
+        setLoading(false)
+        setData(response.data)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useSelector} from "react-redux";
 import {IRootState} from "../../store";
 
@@ -7,6 +7,11 @@ const navItems = [
     className: 'nav-link active',
     href: '/',
     value: 'На главную'
+  },
+  {
+    className: 'nav-link',
+    href: '/posts/create',
+    value: 'Создать пост'
   },
   {
     className: 'nav-link',

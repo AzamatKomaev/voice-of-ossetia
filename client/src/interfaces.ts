@@ -39,3 +39,11 @@ export interface IPost extends IDate {
   category: ICategory,
   files: Array<IFile>
 }
+
+export interface IComment extends IDate {
+  description: string,
+  user_id: number,
+  post_id: number,
+  user: IUser,
+  post: IPost
+}
