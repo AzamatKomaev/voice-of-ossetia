@@ -21,6 +21,7 @@ export interface IUser extends IDate {
   is_superuser: boolean,
   email_verified_at?: string,
   password?: string,
+  avatar: string | null
 }
 
 export interface ICategory extends IDate {

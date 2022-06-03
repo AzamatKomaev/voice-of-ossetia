@@ -9,14 +9,21 @@ import {useLocation} from "react-router-dom";
  * @param options
  */
 export const useFetch = (path: string, options: any) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const sendRequest = async() => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, options)
       .then(response => {
-        setLoading(false)
         setData(response.data)
+        setStatusCode(response.status)
+      })
+      .catch(error => {
+        if (error.response) {
+          setData(error.response.data)
+          setStatusCode(error.response.status)
+        }
       })
       .finally(() => {
         setLoading(false)
@@ -27,7 +34,7 @@ export const useFetch = (path: string, options: any) => {
     sendRequest()
   }, [])
 
-  return [data, loading]
+  return [data, statusCode, loading]
 }
 
 /**

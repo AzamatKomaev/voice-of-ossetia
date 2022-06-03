@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PostForm from "../components/content/Form/PostForm";
 import {useFetch} from "../utils/hooks";
 import {useSelector} from "react-redux";
@@ -7,7 +7,7 @@ import {IRootState} from "../store";
 
 const PostCreatePage = () => {
   const auth = useSelector((state: IRootState) => state.auth);
-  const [categories, categoriesLoading] = useFetch('api/categories/', {})
+  const [categories, categoriesStatus, categoriesLoading] = useFetch('api/categories/', {})
 
   if (auth.loading || categoriesLoading) {
     return (

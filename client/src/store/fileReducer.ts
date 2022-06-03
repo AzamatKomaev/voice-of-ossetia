@@ -11,7 +11,6 @@ interface IFileReducerAction {
     addedFiles?: Array<File>,
     deletedFile?: File
   }
-
 }
 
 const defaultState: IFileReducerState = {

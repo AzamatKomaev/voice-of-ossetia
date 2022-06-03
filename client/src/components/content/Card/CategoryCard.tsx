@@ -8,22 +8,19 @@ interface ICategoryCard {
 
 const CategoryCard = ({category}: ICategoryCard) => {
   return (
-    <div className="card" style={{position: "relative"}}>
-      <img
-        className="card-img-top"
-        src={getMediaFullPath(category.avatar)}
-        alt="Card image cap"
-        style={{height: "200px"}}
-      />
-        <div className="card-body" style={{height: "250px"}}>
+    <div className="card">
+      <a href={`/posts?category_id=${category.id}`} className="text-dark" style={{textDecoration: "none"}}>
+        <img
+          className="card-img-top"
+          src={getMediaFullPath(category.avatar)}
+          alt="Card image cap"
+          style={{height: "200px"}}
+        />
+        <div className="card-body" style={{height: "220px"}}>
           <h5 className="card-title">{category.name}</h5>
           <p className="card-text">{category.description}</p>
-
-          <div style={{position: "absolute", bottom: "20px"}}>
-            <a href={`/posts?category_id=${category.id}`} className="btn btn-primary">Перейти</a>
-            <a href="/posts/create" className="btn btn-warning" style={{marginLeft: "1px"}}>Создать пост</a>
-          </div>
         </div>
+      </a>
     </div>
   );
 };

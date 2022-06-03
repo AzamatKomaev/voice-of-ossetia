@@ -1,10 +1,12 @@
 import {combineReducers, createStore} from 'redux';
 import authReducer from "./authReducer";
 import {fileReducer} from "./fileReducer";
+import {commentReducer} from "./commentReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  file: fileReducer
+  file: fileReducer,
+  comment: commentReducer
 })
 export type IRootState = ReturnType<typeof rootReducer>
 export const store = createStore(rootReducer);

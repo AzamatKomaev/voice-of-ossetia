@@ -1,33 +1,34 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {IComment} from "../../../interfaces";
-import {getReadableDateFormat} from "../../../utils";
+import UserGroupItem from "../GroupItem/UserGroupItem";
+import ContentGroupItem from "../GroupItem/ContentGroupItem";
+import TimestampGroupItem from "../GroupItem/TimestampGroupItem";
 
 interface ICommentCard {
   comment: IComment
 }
 
 const CommentCard = ({comment}: ICommentCard) => {
-  useEffect(() => {
-    console.log(comment)
-  }, [])
 
   return (
     <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">{comment.user.name}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">
-          {comment.user.first_name && comment.user.last_name
-            ? comment.user.first_name + ' ' + comment.user.last_name
-            : 'Имя и фамилия не указаны'
-          }
-        </h6>
-        <div className="row" style={{display: "flex"}}>
-          <p className="col-xl-10 col-lg-9  card-text">{comment.description}</p>
-          <small className="col-xl-2 col-lg-3 text-muted" style={{marginLeft: 'auto'}}>Создано: <br/>
-            <i>{getReadableDateFormat(comment.created_at)}</i>, <br/>
-            Обновлено: <br/>
-            <i>{getReadableDateFormat(comment.updated_at)}</i>
-          </small>
+      <UserGroupItem user={comment.user}/>
+
+      <div className="d-none d-sm-flex">
+        <div id="content-item-sm-more" className="col-xl-10 col-lg-9 col-md-8 col-sm-6 col-5">
+          <ContentGroupItem title={null} description={comment.description} border={false}/>
+        </div>
+        <div id="timestamp-item-sm-more" className="d-none d-sm-block col-xl-2 col-lg-3 col-md-4 col-sm-6 col-7">
+            <TimestampGroupItem created_at={comment.created_at} updated_at={comment.updated_at}/>
+        </div>
+      </div>
+
+      <div className="d-sm-none">
+        <div id="content-item-sm-less">
+          <ContentGroupItem title={null} description={comment.description} border={true}/>
+        </div>
+        <div id="timestamp-item-sm-less">
+          <TimestampGroupItem created_at={comment.created_at} updated_at={comment.updated_at}/>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ import CategoryCreatePage from "./pages/CategoryCreatePage";
 import PostCreatePage from "./pages/PostCreatePage";
 import {IRootState} from "./store";
 import PostDetailPage from "./pages/PostDetailPage";
+import {callDispatch} from "./utils";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ const App = () => {
   useEffect(() => {
     (async() => {
       const response: AxiosResponse = await AuthAPI.getMe()
-      dispatch({
+      callDispatch(dispatch, {
         type: GET_CURRENT_USER,
         payload: {
           response: response

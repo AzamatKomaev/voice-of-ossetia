@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Comment extends Model
 {
+    use FilterQueryString;
     use HasFactory;
+
+    protected $filters = ['post_id'];
 
     protected $fillable = [
         'description',

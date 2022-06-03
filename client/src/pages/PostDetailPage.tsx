@@ -3,20 +3,38 @@ import PostCard from "../components/content/Card/PostCard";
 import {useParams} from "react-router-dom";
 import {useFetch} from "../utils/hooks";
 import Spinner from "../components/common/Spinner";
-import {IPost} from "../interfaces";
 import CommentList from "../components/content/List/CommentList";
+import CommentForm from "../components/content/Form/CommentForm";
+import {useDispatch} from "react-redux";
+import {ADD_COMMENTS} from "../store/commentReducer";
+import {callDispatch} from "../utils";
 
 const PostDetailPage = () => {
   const {postId} = useParams();
-  const [post, postLoading]: Array<IPost | undefined | boolean> = useFetch(`api/posts/${postId}/`, {})
-  const [comments, commentsLoading]: Array<IPost | undefined | boolean> = useFetch(`api/comments/`, {
+  const dispatch = useDispatch();
+
+  const [post, postStatus, postLoading]: ReturnType<typeof useFetch> = useFetch(`api/posts/${postId}/`, {})
+  const [comments, commentsStatus, commentsLoading]: ReturnType<typeof useFetch> = useFetch(`api/comments/`, {
     params: {
       post_id: postId
     }
   })
 
-  if (postLoading) {
-    return <div><Spinner/></div>
+  useEffect(() => {
+    callDispatch(dispatch, {
+      type: ADD_COMMENTS,
+      payload: {
+        addedComments: comments ? comments : []
+      }
+    })
+  }, [comments])
+
+  if (postLoading || commentsLoading) {
+    return (
+      <div>
+        <Spinner/>
+      </div>
+    )
   }
 
   if (post && typeof post === 'object') {
@@ -24,9 +42,10 @@ const PostDetailPage = () => {
       <div className="container">
         <br/>
         {post ? <PostCard post={post} isDetail={true}/> : null}
-        <br/>
-        <h3 style={{textAlign: 'center'}}>Коментарий</h3>
-        <CommentList list={comments}/>
+        <br/><br/>
+        <h4>Комментарии</h4><br/>
+        <CommentForm/><br/>
+        <CommentList/>
       </div>
     );
   }

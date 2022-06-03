@@ -1,3 +1,5 @@
+import {AnyAction, Dispatch} from "redux";
+
 export const numberRange = (start: number, end: number) => {
   return new Array(end - start).fill(null).map((d, i) => i + start);
 }
@@ -15,3 +17,14 @@ export const getReadableDateFormat = (dateString: Date | string): string => {
   return readableDateFormat.replace(",", "");
 }
 
+export interface ICallDispatchAction {
+  type: string,
+  payload: any
+}
+
+export const callDispatch = (dispatch: Dispatch<AnyAction>, action: ICallDispatchAction): void => {
+  dispatch({
+    type: action.type,
+    payload: action.payload
+  })
+}

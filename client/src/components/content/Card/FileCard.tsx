@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch} from "react-redux";
 import {DELETE_FILE} from "../../../store/fileReducer";
 import {getMediaFullPath} from "../../../api/media";
+import {callDispatch} from "../../../utils";
 
 interface IFileCard {
   file: File
@@ -11,7 +12,7 @@ const FileCard = ({file}: IFileCard) => {
   const dispatch = useDispatch()
 
   const handleDeleteFileButton = () => {
-    dispatch({
+    callDispatch(dispatch, {
       type: DELETE_FILE,
       payload: {
         deletedFile: file

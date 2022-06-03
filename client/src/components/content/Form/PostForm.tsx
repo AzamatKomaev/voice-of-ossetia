@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ADD_FILES} from "../../../store/fileReducer";
 import {IRootState} from "../../../store";
 import {HttpSender} from "../../../api/api-client";
+import {callDispatch} from "../../../utils";
 
 interface IPostForm {
   categories: Array<ICategory> | undefined | boolean
@@ -35,7 +36,7 @@ const PostForm = ({categories}: IPostForm) => {
   })
 
   const handleFilesInput = (e: any) => {
-    dispatch({
+    callDispatch(dispatch, {
       type: ADD_FILES,
       payload: {
         addedFiles: e.target.files
@@ -61,101 +62,97 @@ const PostForm = ({categories}: IPostForm) => {
   }
 
   return (
-    <div>
-      <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-        <h3 style={{textAlign: "center"}}>Создать пост</h3><br/>
-        <div className="form-group">
-          <label htmlFor="category_id">Категория</label>
-          <select
-            className="form-select"
-            id="category_id"
-            value={categoryId}
-            onChange={e => setCategoryId(e.target.value)}
-          >
-            <option value="">Выберите категорию</option>
-            {typeof categories === 'object'
-              ?
-              categories.map((category, index) => (
-                <option key={index} value={category.id}>{category.name}</option>
-              ))
-              :
-              null
-            }
-          </select>
-          {errors.category_id ? <p className="text-danger">{errors.category_id[0]}</p> : <p></p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="title">Заголовок</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            placeholder="Введите заголовок"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-          {errors.title ? <p className="text-danger">{errors.title[0]}</p> : <p></p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="name">Описание</label>
-          <textarea
-            className="form-control"
-            id="description"
-            placeholder="Опишите проблему/суть поста"
-            rows={2}
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-          >
-          </textarea>
-          {errors.description ? <p className="text-danger">{errors.description[0]}</p> : <p></p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="location">Место действия</label>
-          <input
-            type="text"
-            className="form-control"
-            id="location"
-            placeholder="Введите место действия"
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-          />
-          <small className="text-muted">Необходимо указать город и улицу</small>
-          {errors.location ? <p className="text-danger">{errors.location[0]}</p> : <p></p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="files">Файлы* (необязательно, но желательно)</label>
-          <input
-            multiple={true}
-            type="file"
-            className="form-control"
-            id="files"
-            onChange={handleFilesInput}
-            accept=".png,.jpg,.jpeg"
-          />
-          {errors.files ?
-            errors.files.map((error, index) => <p key={index} className="text-danger">{error}</p>)
-          :
+    <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
+      <h3 style={{textAlign: "center"}}>Создать пост</h3><br/>
+      <div className="form-group">
+        <label htmlFor="category_id">Категория</label>
+        <select
+          className="form-select"
+          id="category_id"
+          value={categoryId}
+          onChange={e => setCategoryId(e.target.value)}
+        >
+          <option value="">Выберите категорию</option>
+          {typeof categories === 'object'
+            ?
+            categories.map((category, index) => (
+              <option key={index} value={category.id}>{category.name}</option>
+            ))
+            :
             null
           }
-          <br/>
-          {files && files.length > 0 ?
-            <div style={{marginTop: "-15pt"}}>
-              <p style={{fontSize: "20pt"}}>Всего: {files.length}</p>
-              {files.map((file, index) => (
-                <div key={index} className="card">
-                  {file && <FileCard file={file}/>}
-                </div>
-              ))}
-            </div>
-          :
-            null
-          }
-        </div>
-        <br/>
-        <button className="btn btn-primary" onClick={handleCreatePostButton}>Создать</button>
-        <br/>
-        <small>* - необязательные поля для заполнения</small>
+        </select>
+        {errors.category_id ? <p className="text-danger">{errors.category_id[0]}</p> : <p></p>}
       </div>
+      <div className="form-group">
+        <label htmlFor="title">Заголовок</label>
+        <input
+          type="text"
+          className="form-control"
+          id="title"
+          placeholder="Введите заголовок"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        {errors.title ? <p className="text-danger">{errors.title[0]}</p> : <p></p>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="name">Описание</label>
+        <textarea
+          className="form-control"
+          id="description"
+          placeholder="Опишите проблему/суть поста"
+          rows={2}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+        >
+        </textarea>
+        {errors.description ? <p className="text-danger">{errors.description[0]}</p> : <p></p>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="location">Место действия</label>
+        <input
+          type="text"
+          className="form-control"
+          id="location"
+          placeholder="Введите место действия"
+          value={location}
+          onChange={e => setLocation(e.target.value)}
+        />
+        <small className="text-muted">Необходимо указать город и улицу</small>
+        {errors.location ? <p className="text-danger">{errors.location[0]}</p> : <p></p>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="files">Файлы* (необязательно, но желательно)</label>
+        <input
+          multiple={true}
+          type="file"
+          className="form-control"
+          id="files"
+          onChange={handleFilesInput}
+          accept=".png,.jpg,.jpeg"
+        />
+        {errors.files ?
+          errors.files.map((error, index) => <p key={index} className="text-danger">{error}</p>)
+        :
+          null
+        }
+        <br/>
+        {(files && files.length > 0) &&
+          <div style={{marginTop: "-15pt"}}>
+            <p style={{fontSize: "20pt"}}>Всего: {files.length}</p>
+            {files.map((file, index) => (
+              <div key={index} className="card">
+                {file && <FileCard file={file}/>}
+              </div>
+            ))}
+          </div>
+        }
+      </div>
+      <br/>
+      <button className="btn btn-primary" onClick={handleCreatePostButton}>Создать</button>
+      <br/>
+      <small>* - необязательные поля для заполнения</small>
     </div>
   );
 };

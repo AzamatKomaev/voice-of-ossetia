@@ -5,11 +5,10 @@ import Spinner from "../components/common/Spinner";
 import {useFetch} from "../utils/hooks";
 import CategoryList from "../components/content/List/CategoryList";
 import {IRootState} from "../store";
-import {ICategory} from "../interfaces";
 
 const HomePage = () => {
   const auth = useSelector((state: IRootState) => state.auth);
-  const [categories, categoriesLoading]: Array<ICategory | boolean | undefined> = useFetch('api/categories/',  {})
+  const [categories, categoriesStatus, categoriesLoading]: ReturnType<typeof useFetch> = useFetch('api/categories/',  {})
 
   if (auth.loading || categoriesLoading) {
     return (

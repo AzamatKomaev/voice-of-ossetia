@@ -1,24 +1,22 @@
-import React from 'react';
-import {IComment} from "../../../interfaces";
-import PostCard from "../Card/PostCard";
+import React, {useEffect, useState} from 'react';
 import CommentCard from "../Card/CommentCard";
+import {useSelector} from "react-redux";
+import {IRootState} from "../../../store";
+import {IComment} from "../../../interfaces";
 
-interface ICommentList {
-  list: Array<IComment> | boolean | undefined
-}
 
-const CommentList = ({list}: ICommentList) => {
+const CommentList = () => {
+  const comments = useSelector((state: IRootState) => state.comment.values)
+
   return (
     <div>
-      {typeof list === 'object'
-        ?
-        list.map((comment, index) => (
+      <b>Всего: {comments.length}</b>
+      {comments.length > 0 &&
+        comments.map((comment, index) => (
           <div key={index}>
             <CommentCard comment={comment}/><br/>
           </div>
         ))
-        :
-        null
       }
     </div>
   );
