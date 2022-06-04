@@ -3,12 +3,16 @@ import {IComment} from "../../../interfaces";
 import UserGroupItem from "../GroupItem/UserGroupItem";
 import ContentGroupItem from "../GroupItem/ContentGroupItem";
 import TimestampGroupItem from "../GroupItem/TimestampGroupItem";
+import ActionButtonsGroupItem from "../GroupItem/ActionButtonsGroupItem";
+import {useSelector} from "react-redux";
+import {IRootState} from "../../../store";
 
 interface ICommentCard {
   comment: IComment
 }
 
 const CommentCard = ({comment}: ICommentCard) => {
+  const auth = useSelector((state: IRootState) => state.auth)
 
   return (
     <div className="card">
@@ -31,6 +35,24 @@ const CommentCard = ({comment}: ICommentCard) => {
           <TimestampGroupItem created_at={comment.created_at} updated_at={comment.updated_at}/>
         </div>
       </div>
+      <ActionButtonsGroupItem
+        complaining={{
+          onClick: () => {},
+          className: "btn btn-primary"
+        }}
+        hiding={{
+          onClick: () => {},
+          className: "btn btn-secondary"
+        }}
+        deleting={{
+          onClick: () => {},
+          className: "btn btn-danger",
+          "data-bs-target": `#comment-${comment.id}`,
+          "data-bs-toggle": "modal"
+        }}
+        showDeletingButton={comment.user_id === auth?.data?.id}
+        showHidingButton={false}
+      />
     </div>
   );
 };

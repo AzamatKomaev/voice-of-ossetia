@@ -24,7 +24,7 @@ const PostDetailPage = () => {
     callDispatch(dispatch, {
       type: ADD_COMMENTS,
       payload: {
-        addedComments: comments ? comments : []
+        addedComments: comments ?? []
       }
     })
   }, [comments])
@@ -37,11 +37,11 @@ const PostDetailPage = () => {
     )
   }
 
-  if (post && typeof post === 'object') {
+  if (post) {
     return (
       <div className="container">
         <br/>
-        {post ? <PostCard post={post} isDetail={true}/> : null}
+        {post && <PostCard post={post} isDetail={true}/>}
         <br/><br/>
         <h4>Комментарии</h4><br/>
         <CommentForm/><br/>

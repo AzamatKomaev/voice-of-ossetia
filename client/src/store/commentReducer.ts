@@ -7,14 +7,6 @@ interface ICommentReducerState {
   values: Array<IComment>
 }
 
-interface ICommentReducerAction {
-  type: string,
-  payload: {
-    addedComments?: Array<File>,
-    hidedComment?: File
-  }
-}
-
 const defaultState: ICommentReducerState = {
   values: []
 }
@@ -29,7 +21,7 @@ export const commentReducer = (state = defaultState, action: any) => {
     case HIDE_COMMENT:
       return {
         ...state,
-        values: state.values.filter(comment => comment.id !== action.payload.hidedComment.id)
+        values: state.values.filter((comment) => comment.id !== action.payload.hidedComment.id)
       }
     default:
       return state;

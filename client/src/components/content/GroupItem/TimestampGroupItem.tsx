@@ -8,7 +8,7 @@ interface ITimestampGroupItem {
 
 const TimestampGroupItem = ({created_at, updated_at}: ITimestampGroupItem) => {
   return (
-    <div className="card-body">
+    <div className="list-group-item">
       <small className="text-muted">Создано: <br/>
         {getReadableDateFormat(created_at)}, <br/>
         Последний раз обновлено: <br/>

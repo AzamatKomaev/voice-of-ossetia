@@ -5,7 +5,7 @@ export const numberRange = (start: number, end: number) => {
 }
 
 export const getReadableDateFormat = (dateString: Date | string): string => {
-  let dateJs = new Date(dateString);
+  let dateJs = new Date(dateString)
   let readableDateFormat = dateJs.toLocaleString('ru', {
     year: 'numeric',
     month: 'long',
