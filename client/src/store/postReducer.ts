@@ -1,5 +1,4 @@
-import {IComment, IPost} from "../interfaces";
-import {ADD_COMMENTS, HIDE_COMMENT} from "./commentReducer";
+import {IPost} from "../interfaces";
 
 export const ADD_POSTS = "ADD_POSTS";
 export const HIDE_POST = "HIDE_POST";

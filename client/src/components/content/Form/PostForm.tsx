@@ -56,7 +56,7 @@ const PostForm = ({categories}: IPostForm) => {
     const sender = new HttpSender('posts')
     const response = await sender.create(formData)
 
-    if (response.status === 201) alert('cool');
+    if (response.status === 201) window.location.href = `/posts/${response.data.id}`;
     else if (response.status === 422) setErrors(response.data.errors)
     else alert(`${response.status} status code`);
   }

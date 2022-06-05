@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef} from 'react';
 import {IPost} from "../../../interfaces";
 import {getMediaFullPath} from "../../../api/media";
 import ImageList from "../List/ImageList";
@@ -11,6 +11,7 @@ import {IRootState} from "../../../store";
 import {callDispatch} from "../../../utils";
 import {HIDE_POST} from "../../../store/postReducer";
 import Modal from "../../common/Modal";
+import {HttpSender} from "../../../api/api-client";
 
 interface IPostCard {
   post: IPost,
@@ -20,9 +21,7 @@ interface IPostCard {
 const PostCard = ({post, isDetail}: IPostCard) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: IRootState) => state.auth)
-  const [actionGroupItemProps] = useState({
-
-  })
+  const httpSender = useRef<HttpSender>(new HttpSender('posts'));
 
   const handleHidingPostButton = () => {
     callDispatch(dispatch, {
@@ -33,23 +32,39 @@ const PostCard = ({post, isDetail}: IPostCard) => {
     })
   }
 
-  const handleDeletingPostButton = () => {
-    console.log('deleted')
+  const handleDeletingPostButton = async() => {
+    const response = await httpSender.current.delete(post.id);
+    if (response.status === 204) {
+      if (isDetail) {
+        window.location.href = '/'
+        return;
+      }
+
+      callDispatch(dispatch, {
+        type: HIDE_POST,
+        payload: {
+          hidedPost: post
+        }
+      })
+    }
+    else alert(`${response.status} error!`)
   }
 
   return (
     <div className="card">
       {isDetail ?
-        <div style={{padding: "15px"}}>
-          <ImageList list={post.files}/><br/>
-        </div>
+        post.files.length > 0 &&
+          <div style={{padding: "15px"}}>
+            <ImageList list={post.files}/><br/>
+          </div>
       :
+        post.files.length > 0 &&
         <img className="card-img-top" src={getMediaFullPath(post.files[0].path)} alt="Card image cap"/>
       }
       <Modal
         id={`post-${post.id}`}
         title="Удалить"
-        content={`Вы точно хотите удалить пост ${post.title}?`}
+        content={<p>Вы точно хотите удалить пост <b>{post.title}</b>?</p>}
         buttons={[
           {
             onClick: handleDeletingPostButton,
