@@ -2,21 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use DatabaseTransactions;
-
-    /**
-     * Default headers for each sent request.
-     * @var string[]
-     */
-    protected $defaultHeaders = [
-        'Accept' => 'application/json'
-    ];
-
     /**
      * Test creating user with empty request body.
      * @return void

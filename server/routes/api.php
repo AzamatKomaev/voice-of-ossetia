@@ -24,5 +24,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);
-Route::apiResource('posts', \App\Http\Controllers\PostController::class);
+Route::apiResource('posts', \App\Http\Controllers\PostController::class, [
+    'index' => 'posts.index',
+    'show'  => 'posts.show',
+    'store' => 'posts.store'
+]);
 Route::apiResource('comments', \App\Http\Controllers\CommentController::class);
