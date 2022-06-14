@@ -4,6 +4,7 @@ namespace Tests\Feature\TestData;
 
 use App\Models\User;
 
+
 class UserTestData
 {
     protected array $users;
@@ -25,10 +26,6 @@ class UserTestData
 
     public function __construct()
     {
-        foreach ($this->jsonData as $data) {
-            $user = User::create($data);
-            $this->users[] = $user;
-        }
     }
 
     /**

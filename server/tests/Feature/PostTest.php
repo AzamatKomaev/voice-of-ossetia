@@ -3,18 +3,23 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
-use Tests\Feature\TestData\UserTestData;
+use App\Models\Post;
+use App\Models\User;
 use Tests\TestCase;
 
 class PostTest extends TestCase
 {
-    protected UserTestData $userData;
     protected Category $category;
+
+    protected function setUpPostData(array $postData, int $categoryId, int $userId): array {
+        $postData['category_id'] = $categoryId;
+        $postData['user_id'] = $userId;
+        return $postData;
+    }
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->userData = new UserTestData();
         $this->category = Category::create([
             'name'        => 'First Category',
             'description' => 'Category for testing.',
@@ -28,33 +33,54 @@ class PostTest extends TestCase
      */
     public function test_set_up_data()
     {
-        $users = $this->userData->getUsers();
-        $this->assertCount(2, $users);
+        $user = User::factory()->create();
+        $this->assertArrayHasKey('id', $user);
         $this->category->name = 'First Category';
     }
 
     /**
-     * Test creating post without auth header with token.
+     * Test creation post without auth header with token.
      * @return void
      */
-    public function test_creating_post_without_authorization()
+    public function test_creation_post_without_authorization()
     {
-        $postResponse = $this->postJson(route('posts.store'),
-            [
-                'title' => 'Post1',
-                'description' => 'Post1 Description',
-                'location'    => 'Vladikavkaz',
-                'category_id' => $this->category->id
-            ],
-            [
-                'Authorization' => 'Bearer ' . $this->getAuthToken($this->userData->jsonData[0])
-            ]
-        );
+        $user = User::factory()->create();
+        $postResponse = $this->postJson(route('posts.store'), [
+            'title'       => 'PostTitle',
+            'description' => 'PostDescription',
+            'user_id'     => $user->getAttribute('id'),
+            'category_id' => $this->category->id
+        ]);
         $postResponse->assertStatus(401);
     }
 
-    public function test_creating_post_without_data()
+    /**
+     * Test creation post with inactive user (is_active=false).
+     * @return void
+     */
+    public function test_creation_post_by_inactive_user()
     {
+        $user = User::factory()->create();
+        $userData = $this->getUserDataJson($user);
+        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), $this->category->id, $userData['id']);
+        $postResponse = $this->postJson(route('posts.store'),$postData, [
+            'Authorization' => 'Bearer ' . $this->getAuthToken($userData)
+        ]);
+        $postResponse->assertStatus(403);
+        $this->assertEquals('The user is not active.', $postResponse->json()['error']);
+    }
+
+    public function test_creation_post_without_data()
+    {
+        $user = User::factory()->create();
+        $user->is_active = true;
+        $user->save();
+        $userData = $this->getUserDataJson($user);
+        $postResponse = $this->postJson(route('posts.store'), [], [
+            'Authorization' => 'Bearer ' . $this->getAuthToken($userData)
+        ]);
+        $postResponse->assertStatus(422);
+        $this->assertEquals('The given data was invalid.', $postResponse->json()['message']);
 
     }
 }

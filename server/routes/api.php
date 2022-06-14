@@ -23,10 +23,18 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
 
-Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);
+Route::apiResource('categories', \App\Http\Controllers\CategoryController::class, [
+    'index' => 'categories.index',
+    'show'  => 'categories.show',
+    'store' => 'categories.store'
+]);
 Route::apiResource('posts', \App\Http\Controllers\PostController::class, [
     'index' => 'posts.index',
     'show'  => 'posts.show',
     'store' => 'posts.store'
 ]);
-Route::apiResource('comments', \App\Http\Controllers\CommentController::class);
+Route::apiResource('comments', \App\Http\Controllers\CommentController::class, [
+    'index' => 'comments.index',
+    'show'  => 'comments.show',
+    'store' => 'comments.store'
+]);

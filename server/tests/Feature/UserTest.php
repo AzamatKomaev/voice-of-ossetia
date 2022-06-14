@@ -7,10 +7,10 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     /**
-     * Test creating user with empty request body.
+     * Test creation user with empty request body.
      * @return void
      */
-    public function test_creating_user_with_empty_data()
+    public function test_creation_user_with_empty_data()
     {
         $response = $this->postJson(route('auth.create'), []);
         $response->assertStatus(422);
@@ -25,10 +25,10 @@ class UserTest extends TestCase
     }
 
     /**
-     * Test creating user with invalid request body.
+     * Test creation user with invalid request body.
      * @return void
      */
-    public function test_creating_user_with_invalid_data()
+    public function test_creation_user_with_invalid_data()
     {
         $response = $this->postJson(route('auth.create'), [
             'name'        => 'admin',
@@ -51,10 +51,10 @@ class UserTest extends TestCase
     }
 
     /**
-     * Test creating user with existing email and name.
+     * Test creation user with existing email and name.
      * @return void
      */
-    public function test_creating_user_with_existing_data()
+    public function test_creation_user_with_existing_data()
     {
         $data = [
             'name'     => 'admin',
@@ -115,8 +115,8 @@ class UserTest extends TestCase
             'password' => 'normal_pwd',
             'locality' => 'Beslan'
         ];
-        $creatingUserResponse = $this->postJson(route('auth.create'), $data);
-        $creatingUserResponse->assertStatus(201);
+        $creationUserResponse = $this->postJson(route('auth.create'), $data);
+        $creationUserResponse->assertStatus(201);
 
         $authUserResponse = $this->postJson(route('auth.login'), $data);
         $authUserResponse->assertStatus(201);
