@@ -14,35 +14,34 @@ abstract class TestCase extends BaseTestCase
     // Default user password used in UserFactory.
     protected string $defaultPassword = 'password123';
 
-    //Default headers for each sent request.
+    // Default headers for each sent request.
     protected $defaultHeaders = [
         'Accept' => 'application/json'
     ];
 
     /**
-     * Get user data json.
-     * @param User $user
-     * @return array
+     * Set up user.
+     * @param $updateData
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
-    protected function getUserDataJson(Model $user): array {
-        $userJson = $user->toArray();
-        $userJson['password'] = $this->defaultPassword;
-        return $userJson;
+    protected function setUpUser($updateData=null): Model
+    {
+        $user = User::factory()->create();
+        if ($updateData) {
+            $user->update($updateData);
+        }
+        $user->password = $this->defaultPassword;
+        return $user;
     }
 
     /**
-     * Get auth token.
-     * @param array $data
-     * @return mixed|null
+     * Get auth token for user.
+     * @param Model|User $user
+     * @return string
      */
-    protected function getAuthToken(array $data)
+    protected function getAuthToken(Model $user): string
     {
-        $responseJson = $this->postJson(route('auth.login'), $data)->json();
-
-        if (!array_key_exists('token', $responseJson)) {
-            return null;
-        }
-
-        return $responseJson['token'];
+        $token = $user->createToken('API Token')->plainTextToken;
+        return $token;
     }
 }

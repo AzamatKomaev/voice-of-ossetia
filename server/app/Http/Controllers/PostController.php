@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Models\PostFile;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -17,6 +16,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
+        // $this->authorizeResource(Post::class, 'post');
         $middlewareActions = ['store', 'update', 'destroy'];
         $this->middleware('auth:sanctum')->only($middlewareActions);
         $this->middleware('is_active')->only($middlewareActions);
@@ -26,7 +26,7 @@ class PostController extends Controller
      * Get all posts.
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $posts = Post::orderBy('created_at', 'DESC')->filter()->get();
         return PostResource::collection($posts);
@@ -65,24 +65,21 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        $user = Auth::user();
+
+        if ($user->cannot('delete', $post)) {
+            return Response::json([
+                'user_id' => $user->id,
+                'post__user_id' => $post->user_id
+            ], 403);
+        }
+
         $post->delete();
         return Response::json([], 204);
     }

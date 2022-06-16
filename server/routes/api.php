@@ -29,9 +29,10 @@ Route::apiResource('categories', \App\Http\Controllers\CategoryController::class
     'store' => 'categories.store'
 ]);
 Route::apiResource('posts', \App\Http\Controllers\PostController::class, [
-    'index' => 'posts.index',
-    'show'  => 'posts.show',
-    'store' => 'posts.store'
+    'index'  => 'posts.index',
+    'show'   => 'posts.show',
+    'store'  => 'posts.store',
+    'destroy' => 'posts.destroy'
 ]);
 Route::apiResource('comments', \App\Http\Controllers\CommentController::class, [
     'index' => 'comments.index',
