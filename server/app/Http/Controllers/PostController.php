@@ -16,7 +16,6 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        // $this->authorizeResource(Post::class, 'post');
         $middlewareActions = ['store', 'update', 'destroy'];
         $this->middleware('auth:sanctum')->only($middlewareActions);
         $this->middleware('is_active')->only($middlewareActions);

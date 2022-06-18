@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Http\UploadedFile;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -18,6 +19,20 @@ abstract class TestCase extends BaseTestCase
     protected $defaultHeaders = [
         'Accept' => 'application/json'
     ];
+
+    /**
+     * Set up files for request.
+     * @param array $fileNames
+     * @return array
+     */
+    protected function setUpFiles(array $fileNames): array
+    {
+        $files = [];
+        foreach ($fileNames as $fileName) {
+            $files[] = UploadedFile::fake()->create($fileName);
+        }
+        return $files;
+    }
 
     /**
      * Set up user.

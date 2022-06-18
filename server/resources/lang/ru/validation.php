@@ -7,8 +7,9 @@ return [
     'integer' => 'Поле :attribute должно быть числом.',
     'min' => [
         'numeric' => 'Поле :attribute должно содержать больше :min цифр.',
-        'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'Поле :attribute должно содержать больше :min символов.',
-        'array' => 'The :attribute must have at least :min items.',
+        'string' => 'Поле :attribute должно содержать больше :min символов.'
+    ],
+    'max' => [
+        'array' => 'Поле :attribute не может содержать больше :max элемент(-ов)(-а).',
     ],
 ];
