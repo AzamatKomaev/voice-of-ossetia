@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import CommentCard from "../Card/CommentCard";
 import {useSelector} from "react-redux";
 import {IRootState} from "../../../store";
-import {IComment} from "../../../interfaces";
 
 
 const CommentList = () => {
@@ -10,13 +9,16 @@ const CommentList = () => {
 
   return (
     <div>
-      <b>Всего: {comments.length}</b>
       {comments.length > 0 &&
-        comments.map((comment, index) => (
-          <div key={index}>
-            <CommentCard comment={comment}/><br/>
-          </div>
-        ))
+        <div>
+          <h2>Обсуждения</h2>
+          <b>Всего: {comments.length}</b>
+          {comments.map((comment, index) => (
+            <div key={index}>
+              <CommentCard comment={comment}/><br/>
+            </div>
+          ))}
+        </div>
       }
     </div>
   );

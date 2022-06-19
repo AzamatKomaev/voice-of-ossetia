@@ -1,4 +1,4 @@
-import React, {LegacyRef, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {ICategory} from "../../../interfaces";
 import FileCard from "../Card/FileCard";
 import {useDispatch, useSelector} from "react-redux";
@@ -55,7 +55,6 @@ const PostForm = ({categories}: IPostForm) => {
 
     const sender = new HttpSender('posts')
     const response = await sender.create(formData)
-
     if (response.status === 201) window.location.href = `/posts/${response.data.id}`;
     else if (response.status === 422) setErrors(response.data.errors)
     else alert(`${response.status} status code`);

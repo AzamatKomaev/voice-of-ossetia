@@ -11,19 +11,6 @@ class PostTest extends TestCase
 {
     protected Category $category;
 
-    /**
-     * Set up post data.
-     * @param array $postData
-     * @param array $updatedData
-     * @return array
-     */
-    protected function setUpPostData(array $postData, array $updatedData): array
-    {
-        foreach ($updatedData as $key => $value) {
-            $postData[$key] = $value;
-        }
-        return $postData;
-    }
 
     protected function setUp(): void
     {
@@ -37,14 +24,13 @@ class PostTest extends TestCase
     }
 
     /**
-     * Test how UserTestData works.
+     * Test how setUp was worked.
      * @return void
      */
     public function test_set_up_data()
     {
-        $user = $this->setUpUser()->toArray();
-        $this->assertArrayHasKey('id', $user);
-        $this->category->name = 'First Category';
+        $category = Category::first();
+        $this->assertEquals($category->id, $this->category->id);
     }
 
     /**

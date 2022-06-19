@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::orderBy('created_at', 'DESC')->filter()->get();
+        $comments = Comment::filter()->get();
         return CommentResource::collection($comments);
     }
 
@@ -70,13 +71,17 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|void
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $user = Auth::user();
+        if ($user->cannot('delete', $comment)) {
+            return Response::json(['message' => 'You cannot delete the comment.'], 403);
+        }
+        $comment->delete();
+        return Response::json([], 204);
     }
 }

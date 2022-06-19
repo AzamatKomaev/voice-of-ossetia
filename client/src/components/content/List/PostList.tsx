@@ -4,10 +4,6 @@ import PostCard from "../Card/PostCard";
 import {useSelector} from "react-redux";
 import {IRootState} from "../../../store";
 
-interface IPostList {
-  list: Array<IPost> | boolean | undefined,
-}
-
 const PostList = () => {
   const posts = useSelector((state: IRootState) => state.post.values)
 

@@ -17,6 +17,7 @@ import PostCreatePage from "./pages/PostCreatePage";
 import {IRootState} from "./store";
 import PostDetailPage from "./pages/PostDetailPage";
 import {callDispatch} from "./utils";
+import LogoutPage from "./pages/LogoutPage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/categories/create" element={<CategoryCreatePage/>} />
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
+        <Route path="/auth/logout" element={<LogoutPage/>} />
       </Routes>
     </div>
   );

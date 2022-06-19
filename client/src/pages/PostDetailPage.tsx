@@ -43,8 +43,7 @@ const PostDetailPage = () => {
         <br/>
         {post && <PostCard post={post} isDetail={true}/>}
         <br/><br/>
-        <h4>Комментарии</h4><br/>
-        <CommentForm/><br/>
+        <CommentForm post={post}/><br/>
         <CommentList/>
       </div>
     );

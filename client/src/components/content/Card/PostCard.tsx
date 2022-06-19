@@ -35,11 +35,6 @@ const PostCard = ({post, isDetail}: IPostCard) => {
   const handleDeletingPostButton = async() => {
     const response = await httpSender.current.delete(post.id);
     if (response.status === 204) {
-      if (isDetail) {
-        window.location.href = '/'
-        return;
-      }
-
       callDispatch(dispatch, {
         type: HIDE_POST,
         payload: {
@@ -59,7 +54,12 @@ const PostCard = ({post, isDetail}: IPostCard) => {
           </div>
       :
         post.files.length > 0 &&
-        <img className="card-img-top" src={getMediaFullPath(post.files[0].path)} alt="Card image cap"/>
+        <img
+            style={{border: '3px solid silver'}}
+            className="card-img-top"
+            src={getMediaFullPath(post.files[0].path)}
+            alt="Card image cap"
+        />
       }
       <Modal
         id={`post-${post.id}`}

@@ -21,6 +21,20 @@ abstract class TestCase extends BaseTestCase
     ];
 
     /**
+     * Set up post data.
+     * @param array $postData
+     * @param array $updatedData
+     * @return array
+     */
+    protected function setUpPostData(array $postData, array $updatedData): array
+    {
+        foreach ($updatedData as $key => $value) {
+            $postData[$key] = $value;
+        }
+        return $postData;
+    }
+
+    /**
      * Set up files for request.
      * @param array $fileNames
      * @return array
@@ -37,9 +51,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * Set up user.
      * @param $updateData
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|User
      */
-    protected function setUpUser($updateData=null): Model
+    protected function setUpUser($updateData=null): User
     {
         $user = User::factory()->create();
         if ($updateData) {

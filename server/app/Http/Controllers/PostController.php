@@ -71,14 +71,9 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $user = Auth::user();
-
         if ($user->cannot('delete', $post)) {
-            return Response::json([
-                'user_id' => $user->id,
-                'post__user_id' => $post->user_id
-            ], 403);
+            return Response::json(['message' => 'You cannot delete the post.'], 403);
         }
-
         $post->delete();
         return Response::json([], 204);
     }

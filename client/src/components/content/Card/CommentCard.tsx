@@ -1,21 +1,61 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {IComment} from "../../../interfaces";
 import UserGroupItem from "../GroupItem/UserGroupItem";
 import ContentGroupItem from "../GroupItem/ContentGroupItem";
 import TimestampGroupItem from "../GroupItem/TimestampGroupItem";
 import ActionButtonsGroupItem from "../GroupItem/ActionButtonsGroupItem";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../../store";
+import {HttpSender} from "../../../api/api-client";
+import {callDispatch} from "../../../utils";
+import {HIDE_COMMENT} from "../../../store/commentReducer";
+import Modal from "../../common/Modal";
 
 interface ICommentCard {
   comment: IComment
 }
 
 const CommentCard = ({comment}: ICommentCard) => {
+  const dispatch = useDispatch()
   const auth = useSelector((state: IRootState) => state.auth)
+  const httpSender = useRef<HttpSender>(new HttpSender('comments'));
+
+  const handleHidingCommentButton = () => {
+    callDispatch(dispatch, {
+      type: HIDE_COMMENT,
+      payload: {
+        hidedComment: comment
+      }
+    })
+  }
+
+  const handleDeletingPostButton = async() => {
+    const response = await httpSender.current.delete(comment.id);
+    if (response.status === 204) {
+      callDispatch(dispatch, {
+        type: HIDE_COMMENT,
+        payload: {
+          hidedComment: comment
+        }
+      })
+    }
+    else alert(`${response.status} error`)
+  }
 
   return (
     <div className="card">
+      <Modal
+        id={`comment-${comment.id}`}
+        title="Удалить"
+        content={<p>Вы точно хотите удалить комментарий <br/><b>{comment.description}</b>?</p>}
+        buttons={[
+          {
+            onClick: handleDeletingPostButton,
+            value: 'Удалить'
+          }
+        ]}
+      />
+
       <UserGroupItem user={comment.user}/>
 
       <div className="d-none d-sm-flex">
@@ -41,17 +81,16 @@ const CommentCard = ({comment}: ICommentCard) => {
           className: "btn btn-primary"
         }}
         hiding={{
-          onClick: () => {},
+          onClick: handleHidingCommentButton,
           className: "btn btn-secondary"
         }}
         deleting={{
-          onClick: () => {},
           className: "btn btn-danger",
           "data-bs-target": `#comment-${comment.id}`,
           "data-bs-toggle": "modal"
         }}
         showDeletingButton={comment.user_id === auth?.data?.id}
-        showHidingButton={false}
+        showHidingButton={true}
       />
     </div>
   );

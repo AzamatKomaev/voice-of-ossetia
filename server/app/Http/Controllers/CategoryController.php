@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $data = $request->validated();
-        $avatar = $request->file('avatar')->store('categories');
+        $avatar = $request->file('avatar')->store(env('APP_ENV') . '/categories');
         $data['avatar'] = $avatar;
         $category = Category::create($data);
         return Response::json($category, 201);
