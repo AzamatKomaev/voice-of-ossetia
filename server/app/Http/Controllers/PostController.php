@@ -44,7 +44,7 @@ class PostController extends Controller
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $postFile = new PostFile();
-                $postFile->path = $file->store('posts');
+                $postFile->path = $file->store(env('APP_ENV') . '/posts');
                 $postFile->post_id = $post->id;
                 $postFile->save();
             }

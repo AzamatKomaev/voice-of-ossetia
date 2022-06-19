@@ -11,6 +11,12 @@ class PostTest extends TestCase
 {
     protected Category $category;
 
+    /**
+     * Set up post data.
+     * @param array $postData
+     * @param array $updatedData
+     * @return array
+     */
     protected function setUpPostData(array $postData, array $updatedData): array
     {
         foreach ($updatedData as $key => $value) {
@@ -22,6 +28,7 @@ class PostTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Storage::disk('local')->deleteDirectory('testing/posts');
         $this->category = Category::create([
             'name' => 'First Category',
             'description' => 'Category for testing.',
@@ -120,10 +127,6 @@ class PostTest extends TestCase
         $this->assertArrayHasKey('files.2', $responseErrors);
         $this->assertEquals('Поле files.1 должно быть изображением.', $responseErrors['files.1'][0]);
         $this->assertEquals('Поле files.2 должно быть изображением.', $responseErrors['files.2'][0]);
-
-        foreach ($fileNames as $fileName) {
-            Storage::disk('testing')->assertMissing($fileName);
-        }
     }
 
     /**
@@ -158,9 +161,6 @@ class PostTest extends TestCase
             'Поле files не может содержать больше 5 элемент(-ов)(-а).',
             $responseErrors['files'][0]
         );
-        foreach ($fileNames as $fileName) {
-            Storage::disk('testing')->assertMissing($fileName);
-        }
     }
 
     /**
@@ -193,11 +193,9 @@ class PostTest extends TestCase
         $this->assertCount(count($fileNames), $postResponse->json()['files']);
         $this->assertIsArray($postResponse->json()['user']);
         $this->assertIsArray($postResponse->json()['category']);
-        /*
-        foreach ($files as $file) {
-            Storage::disk('testing')->assertExists($file->hashName());
+        foreach ($postResponse->json()['files'] as $file) {
+            Storage::disk('local')->assertExists($file['path']);
         }
-        */
     }
 
     /**

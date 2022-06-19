@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Intervention\Image\Facades\Image;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class MediaController extends Controller
 {
     /**
-     * @param string $dir, string $path
-     * @return mixed
+     * @param Request $request
+     * @return \Illuminate\Http\Response|string
      */
-    public function get(string $dir, string $path) {
-        return Image::make(storage_path() . '/app/' . $dir . '/' .  $path)->response();
+    public function get(Request $request)
+    {
+        try {
+            return Storage::disk('local')->get(env('APP_ENV') . '/' . $request->query('url'));
+        } catch (FileNotFoundException $err) {
+            return Response::make(['message' => 'File not found'], 404);
+        }
     }
 }
