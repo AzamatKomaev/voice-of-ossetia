@@ -4,12 +4,14 @@ export const ADD_POSTS = "ADD_POSTS";
 export const HIDE_POST = "HIDE_POST";
 
 interface IPostReducerState {
-  values: Array<IPost>
+  values: Array<IPost>,
+  nextPage: string | null
 }
 
 
 const defaultState: IPostReducerState = {
-  values: []
+  values: [],
+  nextPage: null
 }
 
 export const postReducer = (state = defaultState, action: any) => {
@@ -17,7 +19,8 @@ export const postReducer = (state = defaultState, action: any) => {
     case ADD_POSTS:
       return {
         ...state,
-        values: [...state.values, ...action.payload.addedPosts]
+        values: [...state.values, ...action.payload.addedPosts],
+        nextPage: action.payload.nextPage
       }
     case HIDE_POST:
       return {
