@@ -22,16 +22,16 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Set up post data.
-     * @param array $postData
+     * @param array $data
      * @param array $updatedData
      * @return array
      */
-    protected function setUpPostData(array $postData, array $updatedData): array
+    protected function setUpData(array $data, array $updatedData): array
     {
         foreach ($updatedData as $key => $value) {
-            $postData[$key] = $value;
+            $data[$key] = $value;
         }
-        return $postData;
+        return $data;
     }
 
     /**

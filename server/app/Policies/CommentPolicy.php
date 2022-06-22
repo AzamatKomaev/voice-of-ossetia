@@ -65,6 +65,10 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        return $comment->user_id === $user->id || $comment->post->user_id === $user->id;
+        return (
+            $user->is_superuser ||
+            $comment->user_id === $user->id ||
+            $comment->post->user_id === $user->id
+        );
     }
 }

@@ -43,7 +43,7 @@ class UserTest extends TestCase
      */
     public function test_creation_user_with_invalid_data()
     {
-        $userData = $this->setUpUserData(User::factory()->make()->toArray(), [
+        $userData = $this->setUpData(User::factory()->make()->toArray(), [
             'email'    => 'invalid_email',
             'password' => 'less',
             'age'      => 'invalid ager'
@@ -63,7 +63,7 @@ class UserTest extends TestCase
      */
     public function test_creation_user_with_existing_data()
     {
-        $userData = $this->setUpUserData(User::factory()->make()->toArray(), [
+        $userData = $this->setUpData(User::factory()->make()->toArray(), [
             'password' => 'normal_pwd'
         ]);
         User::create($userData);
@@ -107,7 +107,7 @@ class UserTest extends TestCase
      */
     public function test_login_and_getting_data_about_user()
     {
-        $userData = $this->setUpUserData(User::factory()->make()->toArray(), [
+        $userData = $this->setUpData(User::factory()->make()->toArray(), [
             'password' => '123456789'
         ]);
         $user = User::create($userData);

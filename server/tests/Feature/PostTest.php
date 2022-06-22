@@ -11,7 +11,6 @@ class PostTest extends TestCase
 {
     protected Category $category;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,6 +30,7 @@ class PostTest extends TestCase
     {
         $category = Category::first();
         $this->assertEquals($category->id, $this->category->id);
+        $this->assertDatabaseHas('categories', $this->category->toArray());
     }
 
     /**
@@ -40,22 +40,23 @@ class PostTest extends TestCase
     public function test_creation_post_without_authorization()
     {
         $user = $this->setUpUser();
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id
         ]);
         $postResponse = $this->postJson(route('posts.store'), $postData);
         $postResponse->assertStatus(401);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 
     /**
-     * Test creation post with inactive user (is_active=false).
+     * Test creation post by inactive user (is_active=false).
      * @return void
      */
     public function test_creation_post_by_inactive_user()
     {
         $user = $this->setUpUser();
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id
         ]);
@@ -64,6 +65,7 @@ class PostTest extends TestCase
         ]);
         $postResponse->assertStatus(403);
         $this->assertEquals('The user is not active.', $postResponse->json()['error']);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 
     /**
@@ -77,7 +79,6 @@ class PostTest extends TestCase
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $postResponse->assertStatus(422);
-        $this->assertEquals('The given data was invalid.', $postResponse->json()['message']);
         $fields = ['title', 'description', 'location', 'category_id'];
         foreach ($fields as $field) {
             $this->assertArrayHasKey($field, $postResponse->json()['errors']);
@@ -97,7 +98,7 @@ class PostTest extends TestCase
         $user = $this->setUpUser(['is_active' => true]);
         $fileNames = ['image.jpg', 'test.exe', 'document.pdf'];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id,
             'files'       => $files
@@ -108,11 +109,12 @@ class PostTest extends TestCase
         $postResponse->assertStatus(422);
         $responseErrors = $postResponse->json()['errors'];
         $this->assertCount(2, $responseErrors);
-
         $this->assertArrayHasKey('files.1', $responseErrors);
         $this->assertArrayHasKey('files.2', $responseErrors);
         $this->assertEquals('Поле files.1 должно быть изображением.', $responseErrors['files.1'][0]);
         $this->assertEquals('Поле files.2 должно быть изображением.', $responseErrors['files.2'][0]);
+        unset($postData['files']);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 
     /**
@@ -131,7 +133,7 @@ class PostTest extends TestCase
             'sixth.png'
         ];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id,
             'files'       => $files
@@ -147,10 +149,12 @@ class PostTest extends TestCase
             'Поле files не может содержать больше 5 элемент(-ов)(-а).',
             $responseErrors['files'][0]
         );
+        unset($postData['files']);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 
     /**
-     * Test creation user with valid data.
+     * Test creation post with valid data.
      * @return void
      */
     public function test_successful_creation_post()
@@ -164,7 +168,7 @@ class PostTest extends TestCase
             'fifth.png'
         ];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id,
             'files'       => $files
@@ -176,12 +180,14 @@ class PostTest extends TestCase
         $this->assertArrayHasKey('user', $postResponse->json());
         $this->assertArrayHasKey('category', $postResponse->json());
         $this->assertArrayHasKey('files', $postResponse->json());
+        $this->assertEquals($user->id, $postResponse->json()['user']['id']);
+        $this->assertEquals($this->category->id, $postResponse->json()['category']['id']);
         $this->assertCount(count($fileNames), $postResponse->json()['files']);
-        $this->assertIsArray($postResponse->json()['user']);
-        $this->assertIsArray($postResponse->json()['category']);
         foreach ($postResponse->json()['files'] as $file) {
             Storage::disk('local')->assertExists($file['path']);
         }
+        unset($postData['files']);
+        $this->assertDatabaseHas('posts', $postData);
     }
 
     /**
@@ -191,13 +197,14 @@ class PostTest extends TestCase
     public function test_deletion_post_without_authorization()
     {
         $user = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id
         ]);
         $post = Post::create($postData);
         $postResponse = $this->delete(route('posts.destroy', [$post->id]), [], []);
         $postResponse->assertStatus(401);
+        $this->assertDatabaseHas('posts', $postData);
     }
 
     /**
@@ -208,7 +215,7 @@ class PostTest extends TestCase
     {
         $creator = $this->setUpUser(['is_active' => true]);
         $notCreator = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $creator->id
         ]);
@@ -217,6 +224,7 @@ class PostTest extends TestCase
             'Authorization' => 'Bearer ' . $this->getAuthToken($notCreator)
         ]);
         $deleteResponse->assertStatus(403);
+        $this->assertDatabaseHas('posts', $postData);
     }
 
     /**
@@ -226,7 +234,7 @@ class PostTest extends TestCase
     public function test_deletion_post_by_creator()
     {
         $user = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $user->id
         ]);
@@ -235,6 +243,7 @@ class PostTest extends TestCase
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $deleteResponse->assertStatus(204);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 
     /**
@@ -245,7 +254,7 @@ class PostTest extends TestCase
     {
         $creator = $this->setUpUser(['is_active' => true]);
         $superuser = $this->setUpUser(['is_active' => true, 'is_superuser' => true]);
-        $postData = $this->setUpPostData(Post::factory()->make()->toArray(), [
+        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
             'category_id' => $this->category->id,
             'user_id'     => $creator->id
         ]);
@@ -254,5 +263,6 @@ class PostTest extends TestCase
             'Authorization' => 'Bearer ' . $this->getAuthToken($superuser)
         ]);
         $postResponse->assertStatus(204);
+        $this->assertDatabaseMissing('posts', $postData);
     }
 }
