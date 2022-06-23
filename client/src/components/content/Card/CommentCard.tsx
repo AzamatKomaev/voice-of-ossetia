@@ -89,7 +89,11 @@ const CommentCard = ({comment}: ICommentCard) => {
           "data-bs-target": `#comment-${comment.id}`,
           "data-bs-toggle": "modal"
         }}
-        showDeletingButton={comment.user_id === auth?.data?.id}
+        showDeletingButton={
+          comment.user_id === auth?.data?.id ||
+          auth?.data?.id === comment.post.user_id ||
+          auth?.data?.is_superuser
+        }
         showHidingButton={true}
       />
     </div>

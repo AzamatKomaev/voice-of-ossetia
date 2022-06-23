@@ -103,7 +103,7 @@ const PostCard = ({post, isDetail}: IPostCard) => {
             "data-bs-target": `#post-${post.id}`,
             "data-bs-toggle": "modal"
           }}
-          showDeletingButton={post.user_id === auth?.data?.id}
+          showDeletingButton={post.user_id === auth?.data?.id || auth?.data?.is_superuser}
           showHidingButton={!isDetail}
         />
       </ul>

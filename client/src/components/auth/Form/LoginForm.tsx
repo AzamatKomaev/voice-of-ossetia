@@ -54,6 +54,9 @@ const LoginForm = () => {
           {errors.password ? <p className="text-danger">{errors.password[0]}</p> : null}
           {errors.non_field_errors ? <p className="text-danger">{errors.non_field_errors[0]}</p> : null}
         </div>
+
+        <div className="g-recaptcha" data-sitekey="6Le8iJQgAAAAAPU9mKdsipIZg4ojMVpoXOAsedbm"></div>
+
         <br/>
         <button className="btn btn-primary" onClick={handleLoginUserButton}>Войти!</button>
       </div>

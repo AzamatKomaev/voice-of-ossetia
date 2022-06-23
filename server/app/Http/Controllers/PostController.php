@@ -6,7 +6,6 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
@@ -25,16 +24,15 @@ class PostController extends Controller
 
     /**
      * Get all posts.
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function index()
     {
-        $category_id = Request::query('category_id');
-        $posts = Post::orderBy('created_at', 'DESC');
-        if ($category_id) {
-            $posts = $posts->where('category_id', $category_id);
-        }
+        $posts = Post::orderBy('created_at', 'DESC')->filter();
         $posts = $posts->cursorPaginate(12);
+        if (!$posts->items()) {
+            return Response::make([], 204);
+        }
         return PostResource::collection($posts);
     }
 

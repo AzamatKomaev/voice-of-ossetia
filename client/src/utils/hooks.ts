@@ -44,9 +44,11 @@ export const useQuery = () => {
 
 export const usePagination = (path: string, queryParams: any): Array<any> => {
   const [itemList, setItemList] = useState<Array<any>>([])
-  const [loading, setLoading] = useState(true);
-  const [nextPage, setNextPage] = useState<string | null>(null)
-  const [fetching, setFetching] = useState<boolean>(false);
+  const [responseStatus, setResponseStatus] = useState<number>(1)
+  const [loading, setLoading] = useState(true)
+  const [nextPage, setNextPage] = useState<string | null>("1")
+  const [fetching, setFetching] = useState<boolean>(false)
+
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, {
@@ -55,6 +57,7 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
       .then((response) => {
         setItemList(response.data.data)
         setNextPage(response.data.links.next)
+        setResponseStatus(response.status)
       })
       .finally(() => {
         setLoading(false)
@@ -65,11 +68,13 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
     if (fetching && nextPage) {
       axios.get(nextPage, {params: queryParams})
         .then((response) => {
-          setItemList([...itemList, ...response.data.data])
+          setItemList(response.data.data)
           setNextPage(response.data.links.next)
+          setResponseStatus(response.status)
         })
         .catch((err: AxiosError) => {
           setNextPage(null)
+          if (err?.response?.status) setResponseStatus(err.response.status)
         })
         .finally(() => {
           setFetching(false)
@@ -92,5 +97,6 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
     }
   }, [])
 
-  return [itemList, loading];
+
+  return [itemList, loading && (nextPage !== null && responseStatus !== 204)];
 }

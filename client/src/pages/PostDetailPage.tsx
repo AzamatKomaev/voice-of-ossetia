@@ -37,19 +37,22 @@ const PostDetailPage = () => {
     )
   }
 
-  if (post) {
+  if (postStatus === 404 || !post) {
     return (
-      <div className="container">
-        <br/>
-        {post && <PostCard post={post} isDetail={true}/>}
-        <br/><br/>
-        <CommentForm post={post}/><br/>
-        <CommentList/>
+      <div>
+        <h1>404 Error</h1>
       </div>
-    );
+    )
   }
-
-  return (<div></div>)
+  return (
+    <div className="container">
+      <br/>
+      {post && <PostCard post={post} isDetail={true}/>}
+      <br/><br/>
+      <CommentForm post={post}/><br/>
+      <CommentList/>
+    </div>
+  );
 };
 
 export default PostDetailPage;
