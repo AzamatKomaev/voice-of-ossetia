@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\NotificationService;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
+use App\Notifications\UserRegistrationNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,6 +25,7 @@ class AuthController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
+        Notification::send($user, new UserRegistrationNotification(User::first(), $user));
         return Response::json($user, 201);
     }
 

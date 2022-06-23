@@ -7,18 +7,16 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * Set up user data.
-     * @param array $userData
-     * @param array $updatedData
-     * @return array
-     */
-    protected function setUpUserData(array $userData, array $updatedData): array
+
+    protected function setUp(): void
     {
-        foreach ($updatedData as $key => $value) {
-            $userData[$key] = $value;
-        }
-        return $userData;
+        parent::setUp();
+        $adminData = $this->setUpData(User::factory()->make()->toArray(), [
+            'password' => 'admin12345',
+            'is_superuser' => true,
+            'is_active' => true
+        ]);
+        User::create($adminData);
     }
 
     /**
@@ -73,6 +71,19 @@ class UserTest extends TestCase
         $this->assertCount(2, $responseErrors);
         $this->assertEquals('The name has already been taken.', $responseErrors['name'][0]);
         $this->assertEquals('The email has already been taken.', $responseErrors['email'][0]);
+    }
+
+    /**
+     * Test successful creation user.
+     * @return void
+     */
+    public function test_successful_creation_user()
+    {
+        $userData = $this->setUpData(User::factory()->make()->toArray(), [
+            'password' => 'normal_pwd'
+        ]);
+        $response = $this->postJson(route('auth.create'), $userData);
+        dd($response->json());
     }
 
 
