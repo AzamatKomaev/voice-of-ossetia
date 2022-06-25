@@ -18,9 +18,10 @@ class UserRegistrationNotification extends Notification
      *
      * @return void
      */
-    public function __construct($sender, $receiver)
+    public function __construct($receiver)
     {
-        $this->sender = $sender;
+        $query = User::where('is_superuser', true)->get();
+        $this->sender = $query ? $query[0] : User::all()->last();
         $this->receiver = $receiver;
     }
 
@@ -47,11 +48,11 @@ class UserRegistrationNotification extends Notification
             'sender' => $this->sender,
             'receiver' => $this->receiver,
             'text' => 'Доброго времени суток, ' . $this->receiver->name . '! ' .
-                       'Я рад видеть вас на своем сайте! Ваша учетная запись пока не активна.
-                       Наберитесь терпения и подождите пока я вам отпишу.
-                       Я постараюсь как можно скорее сделать вас полноценным юзером данного сайта!
-                       Если же все таки я вам не написал, вы можете написать мне на почту
-                       azamatkomaev@mail.ru. Спасибо за понимание :).'
+                      'Я рад видеть вас на своем сайте! Ваша учетная запись пока не активна. ' .
+                      'Наберитесь терпения и подождите пока я вам отпишу. ' .
+                      'Я постараюсь как можно скорее сделать вас полноценным юзером данного сайта! ' .
+                      'Если же все таки я вам не написал, вы можете написать мне на почту ' .
+                      'azamatkomaev@mail.ru. Спасибо за понимание :).'
         ];
     }
 }

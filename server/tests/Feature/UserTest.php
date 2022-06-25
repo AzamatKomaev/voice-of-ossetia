@@ -7,6 +7,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    protected User $admin;
 
     protected function setUp(): void
     {
@@ -16,7 +17,7 @@ class UserTest extends TestCase
             'is_superuser' => true,
             'is_active' => true
         ]);
-        User::create($adminData);
+        $this->admin = User::create($adminData);
     }
 
     /**
@@ -83,9 +84,14 @@ class UserTest extends TestCase
             'password' => 'normal_pwd'
         ]);
         $response = $this->postJson(route('auth.create'), $userData);
-        dd($response->json());
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('users', ['name' => $userData['name'], 'email' => $userData['email']]);
+        $userNotifications = User::where('name', $userData['name'])->get()->first()->notifications;
+        $this->assertCount(1, $userNotifications);
+        $this->assertEquals($this->admin->id, $userNotifications[0]['data']['sender']['id']);
+        $this->assertEquals($response->json()['id'], $userNotifications[0]['data']['receiver']['id']);
+        dd($userNotifications[0]['data']['text']);
     }
-
 
     /**
      * Test log in user without data.
