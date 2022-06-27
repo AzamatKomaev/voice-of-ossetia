@@ -12,6 +12,19 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseTransactions;
 
+    protected $admin;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $adminData = $this->setUpData(User::factory()->make()->toArray(), [
+            'password' => 'admin12345',
+            'is_superuser' => true,
+            'is_active' => true
+        ]);
+        $this->admin = User::create($adminData);
+    }
+
     // Default user password used in UserFactory.
     protected string $defaultPassword = 'password123';
 

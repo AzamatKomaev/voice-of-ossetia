@@ -50,6 +50,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the superuser.
+     * @return mixed
+     */
+    public static function getSuperuser()
+    {
+        return User::where('is_superuser', true)->get()->first();
+    }
+
+    /**
      * Get all related posts.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

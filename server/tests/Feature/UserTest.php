@@ -7,19 +7,6 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    protected User $admin;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $adminData = $this->setUpData(User::factory()->make()->toArray(), [
-            'password' => 'admin12345',
-            'is_superuser' => true,
-            'is_active' => true
-        ]);
-        $this->admin = User::create($adminData);
-    }
-
     /**
      * Test creation user with empty request body.
      * @return void
@@ -86,11 +73,22 @@ class UserTest extends TestCase
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['name' => $userData['name'], 'email' => $userData['email']]);
-        $userNotifications = User::where('name', $userData['name'])->get()->first()->notifications;
+    }
+
+    /**
+     * Test notifications after creation user.
+     * @return void
+     */
+    public function test_getting_notifications_after_creation_user()
+    {
+        $userData = $this->setUpData(User::factory()->make()->toArray(), [
+            'password' => 'normal_pwd'
+        ]);
+        $user = User::create($userData);
+        $userNotifications = $user->notifications;
         $this->assertCount(1, $userNotifications);
         $this->assertEquals($this->admin->id, $userNotifications[0]['data']['sender']['id']);
-        $this->assertEquals($response->json()['id'], $userNotifications[0]['data']['receiver']['id']);
-        dd($userNotifications[0]['data']['text']);
+        $this->assertEquals($user->id, $userNotifications[0]['data']['receiver']['id']);
     }
 
     /**

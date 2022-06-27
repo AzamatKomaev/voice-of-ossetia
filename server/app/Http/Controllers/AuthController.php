@@ -23,7 +23,6 @@ class AuthController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
-        Notification::send($user, new UserRegistrationNotification($user));
         return Response::json($user, 201);
     }
 

@@ -2,27 +2,31 @@
 
 namespace App\Notifications;
 
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserRegistrationNotification extends Notification implements ShouldQueue
+class CommentCreatedNotification extends Notification
 {
     use Queueable;
 
     private User $sender;
     private User $receiver;
+    private Comment $comment;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($receiver)
+    public function __construct($comment)
     {
-        $this->sender = User::getSuperuser();
-        $this->receiver = $receiver;
+        $this->sender = $comment->user;
+        $this->receiver = $comment->post->user;
+        $this->comment = $comment;
     }
 
     /**
@@ -42,12 +46,9 @@ class UserRegistrationNotification extends Notification implements ShouldQueue
      */
     protected function getText(): string
     {
-        return 'Доброго времени суток, ' . $this->receiver->name . '! ' .
-            'Я рад видеть вас на своем сайте! Ваша учетная запись пока не активна. ' .
-            'Наберитесь терпения и подождите пока я вам отпишу. ' .
-            'Я постараюсь как можно скорее сделать вас полноценным юзером данного сайта! ' .
-            'Если же все таки я вам не написал, вы можете написать мне на почту ' .
-            'azamatkomaev@mail.ru. Спасибо за понимание :).';
+        return 'Пользователь ' . $this->sender->name . ' добавил к вашему посту ' . $this->comment->post->title .
+            ' комментарий ' . substr($this->comment->description, 0, 30) . '...' .
+            ' Скорее переходите по ссылке, чтобы увидеть все подробно.';
     }
 
     /**
@@ -56,7 +57,7 @@ class UserRegistrationNotification extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable): array
+    public function toArray($notifiable)
     {
         return [
             'sender' => $this->sender,

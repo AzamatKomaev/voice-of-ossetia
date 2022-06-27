@@ -177,17 +177,19 @@ class PostTest extends TestCase
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $postResponse->assertStatus(201);
+        // Assert are there some keys in response json.
         $this->assertArrayHasKey('user', $postResponse->json());
         $this->assertArrayHasKey('category', $postResponse->json());
         $this->assertArrayHasKey('files', $postResponse->json());
+        // Assert do user id and category id equal to ones from response json.
         $this->assertEquals($user->id, $postResponse->json()['user']['id']);
         $this->assertEquals($this->category->id, $postResponse->json()['category']['id']);
+        // Assert were files saved in the storage.
         $this->assertCount(count($fileNames), $postResponse->json()['files']);
         foreach ($postResponse->json()['files'] as $file) {
             Storage::disk('local')->assertExists($file['path']);
         }
-        unset($postData['files']);
-        $this->assertDatabaseHas('posts', $postData);
+        $this->assertDatabaseHas('posts', ['id' => $postResponse->json()['id']]);
     }
 
     /**

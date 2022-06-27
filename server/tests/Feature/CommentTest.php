@@ -37,12 +37,14 @@ class CommentTest extends TestCase
     public function test_set_up()
     {
         $category = Category::first();
-        $user = User::first();
-        $post = Post::first();
+        $user = User::where('name', $this->postCreator->name)->get();
+        $post = Post::where('title', $this->post->title)->get();
+        $this->assertNotEmpty($user);
+        $this->assertNotEmpty($post);
         $this->assertEquals($category->id, $this->category->id);
-        $this->assertEquals($user->id, $this->postCreator->id);
-        $this->assertEquals($post->id, $this->post->id);
-        $this->assertEquals($post->user_id, $user->id);
+        $this->assertEquals($user[0]->id, $this->postCreator->id);
+        $this->assertEquals($post[0]->id, $this->post->id);
+        $this->assertEquals($post[0]->user_id, $user[0]->id);
     }
 
     /**
@@ -208,5 +210,25 @@ class CommentTest extends TestCase
         ]);
         $commentResponse->assertStatus(204);
         $this->assertDatabaseMissing('comments', $commentData);
+    }
+
+    /**
+     * Test sending and getting notification via model after creation comment.
+     * @return void
+     */
+    public function test_sending_and_getting_notifications_via_model_after_creation_comment()
+    {
+        $commentCreator = $this->setUpUser(['is_active' => true]);
+        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+            'user_id' => $commentCreator->id,
+            'post_id' => $this->post->id
+        ]);
+        $comment = Comment::create($commentData);
+        $this->assertNotNull($comment);
+        $commentCreatorNotifications = $this->postCreator->notifications;
+        $this->assertNotEmpty($commentCreatorNotifications);
+        $this->assertEquals($this->postCreator->id, $commentCreatorNotifications->last()['notifiable_id']);
+        $this->assertEquals($commentCreator->id, $commentCreatorNotifications->last()['data']['sender']['id']);
+        $this->assertEquals($this->postCreator->id, $commentCreatorNotifications->last()['data']['receiver']['id']);
     }
 }
