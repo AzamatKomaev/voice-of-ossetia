@@ -28,8 +28,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'DESC')->filter();
-        $posts = $posts->cursorPaginate(12);
+        $posts = Post::orderBy('created_at', 'DESC')->filter()->cursorPaginate(12);
         if (!$posts->items()) {
             return Response::make([], 204);
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
 use App\Notifications\UserRegistrationNotification;
@@ -62,7 +63,7 @@ class AuthController extends Controller
      */
     public function getMe()
     {
-        $user = Auth::user();
-        return Response::json($user);
+        $resource = new UserResource(Auth::user());
+        return $resource->response()->setStatusCode(200);
     }
 }

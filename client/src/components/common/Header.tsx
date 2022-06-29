@@ -2,44 +2,59 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {IRootState} from "../../store";
 
-const navItems = [
-  {
-    className: 'nav-link active',
-    href: '/',
-    value: 'На главную'
-  },
-  {
-    className: 'nav-link',
-    href: '/posts/create',
-    value: 'Создать пост'
-  },
-  {
-    className: 'nav-link',
-    href: '/posts',
-    value: 'Посты'
-  },
-  {
-    className: 'nav-link',
-    href: '/',
-    value: 'Связь с администратором'
-  }
-]
 
-const authNavItems = [
-  {
-    className: 'nav-link text-danger',
-    href: '/auth/login',
-    value: 'Вход'
-  },
-  {
-    className: 'nav-link text-danger',
-    href: '/auth/create',
-    value: 'Регистрация'
-  }
-]
 
 const Header = () => {
   const auth = useSelector((state: IRootState) => state.auth)
+
+  const navItems = [
+    {
+      className: 'nav-link active',
+      href: '/',
+      value: 'На главную'
+    },
+    {
+      className: 'nav-link',
+      href: '/posts/create',
+      value: 'Создать пост'
+    },
+    {
+      className: 'nav-link',
+      href: '/posts',
+      value: 'Посты'
+    },
+    {
+      className: 'nav-link',
+      href: '/',
+      value: 'Связь с администратором'
+    }
+  ]
+
+  const authNavItems = [
+    {
+      className: 'nav-link',
+      href: '/notifications',
+      value: `Уведомления ${auth.isAuth && auth.data.notification_count ? 'new: ' + auth.data.notification_count : null}`
+    },
+    {
+      className: 'nav-link text-danger',
+      href: '/auth/logout',
+      value: 'Выйти'
+    }
+  ]
+
+  const notAuthNavItems = [
+    {
+      className: 'nav-link text-danger',
+      href: '/auth/login',
+      value: 'Вход'
+    },
+    {
+      className: 'nav-link text-danger',
+      href: '/auth/create',
+      value: 'Регистрация'
+    }
+  ]
 
   return (
     <nav className="navbar navbar-dark bg-dark">
@@ -56,16 +71,19 @@ const Header = () => {
                 <a className={nav.className} href={nav.href}>{nav.value}</a>
               </li>
             ))}
-            {!auth.isAuth ?
-            authNavItems.map((nav, index) => (
-              <li key={index} className="nav-item">
-                <a className={nav.className} href={nav.href}>{nav.value}</a>
-              </li>
-            ))
-            :
-            <li className="nav-item">
-              <a className="nav-link text-danger" href="/auth/logout">Выйти</a>
-            </li>
+            {auth.isAuth
+              ?
+              authNavItems.map((nav, index) => (
+                <li key={index} className="nav-item">
+                  <a className={nav.className} href={nav.href}>{nav.value}</a>
+                </li>
+              ))
+              :
+              notAuthNavItems.map((nav, index) => (
+                <li key={index} className="nav-item">
+                  <a className={nav.className} href={nav.href}>{nav.value}</a>
+                </li>
+              ))
             }
           </ul>
         </div>

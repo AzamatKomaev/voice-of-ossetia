@@ -8,7 +8,6 @@ interface IPostReducerState {
   nextPage: string | null
 }
 
-
 const defaultState: IPostReducerState = {
   values: [],
   nextPage: null

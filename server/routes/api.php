@@ -40,3 +40,9 @@ Route::apiResource('comments', \App\Http\Controllers\CommentController::class, [
     'store'   => 'comments.store',
     'destroy' => 'comments.destroy'
 ]);
+Route::apiResource('notifications', \App\Http\Controllers\NotificationController::class, [
+    'index'   => 'notifications.index',
+    'show'    => 'notifications.show',
+    'store'   => 'notifications.store',
+    'destroy' => 'notifications.destroy'
+]);

@@ -16,7 +16,7 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        Notification::send($comment->post->user, new CommentCreatedNotification($comment));
+        Notification::send($comment->post->user, (new CommentCreatedNotification($comment))->delay(60));
     }
 
     /**

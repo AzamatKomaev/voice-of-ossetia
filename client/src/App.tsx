@@ -18,6 +18,7 @@ import {IRootState} from "./store";
 import PostDetailPage from "./pages/PostDetailPage";
 import {callDispatch} from "./utils";
 import LogoutPage from "./pages/LogoutPage";
+import NotificationListPage from "./pages/NotificationListPage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
         <Route path="/auth/logout" element={<LogoutPage/>} />
+        <Route path="/notifications" element={<NotificationListPage/>} />
       </Routes>
     </div>
   );

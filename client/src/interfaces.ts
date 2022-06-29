@@ -21,7 +21,8 @@ export interface IUser extends IDate {
   is_superuser: boolean,
   email_verified_at?: string,
   password?: string,
-  avatar: string | null
+  avatar: string | null,
+  notification_count: number
 }
 
 export interface ICategory extends IDate {
@@ -48,3 +49,17 @@ export interface IComment extends IDate {
   user: IUser,
   post: IPost
 }
+
+export interface INotification extends IDate {
+  type: string,
+  notifiable_type: string,
+  notifiable_id: number,
+  data: {
+    sender: IUser,
+    receiver: IUser,
+    text: string
+  },
+  read_at: string | null
+}
+
+

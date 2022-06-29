@@ -226,6 +226,7 @@ class CommentTest extends TestCase
         $comment = Comment::create($commentData);
         $this->assertNotNull($comment);
         $commentCreatorNotifications = $this->postCreator->notifications;
+        dd($commentCreatorNotifications[1]['data']);
         $this->assertNotEmpty($commentCreatorNotifications);
         $this->assertEquals($this->postCreator->id, $commentCreatorNotifications->last()['notifiable_id']);
         $this->assertEquals($commentCreator->id, $commentCreatorNotifications->last()['data']['sender']['id']);

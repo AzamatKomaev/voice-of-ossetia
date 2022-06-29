@@ -6,10 +6,9 @@ use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CommentCreatedNotification extends Notification
+class CommentCreatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -46,9 +45,9 @@ class CommentCreatedNotification extends Notification
      */
     protected function getText(): string
     {
-        return 'Пользователь ' . $this->sender->name . ' добавил к вашему посту ' . $this->comment->post->title .
-            ' комментарий ' . substr($this->comment->description, 0, 30) . '...' .
-            ' Скорее переходите по ссылке, чтобы увидеть все подробно.';
+        return "Пользователь <b>{$this->sender->name}</b> добавил к вашему посту <b>{$this->comment->post->title}</b> " .
+             "комментарий " . "<i>" . substr($this->comment->description, 0, 30) . "</i>" . "..." .
+             "Скорее переходите по ссылке, чтобы увидеть все подробно.";
     }
 
     /**
