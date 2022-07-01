@@ -6,7 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
-use App\Notifications\UserRegistrationNotification;
+use App\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -39,11 +40,11 @@ class PostTest extends TestCase
      */
     public function test_creation_post_without_authorization()
     {
-        $user = $this->setUpUser();
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $user = User::factory()->create(['is_active' => true]);
+        $postData = Post::factory()->make([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id
-        ]);
+            'user_id' => $user->id
+        ])->toArray();
         $postResponse = $this->postJson(route('posts.store'), $postData);
         $postResponse->assertStatus(401);
         $this->assertDatabaseMissing('posts', $postData);
@@ -55,11 +56,11 @@ class PostTest extends TestCase
      */
     public function test_creation_post_by_inactive_user()
     {
-        $user = $this->setUpUser();
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $user = User::factory()->create();
+        $postData = Post::factory()->make([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id
-        ]);
+            'user_id' => $user->id
+        ])->toArray();
         $postResponse = $this->postJson(route('posts.store'), $postData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
@@ -74,12 +75,13 @@ class PostTest extends TestCase
      */
     public function test_creation_post_without_data()
     {
-        $user = $this->setUpUser(['is_active' => true]);
+        $user = User::factory()->create(['is_active' => true]);
         $postResponse = $this->postJson(route('posts.store'), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $postResponse->assertStatus(422);
         $fields = ['title', 'description', 'location', 'category_id'];
+        // Test are there errors with such keys and data.
         foreach ($fields as $field) {
             $this->assertArrayHasKey($field, $postResponse->json()['errors']);
             $this->assertEquals(
@@ -95,14 +97,14 @@ class PostTest extends TestCase
      */
     public function test_creation_post_with_invalid_file_types()
     {
-        $user = $this->setUpUser(['is_active' => true]);
+        $user = User::factory()->create(['is_active' => true]);
         $fileNames = ['image.jpg', 'test.exe', 'document.pdf'];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $postData = Post::factory()->make([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id,
-            'files'       => $files
-        ]);
+            'user_id' => $user->id,
+            'files' => $files
+        ])->toArray();
         $postResponse = $this->postJson(route('posts.store'), $postData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
@@ -123,7 +125,7 @@ class PostTest extends TestCase
      */
     public function test_creation_post_with_limit_of_posts()
     {
-        $user = $this->setUpUser(['is_active' => true]);
+        $user = User::factory()->create(['is_active' => true]);
         $fileNames = [
             'first.jpg',
             'second.png',
@@ -133,11 +135,11 @@ class PostTest extends TestCase
             'sixth.png'
         ];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $postData = Post::factory()->make([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id,
-            'files'       => $files
-        ]);
+            'user_id' => $user->id,
+            'files' => $files
+        ])->toArray();
         $postResponse = $this->postJson(route('posts.store'), $postData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
@@ -159,7 +161,7 @@ class PostTest extends TestCase
      */
     public function test_successful_creation_post()
     {
-        $user = $this->setUpUser(['is_active' => true]);
+        $user = User::factory()->create(['is_active' => true]);
         $fileNames = [
             'first.jpg',
             'second.png',
@@ -168,16 +170,16 @@ class PostTest extends TestCase
             'fifth.png'
         ];
         $files = $this->setUpFiles($fileNames);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $postData = Post::factory()->make([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id,
-            'files'       => $files
-        ]);
+            'user_id' => $user->id,
+            'files' => $files
+        ])->toArray();
         $postResponse = $this->postJson(route('posts.store'), $postData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $postResponse->assertStatus(201);
-        // Assert are there some keys in response json.
+        // Assert are there such keys in response json.
         $this->assertArrayHasKey('user', $postResponse->json());
         $this->assertArrayHasKey('category', $postResponse->json());
         $this->assertArrayHasKey('files', $postResponse->json());
@@ -198,15 +200,15 @@ class PostTest extends TestCase
      */
     public function test_deletion_post_without_authorization()
     {
-        $user = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+
+        $user = User::factory()->create(['is_active' => true]);
+        $post = Post::factory()->create([
             'category_id' => $this->category->id,
-            'user_id'     => $user->id
+            'user_id' => $user->id
         ]);
-        $post = Post::create($postData);
         $postResponse = $this->delete(route('posts.destroy', [$post->id]), [], []);
         $postResponse->assertStatus(401);
-        $this->assertDatabaseHas('posts', $postData);
+        $this->assertDatabaseHas('posts', $post->toArray());
     }
 
     /**
@@ -215,18 +217,17 @@ class PostTest extends TestCase
      */
     public function test_deletion_post_not_by_creator()
     {
-        $creator = $this->setUpUser(['is_active' => true]);
-        $notCreator = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $creator = User::factory()->create(['is_active' => true]);
+        $notCreator = User::factory()->create(['is_active' => true]);
+        $post = Post::factory()->create([
             'category_id' => $this->category->id,
             'user_id'     => $creator->id
         ]);
-        $post = Post::create($postData);
         $deleteResponse = $this->delete(route('posts.destroy', [$post->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($notCreator)
         ]);
         $deleteResponse->assertStatus(403);
-        $this->assertDatabaseHas('posts', $postData);
+        $this->assertDatabaseHas('posts', $post->toArray());
     }
 
     /**
@@ -235,17 +236,16 @@ class PostTest extends TestCase
      */
     public function test_deletion_post_by_creator()
     {
-        $user = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $user = User::factory()->create(['is_active' => true]);
+        $post = Post::factory()->create([
             'category_id' => $this->category->id,
             'user_id'     => $user->id
         ]);
-        $post = Post::create($postData);
         $deleteResponse = $this->delete(route('posts.destroy', [$post->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);
         $deleteResponse->assertStatus(204);
-        $this->assertDatabaseMissing('posts', $postData);
+        $this->assertDatabaseMissing('posts', $post->toArray());
     }
 
     /**
@@ -254,17 +254,16 @@ class PostTest extends TestCase
      */
     public function test_deletion_post_by_superuser()
     {
-        $creator = $this->setUpUser(['is_active' => true]);
-        $superuser = $this->setUpUser(['is_active' => true, 'is_superuser' => true]);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $creator = User::factory()->create(['is_active' => true]);
+        $superuser = User::factory()->create(['is_active' => true, 'is_superuser' => true]);
+        $post = Post::factory()->create([
             'category_id' => $this->category->id,
             'user_id'     => $creator->id
         ]);
-        $post = Post::create($postData);
         $postResponse = $this->delete(route('posts.destroy', [$post->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($superuser)
         ]);
         $postResponse->assertStatus(204);
-        $this->assertDatabaseMissing('posts', $postData);
+        $this->assertDatabaseMissing('posts', $post->toArray());
     }
 }

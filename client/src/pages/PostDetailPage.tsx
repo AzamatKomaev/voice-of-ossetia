@@ -37,13 +37,10 @@ const PostDetailPage = () => {
     )
   }
 
-  if (postStatus === 404 || !post) {
-    return (
-      <div>
-        <h1>404 Error</h1>
-      </div>
-    )
+  if (postStatus === 404) {
+    return <h1>404 Error</h1>
   }
+
   return (
     <div className="container">
       <br/>

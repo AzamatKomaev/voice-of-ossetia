@@ -61,5 +61,3 @@ export interface INotification extends IDate {
   },
   read_at: string | null
 }
-
-

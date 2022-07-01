@@ -29,11 +29,11 @@ class UserTest extends TestCase
      */
     public function test_creation_user_with_invalid_data()
     {
-        $userData = $this->setUpData(User::factory()->make()->toArray(), [
+        $userData = User::factory()->make([
             'email'    => 'invalid_email',
-            'password' => 'less',
             'age'      => 'invalid ager'
-        ]);
+        ])->toArray();
+        $userData['password'] = 'less';
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(422);
         $responseErrors = $response->json()['errors'];
@@ -49,10 +49,9 @@ class UserTest extends TestCase
      */
     public function test_creation_user_with_existing_data()
     {
-        $userData = $this->setUpData(User::factory()->make()->toArray(), [
-            'password' => 'normal_pwd'
-        ]);
-        User::create($userData);
+        $user = User::factory()->create();
+        $userData = $user->toArray();
+        $userData['password'] = 'password123';
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(422);
         $responseErrors = $response->json()['errors'];
@@ -67,9 +66,8 @@ class UserTest extends TestCase
      */
     public function test_successful_creation_user()
     {
-        $userData = $this->setUpData(User::factory()->make()->toArray(), [
-            'password' => 'normal_pwd'
-        ]);
+        $userData = User::factory()->make()->toArray();
+        $userData['password'] = 'password123';
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['name' => $userData['name'], 'email' => $userData['email']]);
@@ -81,10 +79,7 @@ class UserTest extends TestCase
      */
     public function test_getting_notifications_after_creation_user()
     {
-        $userData = $this->setUpData(User::factory()->make()->toArray(), [
-            'password' => 'normal_pwd'
-        ]);
-        $user = User::create($userData);
+        $user = User::factory()->create();
         $userNotifications = $user->notifications;
         $this->assertCount(1, $userNotifications);
         $this->assertEquals($this->admin->id, $userNotifications[0]['data']['sender']['id']);
@@ -122,10 +117,7 @@ class UserTest extends TestCase
      */
     public function test_login_and_getting_data_about_user()
     {
-        $userData = $this->setUpData(User::factory()->make()->toArray(), [
-            'password' => '123456789'
-        ]);
-        $user = User::create($userData);
+        $user = User::factory()->create();
         $response = $this->get(route('auth.me'), [
             'Authorization' => 'Bearer ' . $this->getAuthToken($user)
         ]);

@@ -14,9 +14,9 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title'       => $this->faker->text(),
+            'title' => $this->faker->text(),
             'description' => $this->faker->realText(300),
-            'location'    => $this->faker->city() . ', ' . $this->faker->address()
+            'location' => $this->faker->city() . ', ' . $this->faker->address()
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
-use App\Notifications\UserRegistrationNotification;
+use App\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\Notification;
 
 class UserObserver
@@ -16,6 +16,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        Notification::send($user, (new UserRegistrationNotification($user))->delay(60));
+        Notification::send($user, (new UserCreatedNotification($user))->delay(60));
     }
 }

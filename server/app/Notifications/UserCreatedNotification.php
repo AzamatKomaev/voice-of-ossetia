@@ -7,11 +7,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class UserRegistrationNotification extends Notification implements ShouldQueue
+class UserCreatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private User $sender;
+    private $sender;
     private User $receiver;
 
     /**
@@ -21,7 +21,7 @@ class UserRegistrationNotification extends Notification implements ShouldQueue
      */
     public function __construct($receiver)
     {
-        $this->sender = User::getSuperuser();
+        $this->sender = User::getSuperuser() ?? 'System';
         $this->receiver = $receiver;
     }
 

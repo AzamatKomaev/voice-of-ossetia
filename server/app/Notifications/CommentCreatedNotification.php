@@ -45,9 +45,8 @@ class CommentCreatedNotification extends Notification implements ShouldQueue
      */
     protected function getText(): string
     {
-        return "Пользователь <b>{$this->sender->name}</b> добавил к вашему посту <b>{$this->comment->post->title}</b> " .
-             "комментарий " . "<i>" . substr($this->comment->description, 0, 30) . "</i>" . "..." .
-             "Скорее переходите по ссылке, чтобы увидеть все подробно.";
+        return "Пользователь {$this->sender->name} добавил к вашему посту {$this->comment->post->title} " .
+             "комментарий " . $this->comment->description;
     }
 
     /**

@@ -11,8 +11,8 @@ use Tests\TestCase;
 class CommentTest extends TestCase
 {
     protected Category $category;
-    protected User $postCreator;
-    protected Post $post;
+    protected $postCreator;
+    protected $post;
 
     protected function setUp(): void
     {
@@ -22,12 +22,11 @@ class CommentTest extends TestCase
             'description' => 'Category for testing',
             'avatar' => 'some/path.png'
         ]);
-        $this->postCreator = $this->setUpUser(['is_active' => true]);
-        $postData = $this->setUpData(Post::factory()->make()->toArray(), [
+        $this->postCreator = User::factory()->create(['is_active' => true]);
+        $this->post = Post::factory()->create([
             'category_id' => $this->category->id,
-            'user_id'     => $this->postCreator->id
+            'user_id' => $this->postCreator->id
         ]);
-        $this->post = Post::create($postData);
     }
 
     /**
@@ -53,11 +52,11 @@ class CommentTest extends TestCase
      */
     public function test_creation_comment_without_authorization()
     {
-        $commentCreator = $this->setUpUser();
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $commentData = Comment::factory()->make([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
-        ]);
+        ])->toArray();
         $commentResponse = $this->postJson(route('comments.store'), $commentData);
         $commentResponse->assertStatus(401);
         $this->assertDatabaseMissing('comments', $commentData);
@@ -69,11 +68,11 @@ class CommentTest extends TestCase
      */
     public function test_creation_comment_by_inactive_user()
     {
-        $commentCreator = $this->setUpUser();
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create();
+        $commentData = Comment::factory()->make([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
-        ]);
+        ])->toArray();
         $commentResponse = $this->postJson(route('comments.store'), $commentData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($commentCreator)
         ]);
@@ -88,7 +87,8 @@ class CommentTest extends TestCase
      */
     public function test_creation_comment_without_data()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
+
+        $commentCreator = User::factory()->create(['is_active' => true]);
         $commentResponse = $this->postJson(route('comments.store'), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($commentCreator)
         ]);
@@ -106,11 +106,11 @@ class CommentTest extends TestCase
      */
     public function test_successful_creation_comment()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $commentData = Comment::factory()->make([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
-        ]);
+        ])->toArray();
         $commentResponse = $this->postJson(route('comments.store'), $commentData, [
             'Authorization' => 'Bearer ' . $this->getAuthToken($commentCreator)
         ]);
@@ -127,15 +127,14 @@ class CommentTest extends TestCase
      */
     public function test_deletion_comment_without_authorization()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $commentResponse = $this->delete(route('comments.destroy', [$comment->id]), [], []);
         $commentResponse->assertStatus(401);
-        $this->assertDatabaseHas('comments', $commentData);
+        $this->assertDatabaseHas('comments', ['id' => $comment->id]);
     }
 
     /**
@@ -144,18 +143,17 @@ class CommentTest extends TestCase
      */
     public function test_deletion_post_not_by_creator()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $notCommentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $notCommentCreator = User::factory()->create(['is_active' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $commentResponse = $this->delete(route('comments.destroy', [$comment->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($notCommentCreator)
         ]);
         $commentResponse->assertStatus(403);
-        $this->assertDatabaseHas('comments', $commentData);
+        $this->assertDatabaseHas('comments', ['id' => $comment->id]);
     }
 
     /**
@@ -164,17 +162,16 @@ class CommentTest extends TestCase
      */
     public function test_deletion_comment_by_its_creator()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $commentResponse = $this->delete(route('comments.destroy', [$comment->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($commentCreator)
         ]);
         $commentResponse->assertStatus(204);
-        $this->assertDatabaseMissing('comments', $commentData);
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
     }
 
     /**
@@ -183,33 +180,31 @@ class CommentTest extends TestCase
      */
     public function test_deletion_comment_by_post_creator()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $commentResponse = $this->delete(route('comments.destroy', [$comment->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($this->postCreator)
         ]);
         $commentResponse->assertStatus(204);
-        $this->assertDatabaseMissing('comments', $commentData);
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
     }
 
     public function test_deletion_comment_by_superuser()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $superuser = $this->setUpUser(['is_active' => true, 'is_superuser' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $superuser = User::factory()->create(['is_active' => true, 'is_superuser' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $commentResponse = $this->delete(route('comments.destroy', [$comment->id]), [], [
             'Authorization' => 'Bearer ' . $this->getAuthToken($superuser)
         ]);
         $commentResponse->assertStatus(204);
-        $this->assertDatabaseMissing('comments', $commentData);
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
     }
 
     /**
@@ -218,15 +213,13 @@ class CommentTest extends TestCase
      */
     public function test_sending_and_getting_notifications_via_model_after_creation_comment()
     {
-        $commentCreator = $this->setUpUser(['is_active' => true]);
-        $commentData = $this->setUpData(Comment::factory()->make()->toArray(), [
+        $commentCreator = User::factory()->create(['is_active' => true]);
+        $comment = Comment::factory()->create([
             'user_id' => $commentCreator->id,
             'post_id' => $this->post->id
         ]);
-        $comment = Comment::create($commentData);
         $this->assertNotNull($comment);
         $commentCreatorNotifications = $this->postCreator->notifications;
-        dd($commentCreatorNotifications[1]['data']);
         $this->assertNotEmpty($commentCreatorNotifications);
         $this->assertEquals($this->postCreator->id, $commentCreatorNotifications->last()['notifiable_id']);
         $this->assertEquals($commentCreator->id, $commentCreatorNotifications->last()['data']['sender']['id']);

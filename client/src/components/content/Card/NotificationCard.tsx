@@ -1,7 +1,8 @@
-import React from 'react';
-import {INotification} from "../../../interfaces";
 import UserGroupItem from "../GroupItem/UserGroupItem";
-import {getReadableDateFormat} from "../../../utils";
+import {getNotificationType, getReadableDateFormat} from "../../../utils";
+import {INotification} from "../../../interfaces";
+import ActionButtonsGroupItem from "../GroupItem/ActionButtonsGroupItem";
+import React from "react";
 
 interface INotificationCard {
   notification: INotification,
@@ -12,6 +13,7 @@ const NotificationCard = ({notification, isDetail}: INotificationCard) => {
   return (
     <div className="card">
       <ul className="list-group list-group-flush">
+        <p className="text-primary" style={{padding: ".5rem 1rem"}}>{getNotificationType(notification) ?? 'Уведомление'}</p>
         {isDetail
           ?
           <UserGroupItem user={notification.data.sender}/>
@@ -33,22 +35,45 @@ const NotificationCard = ({notification, isDetail}: INotificationCard) => {
           </div>
         }
         <li className="list-group-item">
-          {notification.data.text.length <= 255
-            ? <p>{notification.data.text}</p>
-            : <p>
-                {notification.data.text.slice(0, 255)}...<br/>
+            {notification.data.text.length <= 255
+              ?
+              <a href={`/notifications/${notification.id}`} className="text-dark" style={{textDecoration: "none"}}>
+                {notification.data.text}
+              </a>
+              :
+              <div>
+                <a href={`/notifications/${notification.id}`} className="text-dark" style={{textDecoration: "none"}}>
+                  {notification.data.text.slice(0, 255)}...<br/>
+                </a>
                 <a href={`/notifications/${notification.id}`}>Нажмите, чтобы открыть полностью</a>
-              </p>
-          }
+              </div>
+            }
         </li>
         <li className="list-group-item">
           <small className="text-muted">
+            Прочитано: <br/>
+            {notification.read_at ? getReadableDateFormat(notification.read_at) : '-'}<br/>
             Создано: <br/>
             {getReadableDateFormat(notification.created_at)}, <br/>
-            Прочитано: <br/>
-            {notification.read_at ?? '-'}
           </small>
         </li>
+        <ActionButtonsGroupItem
+          complaining={{
+            onClick: () => {},
+            className: "btn btn-primary"
+          }}
+          hiding={{
+            onClick: () => {},
+            className: "btn btn-secondary"
+          }}
+          deleting={{
+            className: "btn btn-danger",
+            "data-bs-target": `#post-1`,
+            "data-bs-toggle": "modal"
+          }}
+          showDeletingButton={true}
+          showHidingButton={true}
+        />
       </ul>
     </div>
   );

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\NotificationService;
 use App\Http\Resources\NotificationResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +17,15 @@ class NotificationController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
+     *
      */
     public function index()
     {
-        $notifications = Auth::user()->notifications()->cursorPaginate(12);
+        $user = Auth::user();
+        $notifications = $user
+            ->notifications()
+            ->orderByRaw('read_at DESC NULLS LAST')
+            ->cursorPaginate(12);
         if (!$notifications->items()) {
             return Response::make([], 204);
         }
@@ -27,25 +33,14 @@ class NotificationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param string $id
+     * @return NotificationResource
      */
-    public function store(Request $request)
+    public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return new NotificationResource($notification);
     }
 
     /**

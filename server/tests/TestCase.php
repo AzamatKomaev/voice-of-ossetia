@@ -14,38 +14,25 @@ abstract class TestCase extends BaseTestCase
 
     protected $admin;
 
+    /**
+     * Create superuser.
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
-        $adminData = $this->setUpData(User::factory()->make()->toArray(), [
+        $this->admin = User::factory()->create([
             'password' => 'admin12345',
             'is_superuser' => true,
             'is_active' => true
         ]);
-        $this->admin = User::create($adminData);
-    }
 
-    // Default user password used in UserFactory.
-    protected string $defaultPassword = 'password123';
+    }
 
     // Default headers for each sent request.
     protected $defaultHeaders = [
         'Accept' => 'application/json'
     ];
-
-    /**
-     * Set up post data.
-     * @param array $data
-     * @param array $updatedData
-     * @return array
-     */
-    protected function setUpData(array $data, array $updatedData): array
-    {
-        foreach ($updatedData as $key => $value) {
-            $data[$key] = $value;
-        }
-        return $data;
-    }
 
     /**
      * Set up files for request.
@@ -62,28 +49,12 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Set up user.
-     * @param $updateData
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|User
-     */
-    protected function setUpUser($updateData=null): User
-    {
-        $user = User::factory()->create();
-        if ($updateData) {
-            $user->update($updateData);
-        }
-        $user->password = $this->defaultPassword;
-        return $user;
-    }
-
-    /**
      * Get auth token for user.
      * @param Model|User $user
      * @return string
      */
     protected function getAuthToken(Model $user): string
     {
-        $token = $user->createToken('API Token')->plainTextToken;
-        return $token;
+        return $user->createToken('API Token')->plainTextToken;
     }
 }
