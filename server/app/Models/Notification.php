@@ -9,5 +9,13 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'type', 'notifiable_type', 'data'];
+    /**
+     * Actually ID is uuid (string), not integer.
+     * @var string[]
+     */
+    protected $casts = [
+        'id' => 'string'
+    ];
+
+    protected $fillable = ['type', 'notifiable_type', 'data'];
 }

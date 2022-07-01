@@ -6,7 +6,6 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostFile;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,12 +45,7 @@ class PostController extends Controller
         $data['user_id'] = Auth::user()->id;
         $post = Post::create($data);
         if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $postFile = new PostFile();
-                $postFile->path = $file->store(env('APP_ENV') . '/posts');
-                $postFile->post_id = $post->id;
-                $postFile->save();
-            }
+            PostFile::saveFiles($request->file('files'), $post->id);
         }
         $resource = new PostResource($post);
         return $resource->response()->setStatusCode(201);
