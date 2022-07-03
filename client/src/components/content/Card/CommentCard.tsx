@@ -6,10 +6,10 @@ import TimestampGroupItem from "../GroupItem/TimestampGroupItem";
 import ActionButtonsGroupItem from "../GroupItem/ActionButtonsGroupItem";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../../store";
-import {HttpSender} from "../../../api/api-client";
-import {callDispatch} from "../../../utils";
-import {HIDE_COMMENT} from "../../../store/commentReducer";
 import Modal from "../../common/Modal";
+import {useHttpSender} from "../../../utils/hooks";
+import {hideComment} from "../../../utils/Actions/comments";
+import {hidePost} from "../../../utils/Actions/posts";
 
 interface ICommentCard {
   comment: IComment
@@ -18,28 +18,15 @@ interface ICommentCard {
 const CommentCard = ({comment}: ICommentCard) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: IRootState) => state.auth)
-  const httpSender = useRef<HttpSender>(new HttpSender('comments'));
+  const httpSender = useHttpSender('comments');
 
-  const handleHidingCommentButton = () => {
-    callDispatch(dispatch, {
-      type: HIDE_COMMENT,
-      payload: {
-        hidedComment: comment
-      }
-    })
-  }
-
-  const handleDeletingPostButton = async() => {
-    const response = await httpSender.current.delete(comment.id);
+  const deleteComment = async() => {
+    const response = await httpSender.delete(comment.id);
     if (response.status === 204) {
-      callDispatch(dispatch, {
-        type: HIDE_COMMENT,
-        payload: {
-          hidedComment: comment
-        }
-      })
+      dispatch(hideComment(comment.id))
+    } else {
+      alert(`${response.status} error!`)
     }
-    else alert(`${response.status} error`)
   }
 
   return (
@@ -48,22 +35,18 @@ const CommentCard = ({comment}: ICommentCard) => {
         id={`comment-${comment.id}`}
         title="Удалить"
         content={<p>Вы точно хотите удалить комментарий <br/><b>{comment.description}</b>?</p>}
-        buttons={[
-          {
-            onClick: handleDeletingPostButton,
+        buttons={[{
+            onClick: deleteComment,
             value: 'Удалить'
-          }
-        ]}
+        }]}
       />
-
       <UserGroupItem user={comment.user}/>
-
       <div className="d-none d-sm-flex">
         <div id="content-item-sm-more" className="col-xl-10 col-lg-9 col-md-8 col-sm-6 col-5">
           <ContentGroupItem title={null} description={comment.description} border={false}/>
         </div>
         <div id="timestamp-item-sm-more" className="d-none d-sm-block col-xl-2 col-lg-3 col-md-4 col-sm-6 col-7">
-            <TimestampGroupItem created_at={comment.created_at} updated_at={comment.updated_at}/>
+          <TimestampGroupItem created_at={comment.created_at} updated_at={comment.updated_at}/>
         </div>
       </div>
 
@@ -81,7 +64,7 @@ const CommentCard = ({comment}: ICommentCard) => {
           className: "btn btn-primary"
         }}
         hiding={{
-          onClick: handleHidingCommentButton,
+          onClick: () => dispatch(hideComment(comment.id)),
           className: "btn btn-secondary"
         }}
         deleting={{

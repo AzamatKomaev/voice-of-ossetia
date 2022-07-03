@@ -2,9 +2,8 @@ import React, {useEffect} from 'react';
 import {usePagination, useQuery} from "../utils/hooks";
 import Spinner from "../components/common/Spinner";
 import PostList from "../components/content/List/PostList";
-import {callDispatch} from "../utils";
 import {useDispatch} from "react-redux";
-import {ADD_POSTS} from "../store/postReducer";
+import {addPosts} from "../utils/Actions/posts";
 
 const PostListPage = () => {
   const query = useQuery();
@@ -16,12 +15,7 @@ const PostListPage = () => {
 
   useEffect(() => {
     if (posts && posts.length > 0) {
-      callDispatch(dispatch, {
-        type: ADD_POSTS,
-        payload: {
-          addedPosts: posts ?? []
-        }
-      })
+      dispatch(addPosts(posts));
     }
   }, [posts])
 

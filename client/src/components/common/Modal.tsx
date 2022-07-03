@@ -23,7 +23,15 @@ const Modal = ({id, title, content, buttons}: IModal) => {
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             {buttons.map((button, index) => (
-              <button key={index} type="button" data-bs-dismiss="modal" onClick={button.onClick} className="btn btn-primary">{button.value}</button>
+              <button
+                key={index}
+                type="button"
+                data-bs-dismiss="modal"
+                onClick={button.onClick}
+                className="btn btn-danger"
+              >
+                {button.value}
+              </button>
             ))}
           </div>
         </div>

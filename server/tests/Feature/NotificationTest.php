@@ -102,4 +102,30 @@ class NotificationTest extends TestCase
         ]);
         $response->assertStatus(403);
     }
+
+    /**
+     * Test deletion a notification by superuser.
+     * @return void
+     */
+    public function test_deletion_notification_by_superuser()
+    {
+        $notification = Notification::factory()->create(['notifiable_id' => $this->user->id]);
+        $response = $this->delete(route('notifications.destroy', [$notification->id]), [], [
+            'Authorization' => 'Bearer ' . $this->getAuthToken($this->admin)
+        ]);
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Test deletion a notification by its receiver.
+     * @return void
+     */
+    public function test_deletion_notification_by_its_receiver()
+    {
+        $notification = Notification::factory()->create(['notifiable_id' => $this->user->id]);
+        $response = $this->delete(route('notifications.destroy', [$notification->id]), [], [
+            'Authorization' => 'Bearer ' . $this->getAuthToken($this->user)
+        ]);
+        $response->assertStatus(204);
+    }
 }

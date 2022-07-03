@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
-import axios from "../api/api-client";
+import axios, {HttpSender} from "../api/api-client";
 import {AxiosError, AxiosResponse} from "axios";
 import {useLocation} from "react-router-dom";
 
@@ -97,6 +97,16 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
     }
   }, [])
 
-
   return [itemList, loading && (nextPage !== null && responseStatus !== 204)];
 }
+
+export const useHttpSender = (path: string) => {
+  const [sender, setSender] = useState<HttpSender>(new HttpSender(path))
+
+  useEffect(() => {
+    setSender(new HttpSender(path))
+  }, [path])
+
+  return sender;
+}
+

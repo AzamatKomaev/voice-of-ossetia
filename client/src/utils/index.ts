@@ -17,17 +17,13 @@ export const getReadableDateFormat = (dateString: Date | string): string => {
   return readableDateFormat.replace(",", "");
 }
 
-export interface ICallDispatchAction {
-  type: string,
-  payload: any
-}
 
 /**
  * Call dispatch function.
  * @param dispatch
  * @param action
  */
-export const callDispatch = (dispatch: Dispatch<AnyAction>, action: ICallDispatchAction): void => {
+export const callDispatch = (dispatch: Dispatch<AnyAction>, action: {type: string, payload: any}): void => {
   dispatch({
     type: action.type,
     payload: action.payload

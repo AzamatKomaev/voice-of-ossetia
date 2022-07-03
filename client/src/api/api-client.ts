@@ -9,7 +9,7 @@ export class HttpSender {
     this.path = path;
   }
 
-  async getOne(id: number): Promise<AxiosResponse> {
+  public async getOne(id: number): Promise<AxiosResponse> {
     try {
       return await axios.get(`${this.baseUrl}/${this.path}/${id}/`)
     } catch (err: any) {
@@ -17,7 +17,7 @@ export class HttpSender {
     }
   }
 
-  async getList(): Promise<AxiosResponse> {
+  public async getList(): Promise<AxiosResponse> {
     try {
       return await axios.get(`${this.baseUrl}/${this.path}/`)
     } catch (err: any) {
@@ -25,7 +25,7 @@ export class HttpSender {
     }
   }
 
-  async create(data: any): Promise<AxiosResponse> {
+  public async create(data: any): Promise<AxiosResponse> {
     try {
       return await axios.post(`${this.baseUrl}/${this.path}/`, data)
     } catch (err: any) {
@@ -33,7 +33,7 @@ export class HttpSender {
     }
   }
 
-  async delete(id: number) {
+  public async delete(id: number) {
     try {
       return await axios.delete(`${this.baseUrl}/${this.path}/${id}/`)
     } catch (err: any) {

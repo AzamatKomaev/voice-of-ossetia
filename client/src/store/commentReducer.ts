@@ -21,9 +21,11 @@ export const commentReducer = (state = defaultState, action: any) => {
     case HIDE_COMMENT:
       return {
         ...state,
-        values: state.values.filter((comment) => comment.id !== action.payload.hidedComment.id)
+        values: state.values.filter((comment) => comment.id !== action.payload.hidedCommentId)
       }
     default:
       return state;
   }
 }
+export const addCommentsAction = (payload: {addedComments: IComment[]}) => ({type: ADD_COMMENTS, payload})
+export const hideCommentAction = (payload: {hidedCommentId: number}) => ({type: HIDE_COMMENT, payload})

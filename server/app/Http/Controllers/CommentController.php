@@ -24,11 +24,14 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function index()
     {
-        $comments = Comment::filter()->get();
+        $comments = Comment::filter()->cursorPaginate(15);
+        if (!$comments->items()) {
+            return Response::make([], 204);
+        }
         return CommentResource::collection($comments);
     }
 
@@ -56,18 +59,6 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
         return new CommentResource($comment);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

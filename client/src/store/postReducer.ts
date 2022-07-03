@@ -4,13 +4,11 @@ export const ADD_POSTS = "ADD_POSTS";
 export const HIDE_POST = "HIDE_POST";
 
 interface IPostReducerState {
-  values: Array<IPost>,
-  nextPage: string | null
+  values: Array<IPost>
 }
 
 const defaultState: IPostReducerState = {
-  values: [],
-  nextPage: null
+  values: []
 }
 
 export const postReducer = (state = defaultState, action: any) => {
@@ -19,15 +17,16 @@ export const postReducer = (state = defaultState, action: any) => {
       return {
         ...state,
         values: [...state.values, ...action.payload.addedPosts],
-        nextPage: action.payload.nextPage
       }
     case HIDE_POST:
       return {
         ...state,
-        values: state.values.filter((post) => post.id !== action.payload.hidedPost.id)
+        values: state.values.filter((post) => post.id !== action.payload.hidedPostId)
       }
-
     default:
       return state;
   }
 }
+
+export const addPostsAction = (payload: {addedPosts: IPost[]}) => ({type: ADD_POSTS, payload})
+export const hidePostAction = (payload: {hidedPostId: number}) => ({type: HIDE_POST, payload})
