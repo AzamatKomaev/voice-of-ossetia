@@ -3,6 +3,10 @@ import {getNotificationType, getReadableDateFormat} from "../../../utils";
 import {INotification} from "../../../interfaces";
 import ActionButtonsGroupItem from "../GroupItem/ActionButtonsGroupItem";
 import React from "react";
+import {useDispatch} from "react-redux";
+import {useHttpSender} from "../../../utils/hooks";
+import {hideNotification} from "../../../utils/Actions/notifications";
+import Modal from "../../common/Modal";
 
 interface INotificationCard {
   notification: INotification,
@@ -10,8 +14,30 @@ interface INotificationCard {
 }
 
 const NotificationCard = ({notification, isDetail}: INotificationCard) => {
+  const dispatch = useDispatch()
+  const httpSender = useHttpSender('notifications')
+
+  const deleteNotification = async() => {
+    const response = await httpSender.delete(notification.id)
+    if (response.status === 204) {
+      dispatch(hideNotification(notification.id))
+    }
+  }
+
   return (
     <div className="card">
+      <Modal
+        id={`notification-${notification.id}`}
+        title="Удалить"
+        content={<p>
+          Вы точно хотите удалить <b>{getNotificationType(notification)}</b>,
+          отправленное пользователем <i>{notification.data.sender.name}</i>?
+      </p>}
+        buttons={[{
+          onClick: deleteNotification,
+          value: 'Удалить'
+        }]}
+      />
       <ul className="list-group list-group-flush">
         <p className="text-primary" style={{padding: ".5rem 1rem"}}>{getNotificationType(notification) ?? 'Уведомление'}</p>
         {isDetail
@@ -63,12 +89,12 @@ const NotificationCard = ({notification, isDetail}: INotificationCard) => {
             className: "btn btn-primary"
           }}
           hiding={{
-            onClick: () => {},
+            onClick: () => dispatch(hideNotification(notification.id)),
             className: "btn btn-secondary"
           }}
           deleting={{
             className: "btn btn-danger",
-            "data-bs-target": `#post-1`,
+            "data-bs-target": `#notification-${notification.id}`,
             "data-bs-toggle": "modal"
           }}
           showDeletingButton={true}

@@ -33,7 +33,7 @@ export const callDispatch = (dispatch: Dispatch<AnyAction>, action: {type: strin
 export const getNotificationType = (notification: INotification): string | null => {
   const notificationTypes: any = {
     'App\\Notifications\\UserCreatedNotification': 'Уведомление о регистраций',
-    'App\\Notifications\\CommentCreatedNotification': 'Уведомление о добавлений комментария к вашему посту.'
+    'App\\Notifications\\CommentCreatedNotification': 'Уведомление о добавлений комментария к вашему посту'
   }
   if (!(notification.type in notificationTypes)) {
     return null;

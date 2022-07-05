@@ -22,7 +22,7 @@ interface IPostCard {
 const PostCard = ({post, isDetail}: IPostCard) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: IRootState) => state.auth)
-  const httpSender = useHttpSender('posts');
+  const httpSender = useHttpSender('posts')
 
   const deletePost = async() => {
     const response = await httpSender.delete(post.id);
