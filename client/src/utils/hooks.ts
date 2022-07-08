@@ -5,7 +5,7 @@ import {useLocation} from "react-router-dom";
 
 /*
   The hook to make fetch requests.
- */
+*/
 export const useFetch = (path: string, options: any) => {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -36,7 +36,7 @@ export const useFetch = (path: string, options: any) => {
 
 /*
   The hook to get query param.
- */
+*/
 export const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);

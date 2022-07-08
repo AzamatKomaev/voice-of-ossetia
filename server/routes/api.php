@@ -46,3 +46,7 @@ Route::apiResource('notifications', \App\Http\Controllers\NotificationController
     'store'   => 'notifications.store',
     'destroy' => 'notifications.destroy'
 ]);
+Route::apiResource('users', \App\Http\Controllers\UserController::class, [
+    'index'   => 'users.index',
+    'show'    => 'users.show'
+]);

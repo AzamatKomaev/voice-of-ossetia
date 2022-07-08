@@ -1,7 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import {IPost} from "../../../interfaces";
-import {getMediaFullPath} from "../../../api/media";
-import ImageList from "../List/ImageList";
 import UserGroupItem from "../GroupItem/UserGroupItem";
 import TimestampGroupItem from "../GroupItem/TimestampGroupItem";
 import ContentGroupItem from "../GroupItem/ContentGroupItem";
