@@ -92,7 +92,7 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
-    return function () {
+    return () => {
       document.removeEventListener('scroll', scrollHandler)
     }
   }, [])
