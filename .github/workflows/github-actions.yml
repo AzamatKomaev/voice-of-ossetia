@@ -42,6 +42,7 @@ jobs:
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
         run: |
+          lsof -ti:5901 | xargs kill -9
           eval "$(ssh-agent -s)"
           mkdir -p ~/.ssh
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
