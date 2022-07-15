@@ -28,7 +28,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: project-build
-          path: ./build
+          path: ./client/build
   deploy:
     needs: [build]
     runs-on: ubuntu-18.04
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: project-build
-          path: .client/build
+          path: ./client/build
       - run: ls
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
