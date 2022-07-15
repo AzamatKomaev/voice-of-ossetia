@@ -11,10 +11,10 @@ const CategoryCard = ({category}: ICategoryCard) => {
     <div className="card">
       <a href={`/posts?category_id=${category.id}`} className="text-dark" style={{textDecoration: "none"}}>
         <img
-          className="card-img-top"
+          className={`category-${category.id}`}
           src={getMediaFullPath(category.avatar)}
-          alt="Card image cap"
-          style={{height: "200px"}}
+          alt={`category-${category.id}`}
+          style={{width: "100%", height: "200px"}}
         />
         <div className="card-body" style={{height: "220px"}}>
           <h5 className="card-title">{category.name}</h5>

@@ -13,7 +13,7 @@ const NotificationListPage = () => {
     if (notifications && notifications.length > 0) {
       dispatch(addNotifications(notifications))
     }
-  }, [notifications])
+  }, [notifications, dispatch])
 
 
   return (

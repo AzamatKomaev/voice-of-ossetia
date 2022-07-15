@@ -5,10 +5,15 @@ import Spinner from "../components/common/Spinner";
 import {useFetch} from "../utils/hooks";
 import CategoryList from "../components/content/List/CategoryList";
 import {IRootState} from "../store";
+import Http404Error from "../components/common/Http404Error";
 
 const HomePage = () => {
   const auth = useSelector((state: IRootState) => state.auth);
   const [categories, categoriesStatus, categoriesLoading]: ReturnType<typeof useFetch> = useFetch('api/categories/',  {})
+
+  if (categoriesStatus === 404) {
+    return (<Http404Error/>)
+  }
 
   if (auth.loading || categoriesLoading) {
     return (

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {IComment} from "../../../interfaces";
 import UserGroupItem from "../GroupItem/UserGroupItem";
 import ContentGroupItem from "../GroupItem/ContentGroupItem";
@@ -9,7 +9,6 @@ import {IRootState} from "../../../store";
 import Modal from "../../common/Modal";
 import {useHttpSender} from "../../../utils/hooks";
 import {hideComment} from "../../../utils/Actions/comments";
-import {hidePost} from "../../../utils/Actions/posts";
 
 interface ICommentCard {
   comment: IComment

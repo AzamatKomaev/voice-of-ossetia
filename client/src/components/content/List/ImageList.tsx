@@ -15,7 +15,8 @@ const ImageList = ({list}: IImageList) => {
             <img
               className="card-img-top"
               style={{border: '3px solid silver'}}
-              src={getMediaFullPath(file.path)} alt="Card image cap"
+              alt={`content-${file.id}`}
+              src={getMediaFullPath(file.path)}
             />
           </a>
         </div>

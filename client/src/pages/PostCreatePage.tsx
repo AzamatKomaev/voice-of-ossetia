@@ -1,13 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PostForm from "../components/content/Form/PostForm";
 import {useFetch} from "../utils/hooks";
 import {useSelector} from "react-redux";
 import Spinner from "../components/common/Spinner";
 import {IRootState} from "../store";
+import Http404Error from "../components/common/Http404Error";
 
 const PostCreatePage = () => {
   const auth = useSelector((state: IRootState) => state.auth);
   const [categories, categoriesStatus, categoriesLoading] = useFetch('api/categories/', {})
+
+  if (categoriesStatus === 404) {
+    return (<Http404Error/>)
+  }
 
   if (auth.loading || categoriesLoading) {
     return (

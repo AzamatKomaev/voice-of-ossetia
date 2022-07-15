@@ -9,14 +9,12 @@ import Header from "./components/common/Header";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import {AxiosResponse} from "axios";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {AuthAPI} from "./api/auth";
 import {GET_CURRENT_USER} from "./store/authReducer";
 import CategoryCreatePage from "./pages/CategoryCreatePage";
 import PostCreatePage from "./pages/PostCreatePage";
-import {IRootState} from "./store";
 import PostDetailPage from "./pages/PostDetailPage";
-import {callDispatch} from "./utils";
 import LogoutPage from "./pages/LogoutPage";
 import NotificationListPage from "./pages/NotificationListPage";
 import NotificationDetailPage from "./pages/NotificationDetailPage";
@@ -24,7 +22,6 @@ import UserDetailPage from "./pages/UserDetailPage";
 
 const App = () => {
   const dispatch = useDispatch()
-  const auth = useSelector((state: IRootState) => state.auth);
 
   useEffect(() => {
     (async() => {
@@ -36,7 +33,7 @@ const App = () => {
         }
       })
     })()
-  }, [])
+  }, [dispatch])
 
   return (
     <div>

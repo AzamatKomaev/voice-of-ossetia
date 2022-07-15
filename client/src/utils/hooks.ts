@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import axios, {HttpSender} from "../api/api-client";
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosError} from "axios";
 import {useLocation} from "react-router-dom";
 
 /*
@@ -27,8 +27,10 @@ export const useFetch = (path: string, options: any) => {
         setLoading(false)
       })
   }
+
   useEffect(() => {
     sendRequest()
+    // eslint-disable-next-line
   }, [])
 
   return [data, statusCode, loading]
@@ -62,6 +64,7 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
       .finally(() => {
         setLoading(false)
       })
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -81,6 +84,7 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
           setLoading(false)
         })
     }
+    // eslint-disable-next-line
   }, [fetching])
 
   const scrollHandler = (e: any) => {

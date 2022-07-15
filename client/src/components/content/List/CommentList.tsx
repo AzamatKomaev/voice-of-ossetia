@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CommentCard from "../Card/CommentCard";
 import {useSelector} from "react-redux";
 import {IRootState} from "../../../store";

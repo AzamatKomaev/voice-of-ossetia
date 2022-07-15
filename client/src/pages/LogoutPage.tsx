@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 const LogoutPage = () => {
   const [isLogout, setIsLogout] = useState<boolean>(false);

@@ -22,7 +22,7 @@ const PostDetailPage = () => {
     if (comments && comments.length > 0) {
       dispatch(addComments(comments))
     }
-  }, [comments])
+  }, [comments, dispatch])
 
   if (postLoading) {
     return (

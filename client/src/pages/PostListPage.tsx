@@ -17,7 +17,7 @@ const PostListPage = () => {
     if (posts && posts.length > 0) {
       dispatch(addPosts(posts));
     }
-  }, [posts])
+  }, [posts, dispatch])
 
 
   return (

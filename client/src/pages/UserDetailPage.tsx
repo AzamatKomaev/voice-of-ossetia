@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useFetch, usePagination, useQuery} from "../utils/hooks";
+import {useFetch, usePagination} from "../utils/hooks";
 import Http404Error from "../components/common/Http404Error";
 import Spinner from "../components/common/Spinner";
 import UserCard from "../components/user/Card/UserCard";
@@ -21,7 +21,7 @@ const UserDetailPage = () => {
     if (posts && posts.length > 0) {
       dispatch(addPosts(posts));
     }
-  }, [posts])
+  }, [posts, dispatch])
 
   if (userStatusCode === 404) {
     return (<Http404Error/>)
