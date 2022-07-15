@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     (async() => {
       const response: AxiosResponse = await AuthAPI.getMe()
-      callDispatch(dispatch, {
+      dispatch({
         type: GET_CURRENT_USER,
         payload: {
           response: response

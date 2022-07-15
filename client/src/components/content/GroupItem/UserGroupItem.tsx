@@ -18,7 +18,9 @@ const UserGroupItem = ({user}: IUserGroupItem) => {
           style={{borderRadius: "50%"}}
         />
         <div id="user-data" style={{marginLeft: "10px"}}>
-          <h5 className="card-title">{user.name}</h5>
+          <h5 className="card-title">
+            <a href={`/users/${user.id}`} className="text-dark">{user.name}</a>
+          </h5>
           <h6 className="card-subtitle mb-2 text-muted">
             {user.first_name && user.last_name
               ? user.first_name + ' ' + user.last_name

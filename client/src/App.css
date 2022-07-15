@@ -1,3 +1,7 @@
+a {
+  text-decoration: none !important;
+}
+
 textarea {
   resize: vertical;
 }
@@ -9,4 +13,47 @@ textarea {
   color: inherit;
   background-color: transparent;
   cursor: pointer;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+}
+
+#user-data {
+  margin-left: 17px;
+  width: 100%;
+}
+
+.full-name-text {
+  font-size: 13pt;
+  margin-top: -26px !important;
+  margin-left: 5px;
+  width: 10000px;
+}
+
+.user-avatar {
+  width: 85px;
+  height: 85px;
+  border: 1px solid #555
+}
+
+@media (max-width: 750px) {
+  .break {
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  .user-item {
+    flex-wrap: wrap;
+  }
+
+  #user-data {
+    margin-left: 0
+  }
+
+  .user-avatar {
+    width: 100%;
+    height: 100%;
+  }
 }

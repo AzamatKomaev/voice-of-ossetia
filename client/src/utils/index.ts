@@ -1,5 +1,5 @@
 import {AnyAction, Dispatch} from "redux";
-import {INotification} from "../interfaces";
+import {INotification, IUser} from "../interfaces";
 
 export const numberRange = (start: number, end: number) => {
   return new Array(end - start).fill(null).map((d, i) => i + start);
@@ -39,4 +39,11 @@ export const getNotificationType = (notification: INotification): string | null 
     return null;
   }
   return notificationTypes[notification.type];
+}
+
+export const getUserStatus = (user: IUser): string => {
+  if (!user.is_active) return 'Гость';
+  if (user.is_superuser) return 'Администратор';
+  if (user.is_active) return 'Пользователь';
+  return 'Неизвестно'
 }
