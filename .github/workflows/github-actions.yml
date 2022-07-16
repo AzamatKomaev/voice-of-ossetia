@@ -2,6 +2,7 @@ name: GitHub Actions
 
 env:
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  SERVER_URL: http://api.voiceofossetia.ru
 
 on:
   push:
@@ -19,10 +20,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd client
       - name: install modules and build project.
         run: |
           cd ./client
+          echo "REACT_APP_SERVER_URL=$SERVER_URL" > .env
           npm install
           npm run build
       - uses: actions/upload-artifact@master
