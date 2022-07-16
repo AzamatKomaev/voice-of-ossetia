@@ -38,12 +38,12 @@ jobs:
         with:
           name: project-build
           path: ./client/build
-      - run: ls
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
         run: |
-          netstat -tulpn
           eval "$(ssh-agent -s)"
+          killall ssh
+          netstat -tulpn
           mkdir -p ~/.ssh
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
