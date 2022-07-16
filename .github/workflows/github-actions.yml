@@ -40,14 +40,12 @@ jobs:
           path: ./client/build
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
-        run: |
-          eval "$(ssh-agent -s)"
-          killall ssh
-          netstat -tulpn
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_KEY }}"
+        run: eval "$(ssh-agent -s)"
+      - run: netstat -tulpn
+      - run: mkdir -p ~/.ssh
+      - run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - run: ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+      - run: ssh-add - <<< "${{ secrets.SSH_KEY }}"
       - name: Delete build folder in server if it exists.
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf /var/www/voiceofossetia.ru/build"
       - name: Adding build to server via SSH.
