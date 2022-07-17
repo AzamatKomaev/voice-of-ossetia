@@ -2,7 +2,7 @@ name: GitHub Actions
 
 env:
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-  SERVER_URL: http://api.voiceofossetia.ru
+  SERVER_URL: https://api.voiceofossetia.ru
 
 on:
   push:
