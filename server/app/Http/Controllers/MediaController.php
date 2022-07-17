@@ -17,7 +17,9 @@ class MediaController extends Controller
     public function get(Request $request)
     {
         try {
-            return Storage::disk('local')->get($request->query('url'));
+            return Response::make(Storage::disk('local')->get($request->query('url')), 200, [
+                'Access-Control-Allow-Origin' => '*'
+            ]);
         } catch (FileNotFoundException $err) {
             return Response::make(['message' => 'File not found'], 404);
         }
