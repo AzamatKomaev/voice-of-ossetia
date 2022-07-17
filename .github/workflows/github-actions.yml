@@ -50,6 +50,8 @@ jobs:
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf /var/www/voiceofossetia.ru/build"
       - name: Adding build to server via SSH.
         run:  scp -r ./client/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/voiceofossetia.ru
-      - name: Pull the project in server directory.
+      - name: Pulling the project in server directory.
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/api.voiceofossetia.ru && git pull"
+      - name: Installing composer requirements.
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/api.voiceofossetia.ru/server && composer install"
       - run: echo "Deploy finished."

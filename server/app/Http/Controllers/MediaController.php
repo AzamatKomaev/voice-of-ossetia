@@ -17,7 +17,9 @@ class MediaController extends Controller
     public function get(Request $request)
     {
         try {
-            return Response::make(Storage::disk('local')->get($request->query('url')), 200);
+            return Response::make(Storage::disk('local')->get($request->query('url')), 200, [
+                'Content-Type' => 'image/jpeg'
+            ]);
         } catch (FileNotFoundException $err) {
             return Response::make(['message' => 'File not found'], 404);
         }
