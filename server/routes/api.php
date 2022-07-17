@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('media/', [\App\Http\Controllers\MediaController::class, 'get'])->middleware('cors');
+
 Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')
         ->get('/me', [AuthController::class, 'getMe'])->name('auth.me');
