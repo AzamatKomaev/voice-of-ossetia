@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 
 const Captcha = () => {
+  // eslint-disable-next-line
   const handleCaptcha = (response: any) => {
     alert(response)
   }
