@@ -23,7 +23,7 @@ jobs:
       - name: install modules and build project.
         run: |
           cd ./client
-          echo "REACT_APP_SERVER_URL=$SERVER_URL" > .env
+          echo "REACT_APP_SERVER_URL=$SERVER_URL\nCAPTCHA_SERVER_KEY=${{ secrets.CAPTCHA_SERVER_KEY }}" > .env
           npm install
           npm run build
       - uses: actions/upload-artifact@master
@@ -52,6 +52,4 @@ jobs:
         run:  scp -r ./client/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/voiceofossetia.ru
       - name: Pulling the project in server directory.
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/api.voiceofossetia.ru && git pull"
-      - name: Installing composer requirements.
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/api.voiceofossetia.ru/server && composer install"
       - run: echo "Deploy finished."

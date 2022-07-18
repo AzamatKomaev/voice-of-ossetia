@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AuthAPI} from "../../../api/auth";
+import Captcha from "../Captcha/Captcha";
 
 
 const LoginForm = () => {
@@ -55,6 +56,7 @@ const LoginForm = () => {
           {errors.non_field_errors ? <p className="text-danger">{errors.non_field_errors[0]}</p> : null}
         </div>
         <br/>
+        <Captcha/>
         <button className="btn btn-primary" onClick={handleLoginUserButton}>Войти!</button>
       </div>
     </div>
