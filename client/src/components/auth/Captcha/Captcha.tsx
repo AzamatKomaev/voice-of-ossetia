@@ -1,6 +1,10 @@
 import React, {useEffect} from 'react';
 
 const Captcha = () => {
+  const handleCaptcha = (response: any) => {
+    alert(response)
+  }
+
   useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://www.google.com/recaptcha/api.js'
@@ -13,7 +17,13 @@ const Captcha = () => {
     }
   }, [])
 
-  return <div className="g-recaptcha" data-sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6"></div>
+  return (
+    <div
+      className="g-recaptcha"
+      data-sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6"
+      data-callback="handleCaptcha"
+    ></div>
+  )
 };
 
 export default Captcha;
