@@ -23,7 +23,7 @@ jobs:
       - name: install modules and build project.
         run: |
           cd ./client
-          echo "REACT_APP_SERVER_URL=$SERVER_URL\nCAPTCHA_SERVER_KEY=${{ secrets.CAPTCHA_SERVER_KEY }}" > .env
+          echo "REACT_APP_SERVER_URL=$SERVER_URL" > .env
           npm install
           npm run build
       - uses: actions/upload-artifact@master
