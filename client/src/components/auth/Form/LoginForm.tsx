@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {AuthAPI} from "../../../api/auth";
-import Captcha from "../Captcha/Captcha";
-
+import Reaptcha from "reaptcha";
 
 const LoginForm = () => {
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-
+  const [verified, setVerified] = useState<boolean>(false)
   const [errors, setErrors] = useState<any>({
     non_field_error: null,
     name: null,
@@ -26,10 +25,15 @@ const LoginForm = () => {
     else setErrors(response.data.errors)
   }
 
+  const onVerify = (recaptchaResponse: any) => {
+    setVerified(true)
+    console.log(recaptchaResponse)
+  };
+
   return (
     <div>
       <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-        <h3 style={{textAlign: "center"}}>Регистрация</h3><br/>
+        <h3 style={{textAlign: "center"}}>Вход</h3><br/>
         <div className="form-group">
           <label htmlFor="name">Логин</label>
           <input
@@ -56,8 +60,14 @@ const LoginForm = () => {
           {errors.non_field_errors ? <p className="text-danger">{errors.non_field_errors[0]}</p> : null}
         </div>
         <br/>
-        <Captcha/>
-        <button className="btn btn-primary" onClick={handleLoginUserButton}>Войти!</button>
+        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify}/>
+        <button
+          className="btn btn-primary"
+          onClick={handleLoginUserButton}
+          disabled={!verified}
+        >
+          Войти!
+        </button>
       </div>
     </div>
   );
