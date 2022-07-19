@@ -2,12 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Custom\NotificationService;
 use App\Models\Notification;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Mockery\Matcher\Not;
 use Tests\TestCase;
 
 class NotificationTest extends TestCase
