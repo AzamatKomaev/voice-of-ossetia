@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\CaptchaService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -34,13 +35,19 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->validated()))
+        if ( !CaptchaService::verifyUser($request->validated()['captcha-response']) )
         {
             return Response::json([
                 'message' => 'The given data was invalid.',
-                'errors' => [
-                    'non_field_errors' => ['Логин или пароль не валиден. ']
-                ]
+                'errors' => ['captcha-response' => ['Капча не валидна. ']]
+            ]);
+        }
+
+        if ( !Auth::attempt($request->validated()) )
+        {
+            return Response::json([
+                'message' => 'The given data was invalid.',
+                'errors' => ['non_field_errors' => ['Логин или пароль не валиден. ']]
             ], 422);
         }
         $token = Auth::user()->createToken('API Token');
@@ -55,7 +62,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->tokens()->delete();
-        return Response::json(['token' => 'All tokens were deleted successfully. '], 204);
+        return Response::json(['token' => 'All tokens were deleted successfully.'], 204);
     }
 
     /**

@@ -4,7 +4,8 @@ namespace App\Custom;
 
 use App\Models\User;
 
-class NotificationService {
+class NotificationService
+{
     private User $user;
     private string $notificationType;
 
@@ -21,7 +22,8 @@ class NotificationService {
      * Mark selected notifications as read.
      * @return void
      */
-    public function markAsRead() {
+    public function markAsRead()
+    {
         $this->user->unreadNotifications()->where('type', $this->notificationType)->update(['read_at' => now()]);
     }
 
@@ -29,7 +31,8 @@ class NotificationService {
      * Get selected notification.
      * @return mixed
      */
-    public function get() {
+    public function get()
+    {
         return $this->user->notifications()->where('type', $this->notificationType)->get();
     }
 
@@ -37,7 +40,8 @@ class NotificationService {
      * Delete selected notifications.
      * @return void
      */
-    public function delete() {
+    public function delete()
+    {
         $this->user->notifications()->where('type', $this->notificationType)->delete();
     }
 }

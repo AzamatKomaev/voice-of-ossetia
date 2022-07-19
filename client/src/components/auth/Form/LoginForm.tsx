@@ -5,17 +5,20 @@ import Reaptcha from "reaptcha";
 const LoginForm = () => {
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
   const [verified, setVerified] = useState<boolean>(false)
   const [errors, setErrors] = useState<any>({
     non_field_error: null,
     name: null,
-    password: null
+    password: null,
+    'recaptcha-response': null
   })
 
   const handleLoginUserButton = async() => {
     const response = await AuthAPI.login({
       name: name,
-      password: password
+      password: password,
+      'recaptcha-response': recaptchaResponse
     })
 
     if (response.status === 201) {
@@ -25,9 +28,9 @@ const LoginForm = () => {
     else setErrors(response.data.errors)
   }
 
-  const onVerify = (recaptchaResponse: any) => {
+  const onVerify = (recaptchaResponse: string) => {
     setVerified(true)
-    console.log(recaptchaResponse)
+    setRecaptchaResponse(recaptchaResponse)
   };
 
   return (
@@ -61,6 +64,7 @@ const LoginForm = () => {
         </div>
         <br/>
         <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify}/>
+        <br/>
         <button
           className="btn btn-primary"
           onClick={handleLoginUserButton}
