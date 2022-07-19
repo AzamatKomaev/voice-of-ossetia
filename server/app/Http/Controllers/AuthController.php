@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use function App\Custom\verifyUser;
+use function App\Services\verifyUser;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
