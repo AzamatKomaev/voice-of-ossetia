@@ -39,7 +39,7 @@ class AuthController extends Controller
         {
             return Response::json([
                 'message' => 'The given data was invalid.',
-                'errors' => ['captcha-response' => ['Капча не валидна. ']]
+                'errors' => ['captcha_response' => ['Капча не валидна. ']]
             ]);
         }
 
