@@ -52,14 +52,14 @@ jobs:
         run: | 
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/voiceofossetia.ru/*"
           scp -r ./client/build/* $SSH_USER@$SSH_HOST:/var/www/voiceofossetia.ru
-      - name: Deleting backend files and adding new ones.
+      - name: Pulling repository.
         run: |
-          ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/api.voiceofossetia.ru/*"
-          scp -r ./server/* $SSH_USER@$SSH_HOST:/var/www/api.voiceofossetia.ru
+          ssh $SSH_USER@$SSH_HOST "cd /var/www/api.voiceofossetia.ru && git pull"
       - name: Deleting welcome page files and adding new ones.
         run: |
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/welcome.voiceofossetia.ru/*"
           scp -r ./welcome/* $SSH_USER@$SSH_HOST:/var/www/welcome.voiceofossetia.ru
       - name: Setting up backend.
-        run: ssh $SSH_USER@$SSH_HOST "cd /var/www/api.voiceofossetia.ru && su azamat && composer install && composer dump-autoload -o"
+        run: ssh $SSH_USER@$SSH_HOST "cd /var/www/api.voiceofossetia.ru/server && su azamat -c \" composer install --ignore-platform-reqs &&
+                                                                                           composer dump-autoload -o\""
       - run: echo "Deploy finished."

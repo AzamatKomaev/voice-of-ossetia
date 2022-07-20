@@ -33,7 +33,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if ( !CaptchaService::verifyUser($request->validated()['captcha-response']) )
+        if ( !CaptchaService::verifyUser($request->validated()['captcha_response']) )
         {
             return Response::json([
                 'message' => 'The given data was invalid.',
