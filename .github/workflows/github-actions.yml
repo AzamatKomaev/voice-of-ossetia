@@ -43,12 +43,12 @@ jobs:
           path: ./client/build
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
-        run: |
-          eval "$(ssh-agent -s)"
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_KEY }}"
+        run: eval "$(ssh-agent -s)"
+      - run: mkdir -p ~/.ssh
+      - run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - run: ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+      - run: ssh-add - <<< "${{ secrets.SSH_KEY }}"
+      - name: Set up SSH private key.
       - name: Deleting frontend build files and adding new ones.
         run: | 
           ssh $SSH_USER@$SSH_HOST "rm /var/www/voiceofossetia.ru/*"
