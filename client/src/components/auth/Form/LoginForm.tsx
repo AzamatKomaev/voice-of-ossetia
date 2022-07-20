@@ -11,14 +11,14 @@ const LoginForm = () => {
     non_field_error: null,
     name: null,
     password: null,
-    recaptcha_response: null
+    captcha_response: null
   })
 
   const handleLoginUserButton = async() => {
     const response = await AuthAPI.login({
       name: name,
       password: password,
-      recaptcha_response: recaptchaResponse
+      captcha_response: recaptchaResponse
     })
 
     if (response.status === 201) {
