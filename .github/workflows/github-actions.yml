@@ -28,18 +28,10 @@ jobs:
           echo "REACT_APP_SERVER_URL=$SERVER_URL" > .env
           npm install
           npm run build
-      - name: Install modules for backend.
-        run: |
-          cd ./server
-          composer install
       - uses: actions/upload-artifact@master
         with:
           name: project-build
           path: ./client/build
-      - uses: actions/upload-artifact@master
-        with:
-          name: laravel-vendor
-          path: ./server/vendor
   deploy-client:
     needs: [build]
     runs-on: ubuntu-18.04
