@@ -51,15 +51,15 @@ jobs:
       - name: Deleting frontend build files and adding new ones.
         run: | 
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/voiceofossetia.ru/*"
-          scp ./client/build/* $SSH_USER@$SSH_HOST:/var/www/voiceofossetia.ru
+          scp -r ./client/build/* $SSH_USER@$SSH_HOST:/var/www/voiceofossetia.ru
       - name: Deleting backend files and adding new ones.
         run: |
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/api.voiceofossetia.ru/*"
-          scp ./server/* $SSH_USER@$SSH_HOST:/var/www/api.voiceofossetia.ru
+          scp -r ./server/* $SSH_USER@$SSH_HOST:/var/www/api.voiceofossetia.ru
       - name: Deleting welcome page files and adding new ones.
         run: |
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/welcome.voiceofossetia.ru/*"
-          scp ./welcome/* $SSH_USER@$SSH_HOST:/var/www/welcome.voiceofossetia.ru
+          scp -r ./welcome/* $SSH_USER@$SSH_HOST:/var/www/welcome.voiceofossetia.ru
       - name: Setting up backend.
         run: ssh $SSH_USER@$SSH_HOST "cd /var/www/api.voiceofossetia.ru && su azamat && composer install && composer dump-autoload -o"
       - run: echo "Deploy finished."
