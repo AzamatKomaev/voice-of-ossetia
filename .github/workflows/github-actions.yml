@@ -3,6 +3,8 @@ name: GitHub Actions
 env:
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
   SERVER_URL: https://api.voiceofossetia.ru
+  SSH_HOST: ${{ secrets.SSH_HOST }}
+  SSH_USER: ${{ secrets.SSH_USER }}
 
 on:
   push:
@@ -20,36 +22,57 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: install modules and build project.
+      - name: Install modules and build for frontend.
         run: |
           cd ./client
           echo "REACT_APP_SERVER_URL=$SERVER_URL" > .env
           npm install
           npm run build
+      - name: Install modules for backend.
+        run: |
+          cd ./server
+          composer install
       - uses: actions/upload-artifact@master
         with:
           name: project-build
           path: ./client/build
-  deploy:
+      - uses: actions/upload-artifact@master
+        with:
+          name: laravel-vendor
+          path: ./server/vendor
+  deploy-client:
     needs: [build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@master
         with:
           name: project-build
           path: ./client/build
+      - uses: actions/upload-artifact@master
+        with:
+          name: laravel-vendor
+          path: ./server/vendor
       - run: 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
       - name: Set up SSH private key.
-        run: eval "$(ssh-agent -s)"
-      - run: mkdir -p ~/.ssh
-      - run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      - run: ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-      - run: ssh-add - <<< "${{ secrets.SSH_KEY }}"
-      - name: Delete build folder in server if it exists.
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf /var/www/voiceofossetia.ru/build"
-      - name: Adding build to server via SSH.
-        run:  scp -r ./client/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/voiceofossetia.ru
-      - name: Pulling the project in server directory.
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/api.voiceofossetia.ru && git pull"
+        run: |
+          eval "$(ssh-agent -s)"
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SSH_KEY }}"
+      - name: Deleting frontend build files and adding new ones.
+        run: | 
+          ssh $SSH_USER@$SSH_HOST "rm /var/www/voiceofossetia.ru/*"
+          scp ./client/build/* $SSH_USER@$SSH_HOST:/var/www/voiceofossetia.ru
+      - name: Deleting backend files and adding new ones.
+        run: |
+          ssh $SSH_USER@$SSH_HOST "rm /var/www/api.voiceofossetia.ru/*"
+          scp ./server/* $SSH_USER@$SSH_HOST:/var/www/api.voiceofossetia.ru
+      - name: Deleting welcome page files and adding new ones.
+        run: |
+          ssh $SSH_USER@$SSH_HOST "rm /var/www/welcome.voiceofossetia.ru/*"
+          scp ./welcome/* $SSH_USER@$SSH_HOST:/var/www/welcome.voiceofossetia.ru
+      - name: Setting up backend.
+        run: ssh $SSH_USER@$SSH_HOST "cd /var/www/api.voiceofossetia.ru && su azamat && composer install && composer dump-autoload -o"
       - run: echo "Deploy finished."

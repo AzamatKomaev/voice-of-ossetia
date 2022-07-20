@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use function App\Services\verifyUser;
+use App\Services\CaptchaService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -33,7 +33,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if ( !verifyUser($request->validated()['captcha-response']) )
+        if ( !CaptchaService::verifyUser($request->validated()['captcha-response']) )
         {
             return Response::json([
                 'message' => 'The given data was invalid.',
