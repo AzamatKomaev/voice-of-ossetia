@@ -48,7 +48,6 @@ jobs:
       - run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - run: ssh-agent -a $SSH_AUTH_SOCK > /dev/null
       - run: ssh-add - <<< "${{ secrets.SSH_KEY }}"
-      - name: Set up SSH private key.
       - name: Deleting frontend build files and adding new ones.
         run: | 
           ssh $SSH_USER@$SSH_HOST "rm /var/www/voiceofossetia.ru/*"
