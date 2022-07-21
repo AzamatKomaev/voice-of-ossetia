@@ -33,16 +33,17 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if ( !CaptchaService::verifyUser($request->validated()['captcha_response']) )
-        {
+        $name = $request->validated()['name'];
+        $password = $request->validated()['password'];
+
+        if ( !CaptchaService::verifyUser($request->validated()['captcha_response']) ) {
             return Response::json([
                 'message' => 'The given data was invalid.',
                 'errors' => ['captcha_response' => ['Капча не валидна. ']]
-            ]);
+            ], 422);
         }
 
-        if ( !Auth::attempt($request->validated()) )
-        {
+        if ( !Auth::attempt(['name' => $name, 'password' => $password]) ) {
             return Response::json([
                 'message' => 'The given data was invalid.',
                 'errors' => ['non_field_errors' => ['Логин или пароль не валиден. ']]

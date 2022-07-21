@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {AuthAPI} from "../../../api/auth";
 import Reaptcha from "reaptcha";
+import Spinner from "../../common/Spinner";
 
 const LoginForm = () => {
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
+  const [recaptchaLoading, setRecaptchaLoading] = useState<boolean>(true)
   const [verified, setVerified] = useState<boolean>(false)
   const [errors, setErrors] = useState<any>({
     non_field_error: null,
@@ -26,6 +28,10 @@ const LoginForm = () => {
       window.location.href = '/'
     }
     else setErrors(response.data.errors)
+  }
+
+  const onLoad = () => {
+    setRecaptchaLoading(false);
   }
 
   const onVerify = (recaptchaResponse: string) => {
@@ -63,7 +69,8 @@ const LoginForm = () => {
           {errors.non_field_errors ? <p className="text-danger">{errors.non_field_errors[0]}</p> : null}
         </div>
         <br/>
-        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify}/>
+        {recaptchaLoading && <Spinner/>}
+        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify} onLoad={onLoad}/>
         <br/>
         <button
           className="btn btn-primary"
