@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {numberRange} from "../../../utils";
 import Select from "../../common/Select";
 import {AuthAPI} from "../../../api/auth";
+import Spinner from "../../common/Spinner";
 
 const RegistrationForm = () => {
   const [name, setName] = useState<string>("")
@@ -12,6 +13,7 @@ const RegistrationForm = () => {
   const [lastName, setLastName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [errors, setErrors] = useState<any>({
     name: null,
@@ -33,6 +35,7 @@ const RegistrationForm = () => {
       return
     }
 
+    setLoading(true)
     const response = await AuthAPI.register({
       name: name,
       email: email,
@@ -43,6 +46,7 @@ const RegistrationForm = () => {
       password: password,
       password2: password2
     })
+    setLoading(false)
 
     if (response.status === 201) window.location.href = '/auth/login/'
     else setErrors(response.data.errors)
@@ -51,7 +55,8 @@ const RegistrationForm = () => {
   return (
     <div>
       <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-        <h3 style={{textAlign: "center"}}>Регистрация</h3><br/>
+        <h3 style={{textAlign: "center"}}>Регистрация</h3>
+        {loading && <Spinner/>}
         <div className="form-group">
           <label htmlFor="email">Электронная почта</label>
           <input

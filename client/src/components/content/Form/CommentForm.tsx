@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../../store";
 import {HttpSender} from "../../../api/api-client";
-import {callDispatch} from "../../../utils";
 import {ADD_COMMENTS} from "../../../store/commentReducer";
 import {IPost} from "../../../interfaces";
 
@@ -25,7 +24,7 @@ const CommentForm = ({post}: ICommentForm) => {
       post_id: post.id
     })
     if (response.status === 201) {
-      callDispatch(dispatch, {
+      dispatch({
         type: ADD_COMMENTS,
         payload: {
           addedComments: [response.data]

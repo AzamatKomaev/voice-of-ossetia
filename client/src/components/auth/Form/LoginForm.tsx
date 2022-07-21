@@ -6,6 +6,7 @@ import Spinner from "../../common/Spinner";
 const LoginForm = () => {
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
   const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
   const [recaptchaLoading, setRecaptchaLoading] = useState<boolean>(true)
   const [verified, setVerified] = useState<boolean>(false)
@@ -17,11 +18,13 @@ const LoginForm = () => {
   })
 
   const handleLoginUserButton = async() => {
+    setLoading(true)
     const response = await AuthAPI.login({
       name: name,
       password: password,
       captcha_response: recaptchaResponse
     })
+    setLoading(false)
 
     if (response.status === 201) {
       localStorage.setItem('api-token', response.data?.token)
@@ -42,7 +45,8 @@ const LoginForm = () => {
   return (
     <div>
       <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-        <h3 style={{textAlign: "center"}}>Вход</h3><br/>
+        <h3 style={{textAlign: "center"}}>Вход</h3>
+        {loading && <Spinner/>}
         <div className="form-group">
           <label htmlFor="name">Логин</label>
           <input

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {HttpSender} from "../../../api/api-client";
+import Spinner from "../../common/Spinner";
 
 interface ICategoryFormErrors {
   name: Array<string> | null,
@@ -11,6 +12,7 @@ const CategoryForm = () => {
   const [name, setName] = useState<string>("")
   const [description, setDescription] = useState<string>("")
   const [avatar, setAvatar] = useState("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [errors, setErrors] = useState<ICategoryFormErrors>({
     name: null,
@@ -32,7 +34,9 @@ const CategoryForm = () => {
     formData.append('avatar', avatar)
 
     const sender = new HttpSender('categories')
+    setLoading(true)
     const response = await sender.create(formData)
+    setLoading(false)
 
     if (response.status === 201) {
       alert('Категория была создана успешна')
@@ -43,7 +47,8 @@ const CategoryForm = () => {
   return (
     <div>
       <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-        <h3 style={{textAlign: "center"}}>Создать категорию</h3><br/>
+        <h3 style={{textAlign: "center"}}>Создать категорию</h3>
+        {loading && <Spinner/>}
         <div className="form-group">
           <label htmlFor="name">Название</label>
           <input

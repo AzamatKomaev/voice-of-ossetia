@@ -1,4 +1,3 @@
-import {AnyAction, Dispatch} from "redux";
 import {INotification, IUser} from "../interfaces";
 
 export const numberRange = (start: number, end: number) => {
@@ -15,19 +14,6 @@ export const getReadableDateFormat = (dateString: Date | string): string => {
     minute: 'numeric'
   })
   return readableDateFormat.replace(",", "");
-}
-
-
-/**
- * Call dispatch function.
- * @param dispatch
- * @param action
- */
-export const callDispatch = (dispatch: Dispatch<AnyAction>, action: {type: string, payload: any}): void => {
-  dispatch({
-    type: action.type,
-    payload: action.payload
-  })
 }
 
 export const getNotificationType = (notification: INotification): string | null => {

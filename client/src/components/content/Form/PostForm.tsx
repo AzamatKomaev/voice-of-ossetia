@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ADD_FILES} from "../../../store/fileReducer";
 import {IRootState} from "../../../store";
 import {HttpSender} from "../../../api/api-client";
-import {callDispatch} from "../../../utils";
+import Spinner from "../../common/Spinner";
 
 interface IPostForm {
   categories: Array<ICategory> | undefined | boolean
@@ -26,6 +26,7 @@ const PostForm = ({categories}: IPostForm) => {
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
   const [location, setLocation] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [errors, setErrors] = useState<IPostFormErrors>({
     title: null,
@@ -36,7 +37,7 @@ const PostForm = ({categories}: IPostForm) => {
   })
 
   const handleFilesInput = (e: any) => {
-    callDispatch(dispatch, {
+    dispatch({
       type: ADD_FILES,
       payload: {
         addedFiles: e.target.files
@@ -54,7 +55,9 @@ const PostForm = ({categories}: IPostForm) => {
     files.forEach((file: any) => formData.append('files[]', file))
 
     const sender = new HttpSender('posts')
+    setLoading(true)
     const response = await sender.create(formData)
+    setLoading(false)
     if (response.status === 201) window.location.href = `/posts/${response.data.id}`;
     else if (response.status === 422) setErrors(response.data.errors)
     else alert(`${response.status} status code`);
@@ -62,7 +65,8 @@ const PostForm = ({categories}: IPostForm) => {
 
   return (
     <div className="container col-12 col-sm-8 col-md-7 col-lg-5">
-      <h3 style={{textAlign: "center"}}>Создать пост</h3><br/>
+      <h3 style={{textAlign: "center"}}>Создать пост</h3>
+      {loading && <Spinner/>}
       <div className="form-group">
         <label htmlFor="category_id">Категория</label>
         <select
