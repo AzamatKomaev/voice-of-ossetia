@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import {getMediaFullPath} from "../../../api/media";
 import {IUser} from "../../../interfaces";
 import {getUserStatus} from "../../../utils";
+import UserItemButtons from "../Buttons/UserItemButtons";
 
 const UserItem = ({user}: {user: IUser}) => {
   const userStatusCallback = useCallback(() => getUserStatus(user), [user])
@@ -20,9 +21,7 @@ const UserItem = ({user}: {user: IUser}) => {
           <p className="fw-light text-danger" style={{marginTop: "-9px", marginLeft: "3px"}}>{userStatusCallback()}</p>
         </div>
         <div className="break"></div>
-        <button id="track-button" className="btn btn-primary">
-          Отслеживать
-        </button>
+        <UserItemButtons user={user}/>
       </div>
     </div>
   );

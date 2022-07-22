@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {useHttpSender} from "../../../utils/hooks";
 import {hideNotification} from "../../../utils/Actions/notifications";
 import Modal from "../../common/Modal";
+import {Link} from "react-router-dom";
 
 interface INotificationCard {
   notification: INotification,
@@ -63,15 +64,15 @@ const NotificationCard = ({notification, isDetail}: INotificationCard) => {
         <li className="list-group-item">
             {notification.data.text.length <= 255
               ?
-              <a href={`/notifications/${notification.id}`} className="text-dark" style={{textDecoration: "none"}}>
+              <Link to={`/notifications/${notification.id}`} className="text-dark">
                 {notification.data.text}
-              </a>
+              </Link>
               :
               <div>
-                <a href={`/notifications/${notification.id}`} className="text-dark" style={{textDecoration: "none"}}>
+                <Link to={`/notifications/${notification.id}`} className="text-dark">
                   {notification.data.text.slice(0, 255)}...<br/>
-                </a>
-                <a href={`/notifications/${notification.id}`}>Нажмите, чтобы открыть полностью</a>
+                </Link>
+                <Link to={`/notifications/${notification.id}`}>Нажмите, чтобы открыть полностью</Link>
               </div>
             }
         </li>

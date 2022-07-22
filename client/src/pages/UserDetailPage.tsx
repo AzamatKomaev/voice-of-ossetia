@@ -3,25 +3,16 @@ import {useFetch, usePagination} from "../utils/hooks";
 import Http404Error from "../components/common/Http404Error";
 import Spinner from "../components/common/Spinner";
 import UserCard from "../components/user/Card/UserCard";
-import {useDispatch} from "react-redux";
-import React, {useEffect} from "react";
-import {addPosts} from "../utils/Actions/posts";
+import React from "react";
 import PostList from "../components/content/List/PostList";
 
 const UserDetailPage = () => {
   const {userId} = useParams();
-  const dispatch = useDispatch();
   const [userData, userStatusCode, userLoading] = useFetch(`api/users/${userId}`, {});
 
   const [posts, postsLoading] = usePagination('api/posts', {
     user_id: userId
   })
-
-  useEffect(() => {
-    if (posts && posts.length > 0) {
-      dispatch(addPosts(posts));
-    }
-  }, [posts, dispatch])
 
   if (userStatusCode === 404) {
     return (<Http404Error/>)
@@ -37,7 +28,7 @@ const UserDetailPage = () => {
       <UserCard user={userData}/>
       <br/>
       <h3>Посты</h3>
-      <PostList/>
+      <PostList posts={posts}/>
       {postsLoading &&
           <div>
               <br/><Spinner/><br/>

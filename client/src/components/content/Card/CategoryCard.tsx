@@ -1,6 +1,7 @@
 import React from 'react';
 import {ICategory} from "../../../interfaces";
 import {getMediaFullPath} from "../../../api/media";
+import {Link} from "react-router-dom";
 
 interface ICategoryCard {
   category: ICategory
@@ -9,7 +10,7 @@ interface ICategoryCard {
 const CategoryCard = ({category}: ICategoryCard) => {
   return (
     <div className="card">
-      <a href={`/posts?category_id=${category.id}`} className="text-dark" style={{textDecoration: "none"}}>
+      <Link to={`/posts?category_id=${category.id}`} className="text-dark">
         <img
           className={`category-${category.id}`}
           src={getMediaFullPath(category.avatar)}
@@ -20,7 +21,7 @@ const CategoryCard = ({category}: ICategoryCard) => {
           <h5 className="card-title">{category.name}</h5>
           <p className="card-text">{category.description}</p>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

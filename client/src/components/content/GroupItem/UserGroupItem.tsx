@@ -1,6 +1,7 @@
 import React from 'react';
 import {getMediaFullPath} from "../../../api/media";
 import {IUser} from "../../../interfaces";
+import {Link} from "react-router-dom";
 
 interface IUserGroupItem {
   user: IUser
@@ -19,7 +20,7 @@ const UserGroupItem = ({user}: IUserGroupItem) => {
         />
         <div id="user-data" style={{marginLeft: "10px"}}>
           <h5 className="card-title">
-            <a href={`/users/${user.id}`} className="text-dark">{user.name}</a>
+            <Link to={`/users/${user.id}`} className="text-dark">{user.name}</Link>
           </h5>
           <h6 className="card-subtitle mb-2 text-muted">
             {user.first_name && user.last_name

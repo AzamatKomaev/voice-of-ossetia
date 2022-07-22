@@ -11,7 +11,7 @@ class Post extends Model
     use FilterQueryString;
     use HasFactory;
 
-    protected $filters = ['category_id'];
+    protected $filters = ['category_id', 'user_id'];
 
     protected $fillable = [
         'title',

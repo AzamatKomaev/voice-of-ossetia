@@ -1,29 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {usePagination, useQuery} from "../utils/hooks";
 import Spinner from "../components/common/Spinner";
 import PostList from "../components/content/List/PostList";
-import {useDispatch} from "react-redux";
-import {addPosts} from "../utils/Actions/posts";
 
 const PostListPage = () => {
   const query = useQuery();
-  const dispatch = useDispatch();
-
   const [posts, postsLoading] = usePagination('api/posts', {
     category_id: query.get('category_id')
   })
 
-  useEffect(() => {
-    if (posts && posts.length > 0) {
-      dispatch(addPosts(posts));
-    }
-  }, [posts, dispatch])
-
-
   return (
     <div className="container">
       <br/>
-      <PostList/>
+      <PostList posts={posts}/>
       {postsLoading &&
         <div>
           <br/><Spinner/><br/>

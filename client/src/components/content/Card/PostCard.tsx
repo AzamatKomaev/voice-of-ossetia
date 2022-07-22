@@ -11,6 +11,7 @@ import {useHttpSender} from "../../../utils/hooks";
 import {hidePost} from "../../../utils/Actions/posts";
 import MainPostDataGroupItem from "../GroupItem/MainPostDataGroupItem";
 import ImagesPostGroupItem from "../GroupItem/ImagesPostGroupItem";
+import {Link} from "react-router-dom";
 
 interface IPostCard {
   post: IPost,
@@ -45,7 +46,7 @@ const PostCard = ({post, isDetail}: IPostCard) => {
       <ImagesPostGroupItem postFiles={post.files} isDetail={isDetail}/>
       <ul className="list-group list-group-flush">
         <UserGroupItem user={post.user}/>
-        <a href={`/posts/${post.id}/`} className="text-dark" style={{textDecoration: "none"}}>
+        <Link to={`/posts/${post.id}/`} className="text-dark">
           <MainPostDataGroupItem post={post}/>
           <ContentGroupItem
             title={post.title}
@@ -53,7 +54,7 @@ const PostCard = ({post, isDetail}: IPostCard) => {
             border={true}
           />
           <TimestampGroupItem created_at={post.created_at} updated_at={post.updated_at}/>
-        </a>
+        </Link>
         <ActionButtonsGroupItem
           complaining={{
             onClick: () => {},
