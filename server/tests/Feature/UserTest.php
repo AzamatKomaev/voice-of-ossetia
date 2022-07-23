@@ -95,9 +95,10 @@ class UserTest extends TestCase
         $response = $this->postJson(route('auth.login'));
         $response->assertStatus(422);
         $responseErrors = $response->json()['errors'];
-        $this->assertCount(2, $responseErrors);
+        $this->assertCount(3, $responseErrors);
         $this->assertEquals('Поле name не может быть пустым.', $responseErrors['name'][0]);
         $this->assertEquals('Поле password не может быть пустым.', $responseErrors['password'][0]);
+        $this->assertEquals('Поле captcha response не может быть пустым.', $responseErrors['captcha_response'][0]);
     }
 
     /**
