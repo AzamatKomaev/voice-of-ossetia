@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivationToken;
 use App\Services\CaptchaService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Hash;
@@ -63,6 +65,26 @@ class AuthController extends Controller
         $user->tokens()->delete();
         return Response::json(['token' => 'All tokens were deleted successfully.'], 204);
     }
+
+    /**
+     * @param Request $request
+     * @param string $token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function activate_user(Request $request, string $uuid)
+    {
+        $activationToken = ActivationToken::where('token', $uuid)->get();
+        if (!$activationToken) {
+            return Response::json(['token' => 'The token does not exists.'], 404);
+        }
+        $user = $activationToken->first()->user;
+        $user->is_active = true;
+        $user->save();
+        $activationToken->first()->delete();
+        return Response::json([], 204);
+    }
+
+
 
     /**
      * @return \Illuminate\Http\JsonResponse

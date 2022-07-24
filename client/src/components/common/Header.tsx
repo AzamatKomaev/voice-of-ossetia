@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {IRootState} from "../../store";
+import {Link} from "react-router-dom";
 
 
 
@@ -34,7 +35,7 @@ const Header = () => {
     {
       className: 'nav-link',
       href: '/notifications',
-      value: `Уведомления ${auth.isAuth && auth.data.notification_count ? 'new: ' + auth.data.notification_count : null}`
+      value: `Уведомления ${auth.isAuth && auth.data.notification_count ? 'new: ' + auth.data.notification_count : ''}`
     },
     {
       className: 'nav-link text-danger',
@@ -68,20 +69,20 @@ const Header = () => {
           <ul className="navbar-nav">
             {navItems.map((nav, index) => (
               <li key={index} className="nav-item">
-                <a className={nav.className} href={nav.href}>{nav.value}</a>
+                <Link className={nav.className} to={nav.href}>{nav.value}</Link>
               </li>
             ))}
             {auth.isAuth
               ?
               authNavItems.map((nav, index) => (
                 <li key={index} className="nav-item">
-                  <a className={nav.className} href={nav.href}>{nav.value}</a>
+                  <Link className={nav.className} to={nav.href}>{nav.value}</Link>
                 </li>
               ))
               :
               notAuthNavItems.map((nav, index) => (
                 <li key={index} className="nav-item">
-                  <a className={nav.className} href={nav.href}>{nav.value}</a>
+                  <Link className={nav.className} to={nav.href}>{nav.value}</Link>
                 </li>
               ))
             }

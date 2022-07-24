@@ -18,9 +18,12 @@ Route::get('media/', [\App\Http\Controllers\MediaController::class, 'get'])->mid
 
 Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')
-        ->get('/me', [AuthController::class, 'getMe'])->name('auth.me');
+        ->get('/me', [AuthController::class, 'getMe'])
+        ->name('auth.me');
     Route::middleware('auth:sanctum')
-        ->delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+        ->delete('/logout', [AuthController::class, 'logout'])
+        ->name('auth.logout');
+    Route::delete('/activate/{uuid}', [AuthController::class, 'activate_user'])->name('auth.activate');
     Route::post('/create', [AuthController::class, 'create'])->name('auth.create');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });

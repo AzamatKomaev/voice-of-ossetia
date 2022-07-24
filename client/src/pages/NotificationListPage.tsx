@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import {usePagination} from "../utils/hooks";
 import NotificationList from "../components/content/List/NotificationList";
 import Spinner from "../components/common/Spinner";
-import {addNotifications} from "../utils/Actions/notifications";
+import {addNotifications, clearNotifications} from "../utils/Actions/notifications";
 
 const NotificationListPage = () => {
   const dispatch = useDispatch();
@@ -12,6 +12,10 @@ const NotificationListPage = () => {
   useEffect(() => {
     if (notifications && notifications.length > 0) {
       dispatch(addNotifications(notifications))
+    }
+
+    return () => {
+      dispatch(clearNotifications())
     }
   }, [notifications, dispatch])
 

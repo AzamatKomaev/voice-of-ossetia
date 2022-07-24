@@ -13,16 +13,18 @@ class UserCreatedNotification extends Notification implements ShouldQueue
 
     private $sender;
     private User $receiver;
+    private string $token;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($receiver)
+    public function __construct($receiver, $token)
     {
         $this->sender = User::getSuperuser() ?? 'System';
         $this->receiver = $receiver;
+        $this->token = $token;
     }
 
     /**
@@ -44,10 +46,8 @@ class UserCreatedNotification extends Notification implements ShouldQueue
     {
         return 'Доброго времени суток, ' . $this->receiver->name . '! ' .
             'Я рад видеть вас на своем сайте! Ваша учетная запись пока не активна. ' .
-            'Наберитесь терпения и подождите пока я вам отпишу. ' .
-            'Я постараюсь как можно скорее сделать вас полноценным юзером данного сайта! ' .
-            'Если же все таки я вам не написал, вы можете написать мне на почту ' .
-            'azamatkomaev@mail.ru. Спасибо за понимание :).';
+            'Мы выслали на указанную вами почту сообщение с указаниями для подтверждения вашего аккаунта. ' .
+            'Вам следует подтвердить почту, иначе ваш аккаунт будет удален в течений 24 часов.';
     }
 
     /**

@@ -1,7 +1,8 @@
 import {INotification} from "../interfaces";
 
-export const ADD_NOTIFICATIONS = "ADD_NOTIFICATIONS";
-export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
+const ADD_NOTIFICATIONS = "ADD_NOTIFICATIONS";
+const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
+const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
 
 interface INotificationReducerState {
   values: Array<INotification>
@@ -23,6 +24,10 @@ export const notificationReducer = (state = defaultState, action: any) => {
         ...state,
         values: state.values.filter((post) => post.id !== action.payload.hidedNotificationId)
       }
+    case CLEAR_NOTIFICATIONS:
+      return {
+        ...state, values: []
+      }
     default:
       return state;
   }
@@ -32,3 +37,4 @@ export const addNotificationsAction = (payload: {addedNotifications: INotificati
   ({type: ADD_NOTIFICATIONS, payload})
 export const hideNotificationAction = (payload: {hidedNotificationId: number}) =>
   ({type: HIDE_NOTIFICATION, payload})
+export const clearNotificationsAction = () => ({type: CLEAR_NOTIFICATIONS})

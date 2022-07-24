@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ActivationToken;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -71,6 +72,19 @@ class UserTest extends TestCase
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['name' => $userData['name'], 'email' => $userData['email']]);
+        $this->assertDatabaseHas('activation_tokens', ['user_id' => $response->json('id')]);
+    }
+
+    public function test_activation_user()
+    {
+        $user = User::factory()->create();
+        $this->assertDatabaseHas('activation_tokens', ['user_id' => $user->id]);
+        $activationToken = ActivationToken::where('user_id', $user->id)->get()->first();
+        $response = $this->delete(route('auth.activate', [$activationToken->token]));
+        $response->assertStatus(204);
+        $user = User::find($user->id);
+        $this->assertTrue($user->is_active);
+        $this->assertDatabaseMissing('activation_tokens', ['user_id' => $user->id]);
     }
 
     /**

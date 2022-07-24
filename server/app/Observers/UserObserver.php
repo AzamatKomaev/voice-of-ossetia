@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Models\ActivationToken;
 use App\Models\User;
 use App\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class UserObserver
 {
@@ -16,6 +18,11 @@ class UserObserver
      */
     public function created(User $user)
     {
-        Notification::send($user, (new UserCreatedNotification($user))->delay(60));
+        $uuid = (string) Str::uuid();
+        $activationToken = new ActivationToken();
+        $activationToken->token = $uuid;
+        $activationToken->user_id = $user->id;
+        $activationToken->save();
+        Notification::send($user, (new UserCreatedNotification($user, $uuid))->delay(60));
     }
 }

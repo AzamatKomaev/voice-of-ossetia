@@ -62,7 +62,7 @@ const NotificationCard = ({notification, isDetail}: INotificationCard) => {
           </div>
         }
         <li className="list-group-item">
-            {notification.data.text.length <= 255
+            {notification.data.text.length <= 255 || isDetail
               ?
               <Link to={`/notifications/${notification.id}`} className="text-dark">
                 {notification.data.text}
