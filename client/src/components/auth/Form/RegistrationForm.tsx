@@ -3,6 +3,7 @@ import {numberRange} from "../../../utils";
 import Select from "../../common/Select";
 import {AuthAPI} from "../../../api/auth";
 import Spinner from "../../common/Spinner";
+import Reaptcha from "reaptcha";
 
 const RegistrationForm = () => {
   const [name, setName] = useState<string>("")
@@ -14,6 +15,9 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
+  const [recaptchaLoading, setRecaptchaLoading] = useState<boolean>(true)
+  const [verified, setVerified] = useState<boolean>(false)
 
   const [errors, setErrors] = useState<any>({
     name: null,
@@ -24,6 +28,7 @@ const RegistrationForm = () => {
     last_name: null,
     password: null,
     password2: null,
+    captcha_response: null
   })
 
   const handleRegisterUserButton = async() => {
@@ -44,13 +49,23 @@ const RegistrationForm = () => {
       first_name: firstName,
       last_name: lastName,
       password: password,
-      password2: password2
+      password2: password2,
+      captcha_response: recaptchaResponse
     })
     setLoading(false)
 
     if (response.status === 201) window.location.href = '/auth/login/'
     else setErrors(response.data.errors)
   }
+
+  const onLoad = () => {
+    setRecaptchaLoading(false);
+  }
+
+  const onVerify = (recaptchaResponse: string) => {
+    setVerified(true)
+    setRecaptchaResponse(recaptchaResponse)
+  };
 
   return (
     <div>
@@ -147,8 +162,14 @@ const RegistrationForm = () => {
           />
           {errors.password2 ? <p className="text-danger">{errors.password2[0]}</p> : <p></p>}
         </div>
-        <br/>
-        <button className="btn btn-primary" onClick={handleRegisterUserButton}>Зарегистрироваться!</button>
+        {recaptchaLoading && <Spinner/>}
+        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify} onLoad={onLoad}/><br/>
+        <button
+          className="btn btn-primary"
+          onClick={handleRegisterUserButton}
+          disabled={!verified}
+        >Зарегистрироваться!
+        </button>
         <br/>
         <small>* - необязательные поля для заполнения</small>
       </div>

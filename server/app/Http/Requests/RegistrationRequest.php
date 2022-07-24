@@ -23,6 +23,7 @@ class RegistrationRequest extends FormRequest
             'first_name'  => ['nullable', 'max:255'],
             'last_name'   => ['nullable', 'max:255'],
             'description' => ['nullable'],
+            'captcha_response' => ['required']
         ];
     }
 }

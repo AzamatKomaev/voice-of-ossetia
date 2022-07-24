@@ -6,13 +6,17 @@ import {useLocation} from "react-router-dom";
 /*
   The hook to make fetch requests.
 */
-export const useFetch = (path: string, options: any) => {
+export const useFetch = (path: string, method: string, options: any) => {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const sendRequest = async() => {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, options)
+    axios({
+      method: method,
+      url: `${process.env.REACT_APP_SERVER_URL}/${path}`,
+      data: options
+    })
       .then(response => {
         setData(response.data)
         setStatusCode(response.status)

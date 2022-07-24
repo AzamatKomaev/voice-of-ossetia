@@ -19,6 +19,7 @@ import LogoutPage from "./pages/LogoutPage";
 import NotificationListPage from "./pages/NotificationListPage";
 import NotificationDetailPage from "./pages/NotificationDetailPage";
 import UserDetailPage from "./pages/UserDetailPage";
+import ActivationUserPage from "./pages/ActivationUserPage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/auth/login" element={<LoginPage/>} />
         <Route path="/auth/create" element={<RegistrationPage/>} />
         <Route path="/auth/logout" element={<LogoutPage/>} />
+        <Route path="/auth/activate/:uuid" element={<ActivationUserPage/>} />
         <Route path="/notifications" element={<NotificationListPage/>} />
         <Route path="/notifications/:notificationId" element={<NotificationDetailPage/>} />
         <Route path="/users/:userId" element={<UserDetailPage/>} />

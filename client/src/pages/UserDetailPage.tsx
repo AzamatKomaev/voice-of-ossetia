@@ -8,7 +8,7 @@ import PostList from "../components/content/List/PostList";
 
 const UserDetailPage = () => {
   const {userId} = useParams();
-  const [userData, userStatusCode, userLoading] = useFetch(`api/users/${userId}`, {});
+  const [userData, userStatusCode, userLoading] = useFetch(`api/users/${userId}`, 'get', {});
 
   const [posts, postsLoading] = usePagination('api/posts', {
     user_id: userId

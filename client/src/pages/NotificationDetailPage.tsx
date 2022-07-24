@@ -8,7 +8,7 @@ const NotificationDetailPage = () => {
   const {notificationId} = useParams();
 
   const [notification, notificationStatus, notificationLoading]: ReturnType<typeof useFetch> = useFetch(
-    `api/notifications/${notificationId}/`, {}
+    `api/notifications/${notificationId}/`, 'get', {}
   )
 
   if (notificationLoading) {

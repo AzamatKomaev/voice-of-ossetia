@@ -12,7 +12,9 @@ const PostDetailPage = () => {
   const {postId} = useParams();
   const dispatch = useDispatch();
 
-  const [post, postStatus, postLoading]: ReturnType<typeof useFetch> = useFetch(`api/posts/${postId}/`, {})
+  const [post, postStatus, postLoading]: ReturnType<typeof useFetch> = useFetch(
+    `api/posts/${postId}/`, 'get', {}
+  )
   const [comments, commentsLoading] = usePagination('api/comments', {
     post_id: postId
   })

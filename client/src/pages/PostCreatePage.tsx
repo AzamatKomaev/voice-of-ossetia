@@ -8,7 +8,7 @@ import Http404Error from "../components/common/Http404Error";
 
 const PostCreatePage = () => {
   const auth = useSelector((state: IRootState) => state.auth);
-  const [categories, categoriesStatus, categoriesLoading] = useFetch('api/categories/', {})
+  const [categories, categoriesStatus, categoriesLoading] = useFetch('api/categories/', 'get', {})
 
   if (categoriesStatus === 404) {
     return (<Http404Error/>)

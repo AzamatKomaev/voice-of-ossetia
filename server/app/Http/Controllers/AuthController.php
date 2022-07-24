@@ -20,9 +20,17 @@ class AuthController extends Controller
      * @param RegistrationRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(RegistrationRequest $request)
+    public function create(RegistrationRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
+
+        if ( !CaptchaService::verifyUser($data['captcha_response']) ) {
+            return Response::json([
+                'message' => 'The given data was invalid.',
+                'errors' => ['captcha_response' => ['Капча не валидна. ']]
+            ], 422);
+        }
+
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
         return Response::json($user, 201);
@@ -33,7 +41,7 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return  \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $name = $request->validated()['name'];
         $password = $request->validated()['password'];
@@ -59,7 +67,7 @@ class AuthController extends Controller
      * Log out user (delete all tokens).
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
         $user->tokens()->delete();
@@ -71,10 +79,10 @@ class AuthController extends Controller
      * @param string $token
      * @return \Illuminate\Http\JsonResponse
      */
-    public function activate_user(Request $request, string $uuid)
+    public function activate_user(Request $request, string $uuid): \Illuminate\Http\JsonResponse
     {
         $activationToken = ActivationToken::where('token', $uuid)->get();
-        if (!$activationToken) {
+        if (!$activationToken->first()) {
             return Response::json(['token' => 'The token does not exists.'], 404);
         }
         $user = $activationToken->first()->user;
@@ -89,7 +97,7 @@ class AuthController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMe()
+    public function getMe(): \Illuminate\Http\JsonResponse
     {
         $resource = new UserResource(Auth::user());
         return $resource->response()->setStatusCode(200);
