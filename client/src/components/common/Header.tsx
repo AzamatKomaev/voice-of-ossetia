@@ -34,6 +34,11 @@ const Header = () => {
   const authNavItems = [
     {
       className: 'nav-link',
+      href: `/users/${auth?.data?.id}`,
+      value: 'Профиль'
+    },
+    {
+      className: 'nav-link',
       href: '/notifications',
       value: `Уведомления ${auth.isAuth && auth.data.notification_count ? 'new: ' + auth.data.notification_count : ''}`
     },
@@ -60,7 +65,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">Голос Осетий <small style={{fontSize: "9pt"}}>beta</small></a>
+        <Link className="navbar-brand" to="/">Голос Осетий <small style={{fontSize: "9pt"}}>beta</small></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

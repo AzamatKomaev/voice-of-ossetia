@@ -2,9 +2,9 @@ import {useParams} from "react-router-dom";
 import {useFetch, usePagination} from "../utils/hooks";
 import Http404Error from "../components/common/Http404Error";
 import Spinner from "../components/common/Spinner";
-import UserCard from "../components/user/Card/UserCard";
 import React from "react";
 import PostList from "../components/content/List/PostList";
+import UserItem from "../components/user/Item/UserItem";
 
 const UserDetailPage = () => {
   const {userId} = useParams();
@@ -25,7 +25,9 @@ const UserDetailPage = () => {
   return (
     <div className="container-fluid">
       <br/>
-      <UserCard user={userData}/>
+      <div className="card">
+        <UserItem user={userData} showButtons={true}/>
+      </div>
       <br/>
       <h3>Посты</h3>
       <PostList posts={posts}/>

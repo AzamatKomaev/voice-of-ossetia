@@ -4,7 +4,12 @@ import {IUser} from "../../../interfaces";
 import {getUserStatus} from "../../../utils";
 import UserItemButtons from "../Buttons/UserItemButtons";
 
-const UserItem = ({user}: {user: IUser}) => {
+interface IUserItem {
+  user: IUser,
+  showButtons: boolean
+}
+
+const UserItem = ({user, showButtons}: IUserItem) => {
   const userStatusCallback = useCallback(() => getUserStatus(user), [user])
 
   return (
@@ -21,7 +26,7 @@ const UserItem = ({user}: {user: IUser}) => {
           <p className="fw-light text-danger" style={{marginTop: "-9px", marginLeft: "3px"}}>{userStatusCallback()}</p>
         </div>
         <div className="break"></div>
-        <UserItemButtons user={user}/>
+        {showButtons && <UserItemButtons user={user}/>}
       </div>
     </div>
   );

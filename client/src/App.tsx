@@ -20,6 +20,7 @@ import NotificationListPage from "./pages/NotificationListPage";
 import NotificationDetailPage from "./pages/NotificationDetailPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import ActivationUserPage from "./pages/ActivationUserPage";
+import UserSettingsPage from "./pages/UserSettingsPage";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ const App = () => {
         <Route path="/notifications" element={<NotificationListPage/>} />
         <Route path="/notifications/:notificationId" element={<NotificationDetailPage/>} />
         <Route path="/users/:userId" element={<UserDetailPage/>} />
+        <Route path="/users/me/settings" element={<UserSettingsPage/>} />
       </Routes>
     </div>
   );

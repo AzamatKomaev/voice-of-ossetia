@@ -85,7 +85,6 @@ class UserTest extends TestCase
         $user = User::find($user->id);
         $this->assertTrue($user->is_active);
         $this->assertDatabaseMissing('activation_tokens', ['user_id' => $user->id]);
-        dd($user->notifications);
     }
 
     /**

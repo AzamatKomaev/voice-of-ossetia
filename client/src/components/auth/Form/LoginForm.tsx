@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {AuthAPI} from "../../../api/auth";
-import Reaptcha from "reaptcha";
 import Spinner from "../../common/Spinner";
+import Captcha from "../../common/Captcha";
+import {useSelector} from "react-redux";
+import {IRootState} from "../../../store";
 
 const LoginForm = () => {
+  const {recaptchaResponse, verified} = useSelector((state: IRootState) => state.captcha)
+
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
-  const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
-  const [recaptchaLoading, setRecaptchaLoading] = useState<boolean>(true)
-  const [verified, setVerified] = useState<boolean>(false)
   const [errors, setErrors] = useState<any>({
     non_field_error: null,
     name: null,
@@ -32,15 +33,6 @@ const LoginForm = () => {
     }
     else setErrors(response.data.errors)
   }
-
-  const onLoad = () => {
-    setRecaptchaLoading(false);
-  }
-
-  const onVerify = (recaptchaResponse: string) => {
-    setVerified(true)
-    setRecaptchaResponse(recaptchaResponse)
-  };
 
   return (
     <div>
@@ -73,8 +65,7 @@ const LoginForm = () => {
           {errors.non_field_errors ? <p className="text-danger">{errors.non_field_errors[0]}</p> : null}
         </div>
         <br/>
-        {recaptchaLoading && <Spinner/>}
-        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify} onLoad={onLoad}/>
+        <Captcha/>
         <br/>
         <button
           className="btn btn-primary"

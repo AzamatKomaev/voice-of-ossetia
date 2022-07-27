@@ -3,9 +3,13 @@ import {numberRange} from "../../../utils";
 import Select from "../../common/Select";
 import {AuthAPI} from "../../../api/auth";
 import Spinner from "../../common/Spinner";
-import Reaptcha from "reaptcha";
+import {useSelector} from "react-redux";
+import {IRootState} from "../../../store";
+import Captcha from "../../common/Captcha";
 
 const RegistrationForm = () => {
+  const {recaptchaResponse, verified} = useSelector((state: IRootState) => state.captcha)
+
   const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [locality, setLocality] = useState<string>("")
@@ -15,9 +19,6 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
-  const [recaptchaResponse, setRecaptchaResponse] = useState<string>("")
-  const [recaptchaLoading, setRecaptchaLoading] = useState<boolean>(true)
-  const [verified, setVerified] = useState<boolean>(false)
 
   const [errors, setErrors] = useState<any>({
     name: null,
@@ -57,15 +58,6 @@ const RegistrationForm = () => {
     if (response.status === 201) window.location.href = '/auth/login/'
     else setErrors(response.data.errors)
   }
-
-  const onLoad = () => {
-    setRecaptchaLoading(false);
-  }
-
-  const onVerify = (recaptchaResponse: string) => {
-    setVerified(true)
-    setRecaptchaResponse(recaptchaResponse)
-  };
 
   return (
     <div>
@@ -162,8 +154,7 @@ const RegistrationForm = () => {
           />
           {errors.password2 ? <p className="text-danger">{errors.password2[0]}</p> : <p></p>}
         </div>
-        {recaptchaLoading && <Spinner/>}
-        <Reaptcha sitekey="6LeKffsgAAAAAMWElUlIuCCXiNUgIr21n6g3JEP6" onVerify={onVerify} onLoad={onLoad}/><br/>
+        <Captcha/>
         <button
           className="btn btn-primary"
           onClick={handleRegisterUserButton}

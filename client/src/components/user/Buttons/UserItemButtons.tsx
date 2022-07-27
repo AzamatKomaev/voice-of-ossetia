@@ -8,9 +8,9 @@ const UserItemButtons = ({user}: {user: IUser}) => {
 
   if (auth?.data?.id === user.id) {
     return (
-      <button id="track-button" className="btn btn-secondary">
+      <a href="/users/me/settings" id="track-button" className="btn btn-secondary">
         Редактировать
-      </button>
+      </a>
     )
   }
 
