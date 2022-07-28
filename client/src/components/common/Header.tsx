@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
 import {IRootState} from "../../store";
 import {Link} from "react-router-dom";
 
-
-
 const Header = () => {
   const auth = useSelector((state: IRootState) => state.auth)
+
+  useEffect(() => {
+
+  }, [])
 
   const navItems = [
     {

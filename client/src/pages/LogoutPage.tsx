@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {resetAuthReducerState} from "../utils/Actions/auth";
 
 const LogoutPage = () => {
-  const [isLogout, setIsLogout] = useState<boolean>(false);
+  const dispatch = useDispatch()
+  const [isLogout, setIsLogout] = useState<boolean>(false)
 
   const handleLogoutButton = () => {
     localStorage.removeItem('api-token');
     setIsLogout(true);
+    dispatch(resetAuthReducerState())
   }
 
   return (

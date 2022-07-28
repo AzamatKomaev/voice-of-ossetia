@@ -11,7 +11,6 @@ import RegistrationPage from "./pages/RegistrationPage";
 import {AxiosResponse} from "axios";
 import {useDispatch} from "react-redux";
 import {AuthAPI} from "./api/auth";
-import {GET_CURRENT_USER} from "./store/authReducer";
 import CategoryCreatePage from "./pages/CategoryCreatePage";
 import PostCreatePage from "./pages/PostCreatePage";
 import PostDetailPage from "./pages/PostDetailPage";
@@ -21,6 +20,7 @@ import NotificationDetailPage from "./pages/NotificationDetailPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import ActivationUserPage from "./pages/ActivationUserPage";
 import UserSettingsPage from "./pages/UserSettingsPage";
+import {resetAuthReducerState, setCurrentUser} from "./utils/Actions/auth";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -28,13 +28,12 @@ const App = () => {
   useEffect(() => {
     (async() => {
       const response: AxiosResponse = await AuthAPI.getMe()
-      dispatch({
-        type: GET_CURRENT_USER,
-        payload: {
-          response: response
-        }
-      })
+      dispatch(setCurrentUser(response))
     })()
+
+    return () => {
+      dispatch(resetAuthReducerState())
+    }
   }, [dispatch])
 
   return (

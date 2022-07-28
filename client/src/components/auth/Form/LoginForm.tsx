@@ -7,7 +7,6 @@ import {IRootState} from "../../../store";
 
 const LoginForm = () => {
   const {recaptchaResponse, verified} = useSelector((state: IRootState) => state.captcha)
-
   const [name, setName] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
