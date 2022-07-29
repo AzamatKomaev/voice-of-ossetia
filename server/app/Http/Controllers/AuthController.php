@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\ActivationToken;
+use App\Services\AuthService;
 use App\Services\CaptchaService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -34,6 +37,17 @@ class AuthController extends Controller
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
         return Response::json($user, 201);
+    }
+
+    /**
+     * Update user.
+     * @param UpdateUserRequest $request
+     * @return JsonResponse
+     */
+    public function update(UpdateUserRequest $request): UserResource
+    {
+        $user = AuthService::updateUser(Auth::user(), $request->validated());
+        return new UserResource($user);
     }
 
     /**

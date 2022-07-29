@@ -3,7 +3,7 @@ a {
 }
 
 textarea {
-  resize: vertical;
+  resize: none !important;
 }
 
 .default-button {

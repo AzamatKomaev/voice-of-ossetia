@@ -28,4 +28,13 @@ export class AuthAPI {
       return e.response;
     }
   }
+
+  // Update a user.
+  public static async update(data: any): Promise<AxiosResponse> {
+    try {
+      return await axios.patch(`${process.env.REACT_APP_SERVER_URL}/api/auth/update/`, data);
+    } catch (e: any) {
+      return e.response
+    }
+  }
 }
