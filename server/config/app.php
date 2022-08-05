@@ -28,6 +28,9 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'check_captcha' => env('CHECK_CAPTCHA', true),
+    'captcha_key' => env('CAPTCHA_SERVER_KEY', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

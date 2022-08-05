@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PostListPage from "./pages/PostListPage";
 import Header from "./components/common/Header";
@@ -21,9 +21,11 @@ import UserDetailPage from "./pages/UserDetailPage";
 import ActivationUserPage from "./pages/ActivationUserPage";
 import UserSettingsPage from "./pages/UserSettingsPage";
 import {resetAuthReducerState, setCurrentUser} from "./utils/Actions/auth";
+import 'react-image-crop/dist/ReactCrop.css';
 
 const App = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   useEffect(() => {
     (async() => {
@@ -34,7 +36,7 @@ const App = () => {
     return () => {
       dispatch(resetAuthReducerState())
     }
-  }, [dispatch])
+  }, [location.pathname, dispatch])
 
   return (
     <div>

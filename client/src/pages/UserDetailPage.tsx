@@ -6,13 +6,13 @@ import React, {useEffect} from "react";
 import PostList from "../components/content/List/PostList";
 import UserItem from "../components/user/Item/UserItem";
 import {addPosts} from "../utils/Actions/posts";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootState} from "../store";
 
 const UserDetailPage = () => {
   const {userId} = useParams();
   const dispatch = useDispatch();
   const [userData, userStatusCode, userLoading] = useFetch(`api/users/${userId}`, 'get', {});
-
   const [posts, postsLoading] = usePagination('api/posts', {
     user_id: userId
   })

@@ -57,10 +57,15 @@ export const usePagination = (path: string, queryParams: any): Array<any> => {
 
 
   useEffect(() => {
+    console.log(queryParams)
     axios.get(`${process.env.REACT_APP_SERVER_URL}/${path}`, {
       params: queryParams
     })
       .then((response) => {
+        if (response.status === 204) {
+          setLoading(false)
+          return ;
+        }
         setItemList(response.data.data)
         setNextPage(response.data.links.next)
         setResponseStatus(response.status)

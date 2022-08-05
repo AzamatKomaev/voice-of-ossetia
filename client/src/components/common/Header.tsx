@@ -1,37 +1,36 @@
-import React, {useEffect} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useLayoutEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../store";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {AxiosResponse} from "axios";
+import {AuthAPI} from "../../api/auth";
+import {resetAuthReducerState, setCurrentUser} from "../../utils/Actions/auth";
+
+const navItems = [
+  {
+    className: 'nav-link active',
+    href: '/',
+    value: 'На главную'
+  },
+  {
+    className: 'nav-link',
+    href: '/posts/create',
+    value: 'Создать пост'
+  },
+  {
+    className: 'nav-link',
+    href: '/posts',
+    value: 'Посты'
+  },
+  {
+    className: 'nav-link',
+    href: '/',
+    value: 'Связь с администратором'
+  }
+]
 
 const Header = () => {
   const auth = useSelector((state: IRootState) => state.auth)
-
-  useEffect(() => {
-
-  }, [])
-
-  const navItems = [
-    {
-      className: 'nav-link active',
-      href: '/',
-      value: 'На главную'
-    },
-    {
-      className: 'nav-link',
-      href: '/posts/create',
-      value: 'Создать пост'
-    },
-    {
-      className: 'nav-link',
-      href: '/posts',
-      value: 'Посты'
-    },
-    {
-      className: 'nav-link',
-      href: '/',
-      value: 'Связь с администратором'
-    }
-  ]
 
   const authNavItems = [
     {

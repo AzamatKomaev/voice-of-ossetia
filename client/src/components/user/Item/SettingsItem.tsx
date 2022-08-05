@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {IRootState} from "../../../store";
 import {AuthAPI} from "../../../api/auth";
 import Spinner from "../../common/Spinner";
+import AvatarInputModal from "../Modal/AvatarInputModal";
 
 const SettingsItem = () => {
   const user = useSelector((state: IRootState) => state.auth.data)
@@ -40,7 +41,8 @@ const SettingsItem = () => {
     <div style={{marginLeft: "10px"}}>
       {loading && <div style={{marginTop: "-75px"}}><Spinner/><br/></div>}
       <div style={{marginTop: "-20px"}}>
-        <h4>Нажмите на аватарку, чтобы загрузить новую</h4>
+        <h4>Загрузить изображение</h4>
+        <AvatarInputModal/>
       </div>
       <br/>
       <div className="full-name-item-flex">

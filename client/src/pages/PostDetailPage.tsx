@@ -19,7 +19,6 @@ const PostDetailPage = () => {
     post_id: postId
   })
 
-
   useEffect(() => {
     if (comments && comments.length > 0) {
       dispatch(addComments(comments))

@@ -4,17 +4,18 @@ import {IUser} from "../../../interfaces";
 import {Link} from "react-router-dom";
 
 interface IUserGroupItem {
-  user: IUser
+  user: IUser,
+  avatar?: string | null
 }
 
-const UserGroupItem = ({user}: IUserGroupItem) => {
+const UserGroupItem = ({user, avatar=null}: IUserGroupItem) => {
   return (
     <li className="list-group-item">
       <div style={{display: "flex"}}>
         <img
           width={52}
           height={52}
-          src={getMediaFullPath(user.avatar ?? 'public/user-icon.png')}
+          src={avatar ?? getMediaFullPath(user.avatar ?? 'public/user-icon.png')}
           alt={'пасхалка'}
           style={{borderRadius: "50%"}}
         />

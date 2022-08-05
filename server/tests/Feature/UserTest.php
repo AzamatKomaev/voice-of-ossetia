@@ -17,11 +17,12 @@ class UserTest extends TestCase
         $response = $this->postJson(route('auth.create'), []);
         $response->assertStatus(422);
         $responseErrors = $response->json()['errors'];
-        $this->assertCount(4, $responseErrors);
+        $this->assertCount(5, $responseErrors);
         $this->assertEquals('Поле name не может быть пустым.', $responseErrors['name'][0]);
         $this->assertEquals('Поле email не может быть пустым.', $responseErrors['email'][0]);
         $this->assertEquals('Поле password не может быть пустым.', $responseErrors['password'][0]);
         $this->assertEquals('Поле locality не может быть пустым.', $responseErrors['locality'][0]);
+        $this->assertEquals('Поле captcha response не может быть пустым.', $responseErrors['captcha_response'][0]);
     }
 
     /**
@@ -31,8 +32,9 @@ class UserTest extends TestCase
     public function test_creation_user_with_invalid_data()
     {
         $userData = User::factory()->make([
-            'email'    => 'invalid_email',
-            'age'      => 'invalid ager'
+            'email'            => 'invalid_email',
+            'age'              => 'invalid ager',
+            'captcha_response' => 'response'
         ])->toArray();
         $userData['password'] = 'less';
         $response = $this->postJson(route('auth.create'), $userData);
@@ -53,6 +55,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
         $userData = $user->toArray();
         $userData['password'] = 'password123';
+        $userData['captcha_response'] = 'response';
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(422);
         $responseErrors = $response->json()['errors'];
@@ -69,6 +72,7 @@ class UserTest extends TestCase
     {
         $userData = User::factory()->make()->toArray();
         $userData['password'] = 'password123';
+        $userData['captcha_response'] = 'response';
         $response = $this->postJson(route('auth.create'), $userData);
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['name' => $userData['name'], 'email' => $userData['email']]);

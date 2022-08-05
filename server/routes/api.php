@@ -59,3 +59,7 @@ Route::apiResource('users', \App\Http\Controllers\UserController::class, [
     'index'   => 'users.index',
     'show'    => 'users.show'
 ]);
+
+Route::get('/test', function() {
+    return ['var' => env('DB_HOST')];
+});

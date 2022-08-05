@@ -29,7 +29,7 @@ const authReducer = (state = defaultState, action: any) => {
         loading: false
       }
     case RESET_AUTH_REDUCER_STATE:
-      return defaultState;
+      return defaultState
     default:
       return state;
   }

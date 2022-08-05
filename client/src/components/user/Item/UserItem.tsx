@@ -6,17 +6,18 @@ import UserItemButtons from "../Buttons/UserItemButtons";
 
 interface IUserItem {
   user: IUser,
-  showButtons: boolean
+  showButtons: boolean,
+  avatar?: string | null
 }
 
-const UserItem = ({user, showButtons}: IUserItem) => {
+const UserItem = ({user, showButtons, avatar=null}: IUserItem) => {
   const userStatusCallback = useCallback(() => getUserStatus(user), [user])
 
   return (
     <div style={{padding: "15px"}}>
       <div className="user-item">
         <img
-          src={getMediaFullPath(user.avatar ?? 'public/user-icon.png')}
+          src={avatar ?? getMediaFullPath(user.avatar ?? 'public/user-icon.png')}
           alt={'user-' + user.id}
           className="user-avatar"
           style={{border: "1px solid #555"}}

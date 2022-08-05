@@ -43,7 +43,24 @@ textarea {
   border: 1px solid #555
 }
 
+#crop-avatar {
+  border: 1px solid #555;
+  margin: 0 auto;
+}
+
+.avatar-load {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #555;
+}
+
+
 @media (max-width: 750px) {
+  .avatar-load {
+    width: 100%
+  }
+
   .full-name-item-flex {
     gap: 1px;
   }
@@ -64,5 +81,9 @@ textarea {
   .user-avatar {
     width: 100%;
     height: 100%;
+  }
+
+  #crop-avatar {
+    width: 100%;
   }
 }
