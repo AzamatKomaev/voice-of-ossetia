@@ -59,7 +59,7 @@ const PostForm = ({categories}: IPostForm) => {
     const response = await sender.create(formData)
     setLoading(false)
     if (response.status === 201) window.location.href = `/posts/${response.data.id}`;
-    else if (response.status === 422) setErrors(response.data.errors)
+    else if (response.status === 422) setErrors(response.data.errors);
     else alert(`${response.status} status code`);
   }
 

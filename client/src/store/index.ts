@@ -7,6 +7,7 @@ import {notificationReducer} from "./notificationReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import {captchaReducer} from "./captchaReducer";
+import {avatarLoadReducer} from "./avatarLoadReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   post: postReducer,
   comment: commentReducer,
   notification: notificationReducer,
-  captcha: captchaReducer
+  captcha: captchaReducer,
+  avatarLoad: avatarLoadReducer
 })
 export type IRootState = ReturnType<typeof rootReducer>
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

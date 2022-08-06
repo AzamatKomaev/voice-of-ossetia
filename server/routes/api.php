@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +61,3 @@ Route::apiResource('users', \App\Http\Controllers\UserController::class, [
     'index'   => 'users.index',
     'show'    => 'users.show'
 ]);
-
-Route::get('/test', function() {
-    return ['var' => env('DB_HOST')];
-});

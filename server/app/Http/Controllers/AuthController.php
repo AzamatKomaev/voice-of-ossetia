@@ -42,11 +42,16 @@ class AuthController extends Controller
     /**
      * Update user.
      * @param UpdateUserRequest $request
-     * @return JsonResponse
+     * @return UserResource
      */
-    public function update(UpdateUserRequest $request): UserResource
+    public function update(UpdateUserRequest $request)
     {
-        $user = AuthService::updateUser(Auth::user(), $request->validated());
+        $data = $request->validated();
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $data['avatar'] = $avatar->store(config('app.env') . '/users');
+        }
+        $user = AuthService::updateUser(Auth::user(), $data);
         return new UserResource($user);
     }
 

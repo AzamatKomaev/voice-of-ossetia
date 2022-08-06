@@ -18,7 +18,8 @@ class UpdateUserRequest extends FormRequest
             'last_name'   => ['nullable', 'max:255'],
             'description' => ['nullable'],
             'locality'    => ['nullable', 'max:255'],
-            'age'         => ['nullable', 'integer']
+            'age'         => ['nullable', 'integer'],
+            'avatar'      => ['nullable', 'image:jpeg,jpg,png']
         ];
     }
 }

@@ -31,7 +31,7 @@ class PostFile extends Model
     {
         foreach ($files as $file) {
             $postFile = new PostFile();
-            $postFile->path = $file->store(env('APP_ENV') . '/posts');
+            $postFile->path = $file->store(config('app.env') . '/posts');
             $postFile->post_id = $postId;
             $postFile->save();
         }

@@ -30,9 +30,9 @@ export class AuthAPI {
   }
 
   // Update a user.
-  public static async update(data: any): Promise<AxiosResponse> {
+  public static async update(data: FormData): Promise<AxiosResponse> {
     try {
-      return await axios.patch(`${process.env.REACT_APP_SERVER_URL}/api/auth/update/`, data);
+      return await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/auth/update/`, data);
     } catch (e: any) {
       return e.response
     }

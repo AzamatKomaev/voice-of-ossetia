@@ -68,6 +68,10 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * Get all related notifications.
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function notifications()
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable');
