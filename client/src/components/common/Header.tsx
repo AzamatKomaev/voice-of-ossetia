@@ -1,10 +1,8 @@
-import React, {useEffect, useLayoutEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React from 'react';
+import {useSelector} from "react-redux";
 import {IRootState} from "../../store";
-import {Link, useLocation} from "react-router-dom";
-import {AxiosResponse} from "axios";
-import {AuthAPI} from "../../api/auth";
-import {resetAuthReducerState, setCurrentUser} from "../../utils/Actions/auth";
+import {Link} from "react-router-dom";
+
 
 const navItems = [
   {

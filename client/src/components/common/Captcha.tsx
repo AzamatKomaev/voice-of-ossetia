@@ -24,7 +24,7 @@ const Captcha = () => {
       dispatch(setVerified(false))
       dispatch(setRecaptchaResponse(""))
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <div>

@@ -6,9 +6,12 @@ env:
   SSH_HOST: ${{ secrets.SSH_HOST }}
   SSH_USER: ${{ secrets.SSH_USER }}
 
-on:
-  push:
-    branches: [ master ]
+#on:
+#  push:
+#    branches: [ master ]
+
+on: workflow_dispatch
+
 
 jobs:
   build:

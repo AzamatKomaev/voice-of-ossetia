@@ -6,8 +6,7 @@ import React, {useEffect} from "react";
 import PostList from "../components/content/List/PostList";
 import UserItem from "../components/user/Item/UserItem";
 import {addPosts} from "../utils/Actions/posts";
-import {useDispatch, useSelector} from "react-redux";
-import {IRootState} from "../store";
+import {useDispatch} from "react-redux";
 
 const UserDetailPage = () => {
   const {userId} = useParams();
