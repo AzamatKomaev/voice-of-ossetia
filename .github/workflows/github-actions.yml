@@ -51,7 +51,7 @@ jobs:
       - run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - run: ssh-agent -a $SSH_AUTH_SOCK > /dev/null
       - run: ssh-add - <<< "${{ secrets.SSH_KEY }}"
-      - run: ssh $SSH_USER@SSH_HOST "cat /home/azamat/python/main.py"
+      - run: ssh $SSH_USER@$SSH_HOST "cat /home/azamat/python/main.py"
       - name: Deleting frontend build files and adding new ones.
         run: | 
           ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/voiceofossetia.ru/*"
