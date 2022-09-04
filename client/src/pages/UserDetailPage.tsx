@@ -32,7 +32,7 @@ const UserDetailPage = () => {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <br/>
       <div className="card">
         <UserItem user={userData} showButtons={true}/>

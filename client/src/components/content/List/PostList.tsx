@@ -19,7 +19,7 @@ const PostList = () => {
     <div className="row">
       {posts.length > 0 &&
         posts.map((post: IPost, index: number) => (
-          <div key={index} className="col-md-6 col-lg-4 col-xl-3">
+          <div key={index} className="col-sm-12 col-md-6 col-lg-4 col-xl-3">
             <PostCard post={post} isDetail={false}/><br/>
           </div>
         ))

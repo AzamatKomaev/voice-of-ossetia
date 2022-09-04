@@ -10,7 +10,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\RegistrationRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -28,10 +27,7 @@ class AuthController extends Controller
         $data = $request->validated();
 
         if ( !CaptchaService::verifyUser($data['captcha_response']) ) {
-            return Response::json([
-                'message' => 'The given data was invalid.',
-                'errors' => ['captcha_response' => ['Капча не валидна. ']]
-            ], 422);
+            return Response::json(CaptchaService::$errorJson, 422);
         }
 
         $data['password'] = Hash::make($data['password']);
@@ -66,10 +62,7 @@ class AuthController extends Controller
         $password = $request->validated()['password'];
 
         if ( !CaptchaService::verifyUser($request->validated()['captcha_response']) ) {
-            return Response::json([
-                'message' => 'The given data was invalid.',
-                'errors' => ['captcha_response' => ['Капча не валидна. ']]
-            ], 422);
+            return Response::json(CaptchaService::$errorJson, 422);
         }
 
         if ( !Auth::attempt(['name' => $name, 'password' => $password]) ) {

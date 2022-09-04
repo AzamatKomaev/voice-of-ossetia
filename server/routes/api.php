@@ -61,3 +61,4 @@ Route::apiResource('users', \App\Http\Controllers\UserController::class, [
     'index'   => 'users.index',
     'show'    => 'users.show'
 ]);
+Route::apiResource('subscriptions', \App\Http\Controllers\SubscriptionController::class);
